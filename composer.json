@@ -1,0 +1,12 @@
+{
+    "name": "emuse/behat-html-formatter",
+    "description": "This will create a html formatter for Behat.",
+    "authors": [
+        {
+            "name": "Neal Vanmeert",
+            "email": "neal@emuse.be"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
