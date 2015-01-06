@@ -1,5 +1,5 @@
 {
-    "name": "emuse/behat-html-formatter",
+    "name": "emuse/BehatHtmlFormatter",
     "description": "This will create a html formatter for Behat.",
     "authors": [
         {
