@@ -12,3 +12,12 @@ formatters:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
         name: html
 </pre>
+
+To be done:
+========================
+
+1. Store previous runs
+2. Add parameters for behat.yml file
+3. Add bootstrap as dependency
+4. clean up html report
+5. ...
