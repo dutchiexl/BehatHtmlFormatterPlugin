@@ -21,3 +21,5 @@ To be done:
 3. Add bootstrap as dependency
 4. clean up html report
 5. ...
+6. 
+<img src="http://i.imgur.com/o0zCqiB.png"></img>
