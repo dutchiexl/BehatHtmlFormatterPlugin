@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Behat Tests</title>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -61,15 +61,21 @@
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            2 scenarios failed of 3
+            3 scenarios failed of 4
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            4 steps failed of 7
+            5 steps failed of 8
         </div>
+    </div>
+    <hr>
+    <div class="filters">
+        <a class="btn btn-default" id="feature-all-filter" role="button">All</a>
+        <a class="btn btn-success" id="feature-passed-filter" role="button">Passed</a>
+        <a class="btn btn-danger" id="feature-failed-filter" role="button">Failed</a>
     </div>
     <hr>
             <div class="row">
@@ -147,11 +153,11 @@ I see some basic things and be able to access the website</p>
                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 50%">
+                                             style="width: 33.333333333333%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 50%">
+                                             style="width: 33.333333333333%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -214,7 +220,7 @@ All pages should be accesible</p>
 
     var scenarioData = [
         {
-            value: 2,
+            value: 3,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
@@ -229,7 +235,7 @@ All pages should be accesible</p>
 
     var stepData = [
         {
-            value: 4,
+            value: 5,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
@@ -250,6 +256,26 @@ All pages should be accesible</p>
         new Chart(scenarioChart).Doughnut(scenarioData);
         new Chart(stepChart).Doughnut(stepData);
     };
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.filters #feature-failed-filter').click(function () {
+            $('.card').parent().hide();
+            $('.card.failed').parent().show();
+        });
+        $('.filters #feature-passed-filter').click(function () {
+            $('.card').parent().hide();
+            $('.card.passed').parent().show();
+        });
+        $('.filters #feature-all-filter').click(function () {
+            $('.card').parent().show();
+        });
+
+        $(".card").click(function () {
+            $(".card").removeClass('selected');
+            $(this).addClass('selected');
+        });
+    });
 </script>
 </body>
 </html>
