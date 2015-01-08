@@ -98,6 +98,7 @@ class BehatHTMLFormatter implements Formatter
         $this->name = $name;
     }
 
+    //<editor-fold desc="Getters/Setters">
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -172,7 +173,9 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->parameters[$name];
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Event functions">
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
     }
@@ -309,7 +312,9 @@ class BehatHTMLFormatter implements Formatter
         $this->currentScenario->addStep($step);
     }
 
+    //</editor-fold>
 
+    //<editor-fold desc="Functions">
     public function createReport()
     {
         $templatePath = dirname(__FILE__) . '/../templates';
@@ -340,4 +345,5 @@ class BehatHTMLFormatter implements Formatter
     {
         file_put_contents('php://stdout', $text);
     }
+    //</editor-fold>
 }
