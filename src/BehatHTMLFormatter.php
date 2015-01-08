@@ -70,6 +70,16 @@ class BehatHTMLFormatter implements Formatter
     private $passedScenarios;
 
     /**
+     * @var Feature[]
+     */
+    private $failedFeatures;
+
+    /**
+     * @var Feature[]
+     */
+    private $passedFeatures;
+
+    /**
      * @var Step[]
      */
     private $failedSteps;
@@ -202,6 +212,11 @@ class BehatHTMLFormatter implements Formatter
     public function onAfterFeatureTested(AfterFeatureTested $event)
     {
         $this->currentSuite->addFeature($this->currentFeature);
+        if ($this->currentFeature->allPassed()) {
+            $this->passedFeatures[] = $this->currentFeature;
+        } else {
+            $this->failedFeatures[] = $this->currentFeature;
+        }
     }
 
     /**
@@ -225,8 +240,10 @@ class BehatHTMLFormatter implements Formatter
 
         if ($scenarioPassed) {
             $this->passedScenarios[] = $this->currentScenario;
+            $this->currentFeature->addPassedScenario();
         } else {
             $this->failedScenarios[] = $this->currentScenario;
+            $this->currentFeature->addFailedScenario();
         }
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
@@ -307,6 +324,8 @@ class BehatHTMLFormatter implements Formatter
                 'passedScenarios' => $this->passedScenarios,
                 'failedSteps' => $this->failedSteps,
                 'passedSteps' => $this->passedSteps,
+                'failedFeatures' => $this->failedFeatures,
+                'passedFeatures' => $this->passedFeatures,
             )
         );
 
