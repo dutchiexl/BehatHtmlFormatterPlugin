@@ -22,4 +22,4 @@ To be done:
 4. clean up html report
 5. ...
 6. 
-<img src="https://www.dropbox.com/s/43gqb18l6wkjnor/Screenshot%202015-01-08%2013.55.03.png?dl=0"></img>
+<img src="http://i.imgur.com/o0zCqiB.png"></img>
