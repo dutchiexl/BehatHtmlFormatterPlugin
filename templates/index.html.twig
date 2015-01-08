@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Behat Tests</title>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -71,6 +71,12 @@
             </div>
             {{ failedSteps|length }} steps failed of {{ (failedSteps|length) + (passedSteps|length) }}
         </div>
+    </div>
+    <hr>
+    <div class="filters">
+        <a class="btn btn-default" id="feature-all-filter" role="button">All</a>
+        <a class="btn btn-success" id="feature-passed-filter" role="button">Passed</a>
+        <a class="btn btn-danger" id="feature-failed-filter" role="button">Failed</a>
     </div>
     <hr>
     {% for suite in suites %}
@@ -175,6 +181,26 @@
         new Chart(scenarioChart).Doughnut(scenarioData);
         new Chart(stepChart).Doughnut(stepData);
     };
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.filters #feature-failed-filter').click(function () {
+            $('.card').parent().hide();
+            $('.card.failed').parent().show();
+        });
+        $('.filters #feature-passed-filter').click(function () {
+            $('.card').parent().hide();
+            $('.card.passed').parent().show();
+        });
+        $('.filters #feature-all-filter').click(function () {
+            $('.card').parent().show();
+        });
+
+        $(".card").click(function () {
+            $(".card").removeClass('selected');
+            $(this).addClass('selected');
+        });
+    });
 </script>
 </body>
 </html>
