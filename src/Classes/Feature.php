@@ -15,6 +15,8 @@ class Feature
     private $description;
     private $tags;
     private $file;
+    private $failedScenarios = 0;
+    private $passedScenarios = 0;
 
     /**
      * @var Scenario[]
@@ -104,5 +106,63 @@ class Feature
     public function addScenario($scenario)
     {
         $this->scenarios[] = $scenario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFailedScenarios()
+    {
+        return $this->failedScenarios;
+    }
+
+    /**
+     * @param mixed $failedScenarios
+     */
+    public function setFailedScenarios($failedScenarios)
+    {
+        $this->failedScenarios = $failedScenarios;
+    }
+
+    public function addFailedScenario($number = 1)
+    {
+        $this->failedScenarios++;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassedScenarios()
+    {
+        return $this->passedScenarios;
+    }
+
+    /**
+     * @param mixed $passedScenarios
+     */
+    public function setPassedScenarios($passedScenarios)
+    {
+        $this->passedScenarios = $passedScenarios;
+    }
+
+    public function addPassedScenario($number = 1)
+    {
+        $this->passedScenarios++;
+    }
+
+    public function allPassed()
+    {
+        if ($this->failedScenarios == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getPassedClass()
+    {
+        if ($this->allPassed()) {
+            return "passed";
+        }
+        return "failed";
     }
 }

@@ -13,12 +13,17 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="../assets/js/Chart.min.js"></script>
 </head>
 <body role="document" style="margin-top: 70px;">
 
@@ -45,12 +50,25 @@
 </nav>
 
 <div class="container theme-showcase" role="main">
-    <div class="row">
+    <div class="row charts">
         <div class="col-sm-4">
+            <div class="canvas-holder">
+                <canvas id="chart-features" width="300" height="300"/>
+            </div>
+            {{ failedFeatures|length }} features failed of {{ (failedFeatures|length) + (passedFeatures|length) }}
+            features
+        </div>
+        <div class="col-sm-4">
+            <div class="canvas-holder">
+                <canvas id="chart-scenarios" width="300" height="300"/>
+            </div>
             {{ failedScenarios|length }} scenarios failed of {{ (failedScenarios|length) + (passedScenarios|length) }}
             scenarios
         </div>
         <div class="col-sm-4">
+            <div class="canvas-holder">
+                <canvas id="chart-steps" width="300" height="300"/>
+            </div>
             {{ failedSteps|length }} steps failed of {{ (failedSteps|length) + (passedSteps|length) }}
         </div>
     </div>
@@ -59,31 +77,28 @@
         <div class="row">
             <div class="col-sm-12">
                 <h2>Suite: {{ suite.name }}</h2>
-                {% for feature in suite.features %}
-                    <h2>Feature: {{ feature.name }}</h2>
-                    {% for tag in feature.tags %}
-                        <span class="badge">{{ tag }}</span>
-                    {% endfor %}
-                    <p>{{ feature.description|raw|nl2br }}</p>
-                    {% for scenario in feature.scenarios %}
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <h3>Scenario: {{ scenario.name }}</h3>
-                                {% for tag in scenario.tags %}
-                                    <span class="badge">{{ tag }}</span>
-                                {% endfor %}
-                            </div>
-                            <div class="col-sm-4 small">{{ feature.file }}: {{ scenario.line }}</div>
-                            {% for step in scenario.steps %}
-                                <div class="col-sm-12">
-                                    <div class="alert alert-{% if step.passed %}success{% else %}danger{% endif %}">
-                                        <b>{{ step.keyword }}</b> {{ step.text }}
+
+                <div class="row">
+                    {% for feature in suite.features %}
+                        <div class="col-sm-4">
+                            <div class="card {{ feature.getPassedClass }}">
+                                <div class="header">
+                                    <h2>Feature: {{ feature.name }}</h2>
+                                </div>
+                                <div class="info">
+                                    <p>{{ feature.description|raw|nl2br }}</p>
+                                </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                        {% for tag in feature.tags %}
+                                            <span class="badge">{{ tag }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
-                            {% endfor %}
+                            </div>
                         </div>
                     {% endfor %}
-                {% endfor %}
+                </div>
             </div>
         </div>
         <hr>
@@ -94,5 +109,61 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var featureData = [
+        {
+            value: {{  failedFeatures|length}},
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Failed"
+        },
+        {
+            value: {{  passedFeatures|length}},
+            color: "#00a65a",
+            highlight: "#5AD3D1",
+            label: "Passed"
+        },
+    ];
+
+    var scenarioData = [
+        {
+            value: {{  failedScenarios|length}},
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Failed"
+        },
+        {
+            value: {{  passedScenarios|length}},
+            color: "#00a65a",
+            highlight: "#5AD3D1",
+            label: "Passed"
+        },
+    ];
+
+    var stepData = [
+        {
+            value: {{  failedSteps|length}},
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Failed"
+        },
+        {
+            value: {{  passedSteps|length}},
+            color: "#00a65a",
+            highlight: "#5AD3D1",
+            label: "Passed"
+        },
+    ];
+
+    window.onload = function () {
+        var featureChart = document.getElementById("chart-features").getContext("2d");
+        var scenarioChart = document.getElementById("chart-scenarios").getContext("2d");
+        var stepChart = document.getElementById("chart-steps").getContext("2d");
+        new Chart(featureChart).Doughnut(featureData);
+        new Chart(scenarioChart).Doughnut(scenarioData);
+        new Chart(stepChart).Doughnut(stepData);
+    };
+</script>
 </body>
 </html>

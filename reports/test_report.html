@@ -13,12 +13,17 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="../assets/js/Chart.min.js"></script>
 </head>
 <body role="document" style="margin-top: 70px;">
 
@@ -44,98 +49,100 @@
 </nav>
 
 <div class="container theme-showcase" role="main">
-    <div class="row">
+    <div class="row charts">
         <div class="col-sm-4">
-            1 scenarios failed of 2
+            <div class="canvas-holder">
+                <canvas id="chart-features" width="300" height="300"/>
+            </div>
+            1 features failed of 4
+            features
+        </div>
+        <div class="col-sm-4">
+            <div class="canvas-holder">
+                <canvas id="chart-scenarios" width="300" height="300"/>
+            </div>
+            2 scenarios failed of 3
             scenarios
         </div>
         <div class="col-sm-4">
-            3 steps failed of 5
+            <div class="canvas-holder">
+                <canvas id="chart-steps" width="300" height="300"/>
+            </div>
+            4 steps failed of 7
         </div>
     </div>
     <hr>
             <div class="row">
             <div class="col-sm-12">
                 <h2>Suite: Default</h2>
+
+                <div class="row">
+                                            <div class="col-sm-4">
+                            <div class="card passed">
+                                <div class="header">
                                     <h2>Feature: Admin permissions</h2>
-                                        <p>In order to perform admin tasks<br />
+                                </div>
+                                <div class="info">
+                                    <p>In order to perform admin tasks<br />
 As an administrator<br />
 I need to have permissions on everything</p>
-                                            <div class="row">
-                            <div class="col-sm-8">
-                                <h3>Scenario: As an administrator I can add a node</h3>
-                                                                    <span class="badge">api</span>
-                                                                    <span class="badge">javascript</span>
-                                                            </div>
-                            <div class="col-sm-4 small">/Library/WebServer/Documents/cegeka/cdh-composer/features/generic/administrator_permissions.feature: 9</div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                    </div>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>When</b> I am on the homepage
-                                    </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                                                            </div>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>Then</b> I should see the text Logout
-                                    </div>
+                            </div>
+                        </div>
+                                            <div class="col-sm-4">
+                            <div class="card passed">
+                                <div class="header">
+                                    <h2>Feature: Main</h2>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                    </div>
+                                <div class="info">
+                                    <p>In order to acces the footer<br />
+As a visitor<br />
+I should see a footer</p>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>When</b> I am on the homepage
-                                    </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                                                            </div>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>Then</b> I should see the text Login
-                                    </div>
+                            </div>
+                        </div>
+                                            <div class="col-sm-4">
+                            <div class="card failed">
+                                <div class="header">
+                                    <h2>Feature: Main</h2>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                    </div>
-                                </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>When</b> I am on the homepage
-                                    </div>
-                                </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-danger">
-                                        <b>Then</b> I should see the text User
-                                    </div>
-                                </div>
-                                                    </div>
-                                                        <h2>Feature: Main</h2>
-                                        <p>In order to confirm the website basics are configured right<br />
+                                <div class="info">
+                                    <p>In order to confirm the website basics are configured right<br />
 As a visitor<br />
 I see some basic things and be able to access the website</p>
-                                            <div class="row">
-                            <div class="col-sm-8">
-                                <h3>Scenario: Check the homepage</h3>
-                                                                    <span class="badge">api</span>
-                                                            </div>
-                            <div class="col-sm-4 small">/Library/WebServer/Documents/cegeka/cdh-composer/features/generic/main.feature: 8</div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-success">
-                                        <b>Given</b> I am on the homepage
-                                    </div>
                                 </div>
-                                                            <div class="col-sm-12">
-                                    <div class="alert alert-success">
-                                        <b>Then</b> I should get a &quot;200&quot; HTTP response
-                                    </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                                                            </div>
                                 </div>
-                                                    </div>
-                                                </div>
+                            </div>
+                        </div>
+                                            <div class="col-sm-4">
+                            <div class="card passed">
+                                <div class="header">
+                                    <h2>Feature: Pages</h2>
+                                </div>
+                                <div class="info">
+                                    <p>In order to use the website<br />
+As a visitor<br />
+All pages should be accesible</p>
+                                </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                                    </div>
+            </div>
         </div>
         <hr>
     </div>
@@ -144,5 +151,61 @@ I see some basic things and be able to access the website</p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var featureData = [
+        {
+            value: 1,
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Failed"
+        },
+        {
+            value: 3,
+            color: "#00a65a",
+            highlight: "#5AD3D1",
+            label: "Passed"
+        },
+    ];
+
+    var scenarioData = [
+        {
+            value: 2,
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Failed"
+        },
+        {
+            value: 1,
+            color: "#00a65a",
+            highlight: "#5AD3D1",
+            label: "Passed"
+        },
+    ];
+
+    var stepData = [
+        {
+            value: 4,
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Failed"
+        },
+        {
+            value: 3,
+            color: "#00a65a",
+            highlight: "#5AD3D1",
+            label: "Passed"
+        },
+    ];
+
+    window.onload = function () {
+        var featureChart = document.getElementById("chart-features").getContext("2d");
+        var scenarioChart = document.getElementById("chart-scenarios").getContext("2d");
+        var stepChart = document.getElementById("chart-steps").getContext("2d");
+        new Chart(featureChart).Doughnut(featureData);
+        new Chart(scenarioChart).Doughnut(scenarioData);
+        new Chart(stepChart).Doughnut(stepData);
+    };
+</script>
 </body>
 </html>
