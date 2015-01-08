@@ -13,6 +13,10 @@ body {
   width: 100%;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &.passed {
     .header {
       background-color: #00a65a;
@@ -21,7 +25,7 @@ body {
 
   &.failed {
     .header {
-      background-color: red;
+      background-color: #F56956;
     }
   }
 
@@ -68,7 +72,29 @@ body {
     border-bottom-left-radius: 3px;
     padding: 10px;
     background-color: #ffffff;
-    height: 30px;
+
+    .progress {
+      margin-bottom: 0px;
+    }
   }
 
+}
+
+.progress {
+  height: 20px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+
+  .progress-bar-green {
+    background-color: #00a65a !important;
+    background-image: none !important;
+  }
+
+  .progress-bar-red {
+    background-color: #f56954 !important;
+    background-image: none !important;
+  }
 }

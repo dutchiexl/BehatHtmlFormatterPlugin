@@ -165,4 +165,19 @@ class Feature
         }
         return "failed";
     }
+
+    public function getPercentPassed()
+    {
+        return ($this->getPassedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
+    }
+
+    public function getPercentFailed()
+    {
+        return ($this->getPassedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
+    }
+
+    public function getTotalAmountOfScenarios()
+    {
+        return $this->getPassedScenarios() + $this->getFailedScenarios();
+    }
 }
