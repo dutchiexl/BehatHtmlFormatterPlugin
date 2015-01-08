@@ -11,6 +11,8 @@ namespace emuse\BehatHTMLFormatter\Classes;
 
 class Feature
 {
+    //<editor-fold desc="Variables">
+    private $id;
     private $name;
     private $description;
     private $tags;
@@ -22,7 +24,9 @@ class Feature
      * @var Scenario[]
      */
     private $scenarios;
+    //</editor-fold>
 
+    //<editor-fold desc="Getters/Setters">
     /**
      * @return mixed
      */
@@ -150,6 +154,25 @@ class Feature
         $this->passedScenarios++;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Function">
     public function allPassed()
     {
         if ($this->failedScenarios == 0) {
@@ -180,4 +203,5 @@ class Feature
     {
         return $this->getPassedScenarios() + $this->getFailedScenarios();
     }
+    //</editor-fold>
 }

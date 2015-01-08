@@ -49,6 +49,10 @@ class BehatHTMLFormatter implements Formatter
     private $currentSuite;
 
     /**
+     * @var int
+     */
+    private $featureCounter = 1;
+    /**
      * @var Feature
      */
     private $currentFeature;
@@ -202,6 +206,8 @@ class BehatHTMLFormatter implements Formatter
     public function onBeforeFeatureTested(BeforeFeatureTested $event)
     {
         $feature = new Feature();
+        $feature->setId($this->featureCounter);
+        $this->featureCounter++;
         $feature->setName($event->getFeature()->getTitle());
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
