@@ -79,15 +79,15 @@
         <a class="btn btn-danger" id="feature-failed-filter" role="button">Failed</a>
     </div>
     <hr>
-    {% for suite in suites %}
-        <div class="row">
-            <div class="col-sm-12">
-                <h2>Suite: {{ suite.name }}</h2>
+    <div id="feature-overview">
+        {% for suite in suites %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Suite: {{ suite.name }}</h2>
 
-                <div class="row">
-                    {% for feature in suite.features %}
-                        <div class="feature">
-                            <div class="col-sm-4">
+                    <div class="row">
+                        {% for feature in suite.features %}
+                            <div class="col-sm-4 feature" data-id="feature-{{ feature.id }}">
                                 <div class="card {{ feature.getPassedClass }}">
                                     <div class="header">
                                         <h2>Feature: {{ feature.name }}</h2>
@@ -101,40 +101,80 @@
                                                 <span class="badge">{{ tag }}</span>
                                             {% endfor %}
                                         </div>
-                                        <div class="progress">
+                                        {% if feature.getTotalAmountOfScenarios > 0 %}
+                                            <div class="progress">
 
-                                            <div class="progress-bar progress-bar-green" role="progressbar"
-                                                 style="width: {{ feature.getPercentPassed }}%">
-                                                <span class="sr-only">40% Complete (success)</span>
+                                                <div class="progress-bar progress-bar-green" role="progressbar"
+                                                     style="width: {{ feature.getPercentPassed }}%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
+                                                <div class="progress-bar progress-bar-red" role="progressbar"
+                                                     style="width: {{ feature.getPercentFailed }}%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
                                             </div>
-                                            <div class="progress-bar progress-bar-red" role="progressbar"
-                                                 style="width: {{ feature.getPercentFailed }}%">
-                                                <span class="sr-only">40% Complete (success)</span>
-                                            </div>
-                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-8 details hidden">
-                                {% for scenario in feature.scenarios %}
-                                    <h3>Scenario: {{ scenario.name }}</h3>
-                                    {% for tag in scenario.tags %}
-                                        <span class="badge">{{ tag }}</span>
-                                    {% endfor %}
-                                    {% for step in scenario.steps %}
-                                        <div class="alert alert-{% if step.passed %}success{% else %}danger{% endif %}">
-                                            <b>{{ step.keyword }}</b> {{ step.text }}
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr>
-    {% endfor %}
+            <hr>
+        {% endfor %}
+    </div>
+    <div id="scenario-overview">
+        {% for suite in suites %}
+            {% for feature in suite.features %}
+                <div class="feature" data-id="feature-{{ feature.id }}">
+                    <div class="col-sm-4">
+                        <div class="card {{ feature.getPassedClass }}">
+                            <div class="header">
+                                <h2>Feature: {{ feature.name }}</h2>
+                            </div>
+                            <div class="info">
+                                <p>{{ feature.description|raw|nl2br }}</p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                    {% for tag in feature.tags %}
+                                        <span class="badge">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% if feature.getTotalAmountOfScenarios > 0 %}
+                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-green" role="progressbar"
+                                             style="width: {{ feature.getPercentPassed }}%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-red" role="progressbar"
+                                             style="width: {{ feature.getPercentFailed }}%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 details">
+                        {% for scenario in feature.scenarios %}
+                            <h3>Scenario: {{ scenario.name }}</h3>
+                            {% for tag in scenario.tags %}
+                                <span class="badge">{{ tag }}</span>
+                            {% endfor %}
+                            {% for step in scenario.steps %}
+                                <div class="alert alert-{% if step.passed %}success{% else %}danger{% endif %}">
+                                    <b>{{ step.keyword }}</b> {{ step.text }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 <!-- /container -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -198,29 +238,45 @@
     };
 </script>
 <script type="text/javascript">
+    function showOverview() {
+        $("#feature-overview").show();
+        $("#scenario-overview").hide();
+    }
+    function showDetails() {
+        $("#feature-overview").hide();
+        $("#scenario-overview").show();
+    }
+    function showFeatureDetail(featureId) {
+        $("#scenario-overview .feature").hide();
+        $("#scenario-overview .feature[data-id='" + featureId + "']").show();
+    }
     $(function () {
+        $('.filters').click()
+        {
+            showOverview();
+        }
+
         $('.filters #feature-failed-filter').click(function () {
-            $(".feature .details").addClass("hidden");
+            showOverview();
             $('.feature').hide();
-            $('.card.failed').parent().parent().show();
+            $('.card.failed').parent().show();
         });
         $('.filters #feature-passed-filter').click(function () {
-            $(".feature .details").addClass("hidden");
+            showOverview();
             $('.feature').hide();
-            $('.card.passed').parent().parent().show();
+            $('.card.passed').parent().show();
         });
         $('.filters #feature-all-filter').click(function () {
-            $(".feature .details").addClass("hidden");
+            showOverview();
             $('.feature').show();
         });
+    });
 
-        $(".card").click(function () {
-            $(".feature").removeClass('selected');
-            $(this).parent().parent().addClass('selected');
-            $(".feature").hide();
-            $(".feature.selected").show();
-            $(".feature .details").addClass("hidden");
-            $(".feature.selected .details").removeClass("hidden");
+    $(function () {
+        $(".feature").click(function () {
+            var featureId = $(this).data("id");
+            showDetails();
+            showFeatureDetail(featureId);
         });
     });
 </script>

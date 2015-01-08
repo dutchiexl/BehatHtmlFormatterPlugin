@@ -83,3 +83,12 @@ body {
   background-color: #f56954 !important;
   background-image: none !important;
 }
+#scenario-overview {
+  display: none;
+}
+#scenario-overview .feature {
+  display: none;
+}
+#scenario-overview .feature.selected {
+  display: block;
+}
