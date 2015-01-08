@@ -54,7 +54,7 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            1 features failed of 4
+            2 features failed of 4
             features
         </div>
         <div class="col-sm-4">
@@ -83,113 +83,183 @@
                 <h2>Suite: Default</h2>
 
                 <div class="row">
-                                            <div class="col-sm-4">
-                            <div class="card passed">
-                                <div class="header">
-                                    <h2>Feature: Admin permissions</h2>
-                                </div>
-                                <div class="info">
-                                    <p>In order to perform admin tasks<br />
+                                            <div class="feature">
+                            <div class="col-sm-4">
+                                <div class="card failed">
+                                    <div class="header">
+                                        <h2>Feature: Admin permissions</h2>
+                                    </div>
+                                    <div class="info">
+                                        <p>In order to perform admin tasks<br />
 As an administrator<br />
 I need to have permissions on everything</p>
-                                </div>
-                                <div class="footer">
-                                    <div class="tags">
-                                                                            </div>
-                                    <div class="progress">
+                                    </div>
+                                    <div class="footer">
+                                        <div class="tags">
+                                                                                    </div>
+                                        <div class="progress">
 
-                                        <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                        <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
+                                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                                 style="width: 0%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                                 style="width: 100%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-8 details hidden">
+                                                                    <h3>Scenario: As an administrator I can add a node</h3>
+                                                                            <span class="badge">api</span>
+                                                                            <span class="badge">javascript</span>
+                                                                                                                <div class="alert alert-danger">
+                                            <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>When</b> I am on the homepage
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Then</b> I should see the text Logout
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>When</b> I am on the homepage
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Then</b> I should see the text Login
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>When</b> I am on the homepage
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Then</b> I should see the text User
+                                        </div>
+                                                                                                </div>
                         </div>
-                                            <div class="col-sm-4">
-                            <div class="card passed">
-                                <div class="header">
-                                    <h2>Feature: Main</h2>
-                                </div>
-                                <div class="info">
-                                    <p>In order to acces the footer<br />
+                                            <div class="feature">
+                            <div class="col-sm-4">
+                                <div class="card passed">
+                                    <div class="header">
+                                        <h2>Feature: Main</h2>
+                                    </div>
+                                    <div class="info">
+                                        <p>In order to acces the footer<br />
 As a visitor<br />
 I should see a footer</p>
-                                </div>
-                                <div class="footer">
-                                    <div class="tags">
-                                                                            </div>
-                                    <div class="progress">
+                                    </div>
+                                    <div class="footer">
+                                        <div class="tags">
+                                                                                    </div>
+                                        <div class="progress">
 
-                                        <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                        <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
+                                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                                 style="width: 0%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                                 style="width: 0%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-8 details hidden">
+                                                            </div>
                         </div>
-                                            <div class="col-sm-4">
-                            <div class="card failed">
-                                <div class="header">
-                                    <h2>Feature: Main</h2>
-                                </div>
-                                <div class="info">
-                                    <p>In order to confirm the website basics are configured right<br />
+                                            <div class="feature">
+                            <div class="col-sm-4">
+                                <div class="card failed">
+                                    <div class="header">
+                                        <h2>Feature: Main</h2>
+                                    </div>
+                                    <div class="info">
+                                        <p>In order to confirm the website basics are configured right<br />
 As a visitor<br />
 I see some basic things and be able to access the website</p>
-                                </div>
-                                <div class="footer">
-                                    <div class="tags">
-                                                                            </div>
-                                    <div class="progress">
+                                    </div>
+                                    <div class="footer">
+                                        <div class="tags">
+                                                                                    </div>
+                                        <div class="progress">
 
-                                        <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 33.333333333333%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                        <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 33.333333333333%">
-                                            <span class="sr-only">40% Complete (success)</span>
+                                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                                 style="width: 33.333333333333%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                                 style="width: 66.666666666667%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-8 details hidden">
+                                                                    <h3>Scenario: Check the homepage</h3>
+                                                                            <span class="badge">api</span>
+                                                                                                                <div class="alert alert-success">
+                                            <b>Given</b> I am on the homepage
+                                        </div>
+                                                                            <div class="alert alert-success">
+                                            <b>Then</b> I should get a &quot;200&quot; HTTP response
+                                        </div>
+                                                                                                        <h3>Scenario: Check the 404 page</h3>
+                                                                            <span class="badge">api</span>
+                                                                                                                <div class="alert alert-success">
+                                            <b>Given</b> I am at &quot;/404&quot;
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Then</b> I should get a &quot;404&quot; HTTP response
+                                        </div>
+                                                                                                        <h3>Scenario: Check the 500 page</h3>
+                                                                            <span class="badge">api</span>
+                                                                                                                <div class="alert alert-danger">
+                                            <b>Given</b> I am at &quot;/500&quot;
+                                        </div>
+                                                                            <div class="alert alert-danger">
+                                            <b>Then</b> I should get a &quot;500&quot; HTTP response
+                                        </div>
+                                                                                                </div>
                         </div>
-                                            <div class="col-sm-4">
-                            <div class="card passed">
-                                <div class="header">
-                                    <h2>Feature: Pages</h2>
-                                </div>
-                                <div class="info">
-                                    <p>In order to use the website<br />
+                                            <div class="feature">
+                            <div class="col-sm-4">
+                                <div class="card passed">
+                                    <div class="header">
+                                        <h2>Feature: Pages</h2>
+                                    </div>
+                                    <div class="info">
+                                        <p>In order to use the website<br />
 As a visitor<br />
 All pages should be accesible</p>
-                                </div>
-                                <div class="footer">
-                                    <div class="tags">
-                                                                            </div>
-                                    <div class="progress">
+                                    </div>
+                                    <div class="footer">
+                                        <div class="tags">
+                                                                                    </div>
+                                        <div class="progress">
 
-                                        <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                        <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
+                                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                                 style="width: 0%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                                 style="width: 0%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-8 details hidden">
+                                                            </div>
                         </div>
                                     </div>
             </div>
@@ -205,13 +275,13 @@ All pages should be accesible</p>
 <script type="text/javascript">
     var featureData = [
         {
-            value: 1,
+            value: 2,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 3,
+            value: 2,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -260,20 +330,27 @@ All pages should be accesible</p>
 <script type="text/javascript">
     $(function () {
         $('.filters #feature-failed-filter').click(function () {
-            $('.card').parent().hide();
-            $('.card.failed').parent().show();
+            $(".feature .details").addClass("hidden");
+            $('.feature').hide();
+            $('.card.failed').parent().parent().show();
         });
         $('.filters #feature-passed-filter').click(function () {
-            $('.card').parent().hide();
-            $('.card.passed').parent().show();
+            $(".feature .details").addClass("hidden");
+            $('.feature').hide();
+            $('.card.passed').parent().parent().show();
         });
         $('.filters #feature-all-filter').click(function () {
-            $('.card').parent().show();
+            $(".feature .details").addClass("hidden");
+            $('.feature').show();
         });
 
         $(".card").click(function () {
-            $(".card").removeClass('selected');
-            $(this).addClass('selected');
+            $(".feature").removeClass('selected');
+            $(this).parent().parent().addClass('selected');
+            $(".feature").hide();
+            $(".feature.selected").show();
+            $(".feature .details").addClass("hidden");
+            $(".feature.selected .details").removeClass("hidden");
         });
     });
 </script>
