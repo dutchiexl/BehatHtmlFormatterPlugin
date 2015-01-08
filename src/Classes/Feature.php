@@ -173,7 +173,7 @@ class Feature
 
     public function getPercentFailed()
     {
-        return ($this->getPassedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
+        return ($this->getFailedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
     }
 
     public function getTotalAmountOfScenarios()

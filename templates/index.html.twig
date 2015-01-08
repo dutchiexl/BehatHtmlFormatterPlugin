@@ -86,32 +86,47 @@
 
                 <div class="row">
                     {% for feature in suite.features %}
-                        <div class="col-sm-4">
-                            <div class="card {{ feature.getPassedClass }}">
-                                <div class="header">
-                                    <h2>Feature: {{ feature.name }}</h2>
-                                </div>
-                                <div class="info">
-                                    <p>{{ feature.description|raw|nl2br }}</p>
-                                </div>
-                                <div class="footer">
-                                    <div class="tags">
-                                        {% for tag in feature.tags %}
-                                            <span class="badge">{{ tag }}</span>
-                                        {% endfor %}
+                        <div class="feature">
+                            <div class="col-sm-4">
+                                <div class="card {{ feature.getPassedClass }}">
+                                    <div class="header">
+                                        <h2>Feature: {{ feature.name }}</h2>
                                     </div>
-                                    <div class="progress">
+                                    <div class="info">
+                                        <p>{{ feature.description|raw|nl2br }}</p>
+                                    </div>
+                                    <div class="footer">
+                                        <div class="tags">
+                                            {% for tag in feature.tags %}
+                                                <span class="badge">{{ tag }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="progress">
 
-                                        <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: {{ feature.getPercentPassed }}%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                        <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: {{ feature.getPercentFailed }}%">
-                                            <span class="sr-only">40% Complete (success)</span>
+                                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                                 style="width: {{ feature.getPercentPassed }}%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                                 style="width: {{ feature.getPercentFailed }}%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-8 details hidden">
+                                {% for scenario in feature.scenarios %}
+                                    <h3>Scenario: {{ scenario.name }}</h3>
+                                    {% for tag in scenario.tags %}
+                                        <span class="badge">{{ tag }}</span>
+                                    {% endfor %}
+                                    {% for step in scenario.steps %}
+                                        <div class="alert alert-{% if step.passed %}success{% else %}danger{% endif %}">
+                                            <b>{{ step.keyword }}</b> {{ step.text }}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
                             </div>
                         </div>
                     {% endfor %}
@@ -185,20 +200,27 @@
 <script type="text/javascript">
     $(function () {
         $('.filters #feature-failed-filter').click(function () {
-            $('.card').parent().hide();
-            $('.card.failed').parent().show();
+            $(".feature .details").addClass("hidden");
+            $('.feature').hide();
+            $('.card.failed').parent().parent().show();
         });
         $('.filters #feature-passed-filter').click(function () {
-            $('.card').parent().hide();
-            $('.card.passed').parent().show();
+            $(".feature .details").addClass("hidden");
+            $('.feature').hide();
+            $('.card.passed').parent().parent().show();
         });
         $('.filters #feature-all-filter').click(function () {
-            $('.card').parent().show();
+            $(".feature .details").addClass("hidden");
+            $('.feature').show();
         });
 
         $(".card").click(function () {
-            $(".card").removeClass('selected');
-            $(this).addClass('selected');
+            $(".feature").removeClass('selected');
+            $(this).parent().parent().addClass('selected');
+            $(".feature").hide();
+            $(".feature.selected").show();
+            $(".feature .details").addClass("hidden");
+            $(".feature.selected .details").removeClass("hidden");
         });
     });
 </script>

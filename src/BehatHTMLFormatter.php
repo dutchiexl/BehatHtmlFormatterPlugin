@@ -274,8 +274,10 @@ class BehatHTMLFormatter implements Formatter
 
         if ($scenarioPassed) {
             $this->passedScenarios[] = $this->currentScenario;
+            $this->currentFeature->addPassedScenario();
         } else {
             $this->failedScenarios[] = $this->currentScenario;
+            $this->currentFeature->addFailedScenario();
         }
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
