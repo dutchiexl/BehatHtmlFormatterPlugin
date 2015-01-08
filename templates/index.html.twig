@@ -94,6 +94,17 @@
                                             <span class="badge">{{ tag }}</span>
                                         {% endfor %}
                                     </div>
+                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-green" role="progressbar"
+                                             style="width: {{ feature.getPercentPassed }}%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-red" role="progressbar"
+                                             style="width: {{ feature.getPercentFailed }}%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

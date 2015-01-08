@@ -12,11 +12,14 @@ body {
   width: 100%;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
+.card:hover {
+  cursor: pointer;
+}
 .card.passed .header {
   background-color: #00a65a;
 }
 .card.failed .header {
-  background-color: red;
+  background-color: #F56956;
 }
 .card .header {
   color: #fff;
@@ -59,5 +62,23 @@ body {
   border-bottom-left-radius: 3px;
   padding: 10px;
   background-color: #ffffff;
-  height: 30px;
+}
+.card .footer .progress {
+  margin-bottom: 0px;
+}
+.progress {
+  height: 20px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.progress .progress-bar-green {
+  background-color: #00a65a !important;
+  background-image: none !important;
+}
+.progress .progress-bar-red {
+  background-color: #f56954 !important;
+  background-image: none !important;
 }
