@@ -1,6 +1,8 @@
 BehatHtmlFormatterPlugin
 ========================
 
+Suggestions are more than welcome !!!
+
 This is a behat plugin to generate HTML reports
 
 Add this to your behat.yml file
