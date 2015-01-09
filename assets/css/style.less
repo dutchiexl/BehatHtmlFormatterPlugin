@@ -1,4 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700);
+@import "callout.less";
+
+@color-failed: #F56956;
+@color-passed: #00a65a;
 
 body {
   background-color: #f9f9f9;
@@ -21,13 +25,13 @@ body {
 
   &.passed {
     .header {
-      background-color: #00a65a;
+      background-color: @color-passed;
     }
   }
 
   &.failed {
     .header {
-      background-color: #F56956;
+      background-color: @color-failed;
     }
   }
 
@@ -91,7 +95,7 @@ body {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 
   .progress-bar-green {
-    background-color: #00a65a !important;
+    background-color: @color-failed !important;
     background-image: none !important;
   }
 
@@ -111,6 +115,25 @@ body {
     display: none;
     &.selected {
       display: block;
+    }
+
+    .details {
+      .panel {
+        &.passed {
+          > .panel-heading {
+            color: white;
+            background-color: @color-passed;
+            background-image: none;
+          }
+        }
+        &.failed {
+          > .panel-heading {
+            color: white;
+            background-color: @color-failed;
+            background-image: none;
+          }
+        }
+      }
     }
   }
 }

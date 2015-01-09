@@ -124,7 +124,7 @@
             <hr>
         {% endfor %}
     </div>
-    <div id="scenario-overview">
+    <div id="scenario-overview" class="row">
         {% for suite in suites %}
             {% for feature in suite.features %}
                 <div class="feature" data-id="feature-{{ feature.id }}">
@@ -158,17 +158,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
                         {% for scenario in feature.scenarios %}
-                            <h3>Scenario: {{ scenario.name }}</h3>
-                            {% for tag in scenario.tags %}
-                                <span class="badge">{{ tag }}</span>
-                            {% endfor %}
-                            {% for step in scenario.steps %}
-                                <div class="alert alert-{% if step.passed %}success{% else %}danger{% endif %}">
-                                    <b>{{ step.keyword }}</b> {{ step.text }}
+                            <div class="panel panel-default {% if scenario.isPassed %}passed{% else %}failed{% endif %}">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-{{ feature.id }}-{{ scenario.id }}"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-{{ feature.id }}-{{ scenario.id }}">
+                                            Scenario: {{ scenario.name }}
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                            {% for tag in scenario.tags %}
+                                                <span class="badge">{{ tag }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </h4>
                                 </div>
-                            {% endfor %}
+                                <div id="scenario-{{ feature.id }}-{{ scenario.id }}" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                        {% for step in scenario.steps %}
+                                            <li class="list-group-item alert alert-{% if step.passed %}success{% else %}danger{% endif %}">
+                                                <b>{{ step.keyword }}</b> {{ step.text }}
+                                            </li>
+                                            {#<div class="bs-callout bs-callout-{% if step.passed %}success{% else %}danger{% endif %}" id="callout-collapse-accessibility">#}
+                                            {#<b>{{ step.keyword }}</b> {{ step.text }}#}
+                                            {#</div>#}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -251,6 +274,8 @@
         $("#scenario-overview .feature[data-id='" + featureId + "']").show();
     }
     $(function () {
+        $('.collapse').collapse();
+
         $('.filters').click()
         {
             showOverview();
