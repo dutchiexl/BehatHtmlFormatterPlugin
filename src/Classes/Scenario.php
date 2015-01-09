@@ -11,6 +11,10 @@ namespace emuse\BehatHTMLFormatter\Classes;
 
 class Scenario
 {
+    /**
+     * @var int
+     */
+    private $id;
     private $name;
     private $line;
     private $tags;
@@ -111,5 +115,21 @@ class Scenario
     public function addStep($step)
     {
         $this->steps[] = $step;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }

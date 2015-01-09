@@ -19,6 +19,7 @@ class Feature
     private $file;
     private $failedScenarios = 0;
     private $passedScenarios = 0;
+    private $scenarioCounter = 1;
 
     /**
      * @var Scenario[]
@@ -107,8 +108,13 @@ class Feature
         $this->scenarios = $scenarios;
     }
 
+    /**
+     * @param $scenario Scenario
+     */
     public function addScenario($scenario)
     {
+        $scenario->setId($this->scenarioCounter);
+        $this->scenarioCounter++;
         $this->scenarios[] = $scenario;
     }
 

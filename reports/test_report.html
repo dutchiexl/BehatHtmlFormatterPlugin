@@ -270,7 +270,7 @@ All pages should be accesible</p>
             </div>
             <hr>
             </div>
-    <div id="scenario-overview">
+    <div id="scenario-overview" class="row">
                                     <div class="feature" data-id="feature-1">
                     <div class="col-sm-4">
                         <div class="card failed">
@@ -299,38 +299,58 @@ I need to have permissions on everything</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
-                                                    <h3>Scenario: As an administrator I can add a node</h3>
-                                                            <span class="badge">api</span>
-                                                            <span class="badge">javascript</span>
-                                                                                        <div class="alert alert-danger">
-                                    <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-1-1"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-1-1">
+                                            Scenario: As an administrator I can add a node
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                            <span class="badge">javascript</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>When</b> I am on the homepage
+                                <div id="scenario-1-1" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see the text Logout
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see the text Login
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see the text User
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should see the text Logout
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>When</b> I am on the homepage
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should see the text Login
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>When</b> I am on the homepage
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should see the text User
-                                </div>
-                                                                        </div>
+                            </div>
+                                            </div>
                 </div>
                             <div class="feature" data-id="feature-2">
                     <div class="col-sm-4">
@@ -349,7 +369,7 @@ I should see a footer</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
                                             </div>
                 </div>
                             <div class="feature" data-id="feature-3">
@@ -380,32 +400,92 @@ I see some basic things and be able to access the website</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
-                                                    <h3>Scenario: Check the homepage</h3>
-                                                            <span class="badge">api</span>
-                                                                                        <div class="alert alert-success">
-                                    <b>Given</b> I am on the homepage
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default passed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-3-1"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-3-1">
+                                            Scenario: Check the homepage
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-success">
-                                    <b>Then</b> I should get a &quot;200&quot; HTTP response
+                                <div id="scenario-3-1" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>Given</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>Then</b> I should get a &quot;200&quot; HTTP response
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                                                <h3>Scenario: Check the 404 page</h3>
-                                                            <span class="badge">api</span>
-                                                                                        <div class="alert alert-success">
-                                    <b>Given</b> I am at &quot;/404&quot;
+                            </div>
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-3-2"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-3-2">
+                                            Scenario: Check the 404 page
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should get a &quot;404&quot; HTTP response
+                                <div id="scenario-3-2" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>Given</b> I am at &quot;/404&quot;
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should get a &quot;404&quot; HTTP response
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                                                <h3>Scenario: Check the 500 page</h3>
-                                                            <span class="badge">api</span>
-                                                                                        <div class="alert alert-danger">
-                                    <b>Given</b> I am at &quot;/500&quot;
+                            </div>
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-3-3"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-3-3">
+                                            Scenario: Check the 500 page
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should get a &quot;500&quot; HTTP response
+                                <div id="scenario-3-3" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am at &quot;/500&quot;
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should get a &quot;500&quot; HTTP response
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                                        </div>
+                            </div>
+                                            </div>
                 </div>
                             <div class="feature" data-id="feature-4">
                     <div class="col-sm-4">
@@ -424,7 +504,7 @@ All pages should be accesible</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
                                             </div>
                 </div>
                                                 <div class="feature" data-id="feature-5">
@@ -455,38 +535,58 @@ I need to have permissions on everything</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
-                                                    <h3>Scenario: As an administrator I can add a node</h3>
-                                                            <span class="badge">api</span>
-                                                            <span class="badge">javascript</span>
-                                                                                        <div class="alert alert-danger">
-                                    <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-5-1"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-5-1">
+                                            Scenario: As an administrator I can add a node
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                            <span class="badge">javascript</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>When</b> I am on the homepage
+                                <div id="scenario-5-1" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see the text Logout
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see the text Login
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see the text User
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should see the text Logout
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>When</b> I am on the homepage
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should see the text Login
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Given</b> I am logged in as a user with the &quot;administrator&quot; role
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>When</b> I am on the homepage
-                                </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should see the text User
-                                </div>
-                                                                        </div>
+                            </div>
+                                            </div>
                 </div>
                             <div class="feature" data-id="feature-6">
                     <div class="col-sm-4">
@@ -505,7 +605,7 @@ I should see a footer</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
                                             </div>
                 </div>
                             <div class="feature" data-id="feature-7">
@@ -536,24 +636,64 @@ I see some basic things and be able to access the website</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
-                                                    <h3>Scenario: Check the homepage</h3>
-                                                            <span class="badge">api</span>
-                                                                                        <div class="alert alert-success">
-                                    <b>Given</b> I am on the homepage
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default passed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-7-1"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-7-1">
+                                            Scenario: Check the homepage
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-success">
-                                    <b>Then</b> I should get a &quot;200&quot; HTTP response
+                                <div id="scenario-7-1" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>Given</b> I am on the homepage
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>Then</b> I should get a &quot;200&quot; HTTP response
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                                                <h3>Scenario: Check the 404 page</h3>
-                                                            <span class="badge">api</span>
-                                                                                        <div class="alert alert-success">
-                                    <b>Given</b> I am at &quot;/404&quot;
+                            </div>
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-7-2"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-7-2">
+                                            Scenario: Check the 404 page
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                            <span class="badge">api</span>
+                                                                                    </div>
+                                    </h4>
                                 </div>
-                                                            <div class="alert alert-danger">
-                                    <b>Then</b> I should get a &quot;404&quot; HTTP response
+                                <div id="scenario-7-2" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>Given</b> I am at &quot;/404&quot;
+                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should get a &quot;404&quot; HTTP response
+                                            </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                                        </div>
+                            </div>
+                                            </div>
                 </div>
                             <div class="feature" data-id="feature-8">
                     <div class="col-sm-4">
@@ -572,7 +712,7 @@ All pages should be accesible</p>
                                                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details">
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
                                             </div>
                 </div>
                         </div>
@@ -652,6 +792,8 @@ All pages should be accesible</p>
         $("#scenario-overview .feature[data-id='" + featureId + "']").show();
     }
     $(function () {
+        $('.collapse').collapse();
+
         $('.filters').click()
         {
             showOverview();
