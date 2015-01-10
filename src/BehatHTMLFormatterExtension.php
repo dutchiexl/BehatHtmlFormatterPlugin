@@ -64,10 +64,13 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition("emuse\\BehatHTMLFormatter\\BehatHTMLFormatter");
+        $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
         $definition->addArgument($config['name']);
         $definition->addArgument('%paths.base%');
+<<<<<<< HEAD
         $definition->addArgument($config['output']);
+=======
+>>>>>>> fcedea033d2066beb94124318dd76f57b7bce868
         $container->setDefinition("html.formatter", $definition)
             ->addTag("output.formatter");
     }
