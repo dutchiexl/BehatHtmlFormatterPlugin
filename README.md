@@ -22,9 +22,12 @@ formatters:
 </pre>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 The HTML will be generated at {$PROJECTROOT}/vendor/emuse/behat-html-formatter/reports/test_report.html. until the --out parameter is supported
 
+=======
+>>>>>>> e370bf764d3365a8d9a379739c1eb36ebe040183
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
 =======
 The *output_path* parameter is relative to %paths.base% and, when omitted, will default to that same path.
