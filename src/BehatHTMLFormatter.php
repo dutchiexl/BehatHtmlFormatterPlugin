@@ -42,10 +42,9 @@ class BehatHTMLFormatter implements Formatter
     private $name;
 
     /**
-     * @param  $output where to save the generated report file
+     * @param  $outputPath where to save the generated report file
      */
-    private $output;
-
+    private $outputPath;
 
     /**
      * @param  $base_path Behat base path
@@ -114,7 +113,7 @@ class BehatHTMLFormatter implements Formatter
     {
         $this->name = $name;
         $this->base_path = $base_path;
-        $this->output = $this->setOutputPath($output);
+        $this->setOutputPath($output);
     }
 
     /**
@@ -193,11 +192,11 @@ class BehatHTMLFormatter implements Formatter
     }
 
     /**
-     * Verify that the specified output path exists or can be created.
+     * Verify that the specified output path exists or can be created,
+     * then sets the output path.
      *
      * @param String $path Output path relative to %paths.base%
      *
-     * @return  String The full path to the output directory
      */
     public function setOutputPath($path)
     {
@@ -217,7 +216,17 @@ class BehatHTMLFormatter implements Formatter
                 );
             }
         }
-        return $outpath;
+        $this->outputPath = $outpath;
+    }
+
+    /**
+     * Returns output path
+     *
+     * @return String output path
+     */
+    public function getOutputPath()
+    {
+        return $this->outputPath;
     }
 
     public function onBeforeExercise(BeforeExerciseCompleted $event)
@@ -369,7 +378,7 @@ class BehatHTMLFormatter implements Formatter
     public function createReport()
     {
         $templatePath = dirname(__FILE__) . '/../templates';
-        $reportPath = $this->output;
+        $reportPath = $this->outputPath;
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
 
