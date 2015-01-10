@@ -1,4 +1,6 @@
-<?php namespace emuse\BehatHTMLFormatter;
+<?php
+
+namespace emuse\BehatHTMLFormatter\Formatter;
 
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
 use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
@@ -14,11 +16,11 @@ use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
 use Behat\Testwork\Output\Formatter;
-use Behat\Testwork\Output\Printer\OutputPrinter;
 use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
 use emuse\BehatHTMLFormatter\Classes\Suite;
+use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -28,15 +30,21 @@ use Twig_Loader_Filesystem;
  */
 class BehatHTMLFormatter implements Formatter
 {
-    //<editor-fold desc="Variables">
     /**
      * @var array
      */
     private $parameters;
+
     /**
      * @var
      */
     private $name;
+
+    /**
+     * Printer used by this Formatter
+     * @param $printer OutputPrinter
+     */
+    private $printer;
 
     /**
      * @var Array
@@ -92,17 +100,16 @@ class BehatHTMLFormatter implements Formatter
      * @var Step[]
      */
     private $passedSteps;
-    //</editor-fold>
 
     /**
      * @param string $name formatter name
      */
-    function __construct($name)
+    function __construct($name, $base_path)
     {
         $this->name = $name;
+        $this->printer = new FileOutputPrinter($base_path);
     }
 
-    //<editor-fold desc="Getters/Setters">
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -152,7 +159,7 @@ class BehatHTMLFormatter implements Formatter
      */
     public function getOutputPrinter()
     {
-        return new ConsoleOutputPrinter();
+        return $this->printer;
     }
 
     /**
@@ -177,9 +184,8 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->parameters[$name];
     }
-    //</editor-fold>
 
-    //<editor-fold desc="Event functions">
+
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
     }
@@ -320,13 +326,15 @@ class BehatHTMLFormatter implements Formatter
         $this->currentScenario->addStep($step);
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Functions">
+    /**
+     * Generate the final html output file from the tests results
+     * and save it to the location specified in $output
+     *
+     * @return void
+     */
     public function createReport()
     {
-        $templatePath = dirname(__FILE__) . '/../templates';
-        $reportPath = dirname(__FILE__) . '/../reports';
+        $templatePath = dirname(__FILE__) . '/../../templates';
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
 
@@ -342,8 +350,7 @@ class BehatHTMLFormatter implements Formatter
             )
         );
 
-        $file = $reportPath . '/test_report.html';
-        file_put_contents($file, $test);
+        $this->printer->write($test);
     }
 
     /**
@@ -353,5 +360,4 @@ class BehatHTMLFormatter implements Formatter
     {
         file_put_contents('php://stdout', $text);
     }
-    //</editor-fold>
 }
