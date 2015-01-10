@@ -31,6 +31,7 @@ use Twig_Loader_Filesystem;
  */
 class BehatHTMLFormatter implements Formatter
 {
+    //<editor-fold desc="Variables">
     /**
      * @var array
      */
@@ -75,7 +76,6 @@ class BehatHTMLFormatter implements Formatter
      */
     private $currentScenario;
 
-
     /**
      * @var Scenario[]
      */
@@ -105,6 +105,7 @@ class BehatHTMLFormatter implements Formatter
      * @var Step[]
      */
     private $passedSteps;
+    //</editor-fold>
 
     /**
      * @param string $name formatter name
@@ -116,6 +117,7 @@ class BehatHTMLFormatter implements Formatter
         $this->setOutputPath($output);
     }
 
+    //<editor-fold desc="Formatter functions">
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -233,7 +235,9 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->outputPath;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Event functions">
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
     }
@@ -373,6 +377,7 @@ class BehatHTMLFormatter implements Formatter
 
         $this->currentScenario->addStep($step);
     }
+    //</editor-fold>
 
     /**
      * Generate the final html output file from the tests results
