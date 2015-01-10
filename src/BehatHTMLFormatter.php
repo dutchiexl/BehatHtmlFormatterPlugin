@@ -207,12 +207,17 @@ class BehatHTMLFormatter implements Formatter
                 sprintf(
                     'Output path %s does not exist and could not be created!',
                     $outpath
-                )
+                ),
+                $outpath
             );
         } else {
             if (!is_dir($outpath)) {
                 throw new BadOutputPathException(
-                    'The argument to "output" is expected to the a directory, file given!'
+                    sprintf(
+                        'The argument to `output` is expected to the a directory, but got %s!',
+                        $outpath
+                    ),
+                    $outpath
                 );
             }
         }
