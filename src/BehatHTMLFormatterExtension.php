@@ -1,4 +1,6 @@
-<?php namespace emuse\BehatHTMLFormatter;
+<?php
+
+namespace emuse\BehatHTMLFormatter;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
@@ -51,6 +53,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
     public function configure(ArrayNodeDefinition $builder)
     {
         $builder->children()->scalarNode("name")->defaultValue("emusehtml");
+        $builder->children()->scalarNode('output')->defaultValue('.');
     }
 
     /**
@@ -63,6 +66,8 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
     {
         $definition = new Definition("emuse\\BehatHTMLFormatter\\BehatHTMLFormatter");
         $definition->addArgument($config['name']);
+        $definition->addArgument('%paths.base%');
+        $definition->addArgument($config['output']);
         $container->setDefinition("html.formatter", $definition)
             ->addTag("output.formatter");
     }
