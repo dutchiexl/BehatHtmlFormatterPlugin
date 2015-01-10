@@ -1,21 +1,25 @@
 BehatHtmlFormatterPlugin
 ========================
 
-Suggestions are more than welcome !!!
+Suggestions are more than welcome !
 
-This is a behat plugin to generate HTML reports
+This is a behat 3 extension to generate HTML reports from your test results.
 
-Add this to your behat.yml file
+Add this to your behat.yml file:
 
 <pre>
 formatters:
     html: true
+    output: build/html/behat
   extensions:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
         name: html
 </pre>
 
+
 The HTML will be generated at {$PROJECTROOT}/vendor/emuse/behat-html-formatter/reports/test_report.html. until the --out parameter is supported
+
+The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
 
 To be done:
 ========================
