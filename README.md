@@ -15,6 +15,8 @@ formatters:
         name: html
 </pre>
 
+The HTML will be generated at {$PROJECTROOT}/vendor/emuse/behat-html-formatter/reports/test_report.html. until the --out parameter is supported
+
 To be done:
 ========================
 
@@ -22,6 +24,7 @@ To be done:
 2. Add parameters for behat.yml file
 3. Add bootstrap as dependency
 4. clean up html report
-5. ...
-6. 
+5. 
+
+=========================
 <img src="http://i.imgur.com/o0zCqiB.png"></img>
