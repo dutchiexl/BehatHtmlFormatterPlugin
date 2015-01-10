@@ -9,17 +9,27 @@ Add this to your behat.yml file:
 
 <pre>
 formatters:
+<<<<<<< HEAD
     html: true
     output: build/html/behat
+=======
+    html:
+        output_path: build/html/behat
+>>>>>>> fcedea033d2066beb94124318dd76f57b7bce868
   extensions:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
         name: html
 </pre>
 
+<<<<<<< HEAD
 
 The HTML will be generated at {$PROJECTROOT}/vendor/emuse/behat-html-formatter/reports/test_report.html. until the --out parameter is supported
 
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
+=======
+The *output_path* parameter is relative to %paths.base% and, when omitted, will default to that same path.
+
+>>>>>>> fcedea033d2066beb94124318dd76f57b7bce868
 
 To be done:
 ========================
