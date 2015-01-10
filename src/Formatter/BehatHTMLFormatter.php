@@ -1,10 +1,6 @@
 <?php
 
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
-namespace emuse\BehatHTMLFormatter;
-=======
 namespace emuse\BehatHTMLFormatter\Formatter;
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
 
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
 use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
@@ -13,18 +9,14 @@ use Behat\Behat\EventDispatcher\Event\BeforeFeatureTested;
 use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\BeforeOutlineTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
-use Behat\Behat\Output\Printer\ConsoleOutputPrinter;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
 use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
-use Behat\Testwork\Output\Formatter;
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
-use Behat\Testwork\Output\Printer\OutputPrinter;
 use Behat\Testwork\Output\Exception\BadOutputPathException;
-=======
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
+use Behat\Testwork\Output\Formatter;
+use Behat\Testwork\Output\Printer\OutputPrinter;
 use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
@@ -39,32 +31,32 @@ use Twig_Loader_Filesystem;
  */
 class BehatHTMLFormatter implements Formatter
 {
+
+    //<editor-fold desc="Variables">
     /**
      * @var array
      */
     private $parameters;
-
     /**
      * @var
      */
     private $name;
 
     /**
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
-     * @param  $outputPath where to save the generated report file
+     * @param String $outputPath where to save the generated report file
      */
     private $outputPath;
 
     /**
-     * @param  $base_path Behat base path
+     * @param String $base_path Behat base path
      */
     private $base_path;
-=======
+
+    /**
      * Printer used by this Formatter
      * @param $printer OutputPrinter
      */
     private $printer;
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
 
     /**
      * @var Array
@@ -119,27 +111,19 @@ class BehatHTMLFormatter implements Formatter
      * @var Step[]
      */
     private $passedSteps;
-
-    /**
-     * @param string $name formatter name
-     */
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
-    function __construct($name, $base_path, $output)
-    {
-        $this->name = $name;
-        $this->base_path = $base_path;
-        $this->setOutputPath($output);
-    }
+    //</editor-fold>
 
     //<editor-fold desc="Formatter functions">
-=======
+    /**
+     * @param $name
+     * @param $base_path
+     */
     function __construct($name, $base_path)
     {
         $this->name = $name;
         $this->printer = new FileOutputPrinter($base_path);
     }
 
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -214,27 +198,26 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->parameters[$name];
     }
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
 
     /**
      * Verify that the specified output path exists or can be created,
      * then sets the output path.
      *
      * @param String $path Output path relative to %paths.base%
-     *
+     * @throws BadOutputPathException
      */
     public function setOutputPath($path)
     {
         $outpath = realpath($this->base_path . DIRECTORY_SEPARATOR . $path);
         if (!file_exists($outpath)) {
             if (!mkdir($outpath, 0755, true))
-            throw new BadOutputPathException(
-                sprintf(
-                    'Output path %s does not exist and could not be created!',
+                throw new BadOutputPathException(
+                    sprintf(
+                        'Output path %s does not exist and could not be created!',
+                        $outpath
+                    ),
                     $outpath
-                ),
-                $outpath
-            );
+                );
         } else {
             if (!is_dir($outpath)) {
                 throw new BadOutputPathException(
@@ -258,26 +241,37 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->outputPath;
     }
+
     //</editor-fold>
-=======
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
 
-
+    //<editor-fold desc="Event functions">
+    /**
+     * @param BeforeExerciseCompleted $event
+     */
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
     }
 
+    /**
+     * @param AfterExerciseCompleted $event
+     */
     public function onAfterExercise(AfterExerciseCompleted $event)
     {
         $this->createReport();
     }
 
+    /**
+     * @param BeforeSuiteTested $event
+     */
     public function onBeforeSuiteTested(BeforeSuiteTested $event)
     {
         $this->currentSuite = new Suite();
         $this->currentSuite->setName($event->getSuite()->getName());
     }
 
+    /**
+     * @param AfterSuiteTested $event
+     */
     public function onAfterSuiteTested(AfterSuiteTested $event)
     {
         $this->suites[] = $this->currentSuite;
@@ -402,10 +396,7 @@ class BehatHTMLFormatter implements Formatter
 
         $this->currentScenario->addStep($step);
     }
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
     //</editor-fold>
-=======
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
 
     /**
      * Generate the final html output file from the tests results
@@ -415,12 +406,7 @@ class BehatHTMLFormatter implements Formatter
      */
     public function createReport()
     {
-<<<<<<< HEAD:src/BehatHTMLFormatter.php
-        $templatePath = dirname(__FILE__) . '/../templates';
-        $reportPath = $this->outputPath;
-=======
         $templatePath = dirname(__FILE__) . '/../../templates';
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868:src/Formatter/BehatHTMLFormatter.php
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
 
