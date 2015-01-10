@@ -1,4 +1,6 @@
-<?php namespace emuse\BehatHTMLFormatter;
+<?php
+
+namespace emuse\BehatHTMLFormatter;
 
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
 use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
@@ -15,6 +17,7 @@ use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
+use Behat\Testwork\Output\Exception\BadOutputPathException;
 use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
@@ -28,15 +31,25 @@ use Twig_Loader_Filesystem;
  */
 class BehatHTMLFormatter implements Formatter
 {
-    //<editor-fold desc="Variables">
     /**
      * @var array
      */
     private $parameters;
+
     /**
      * @var
      */
     private $name;
+
+    /**
+     * @param  $outputPath where to save the generated report file
+     */
+    private $outputPath;
+
+    /**
+     * @param  $base_path Behat base path
+     */
+    private $base_path;
 
     /**
      * @var Array
@@ -92,17 +105,17 @@ class BehatHTMLFormatter implements Formatter
      * @var Step[]
      */
     private $passedSteps;
-    //</editor-fold>
 
     /**
      * @param string $name formatter name
      */
-    function __construct($name)
+    function __construct($name, $base_path, $output)
     {
         $this->name = $name;
+        $this->base_path = $base_path;
+        $this->setOutputPath($output);
     }
 
-    //<editor-fold desc="Getters/Setters">
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -177,9 +190,50 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->parameters[$name];
     }
-    //</editor-fold>
 
-    //<editor-fold desc="Event functions">
+    /**
+     * Verify that the specified output path exists or can be created,
+     * then sets the output path.
+     *
+     * @param String $path Output path relative to %paths.base%
+     *
+     */
+    public function setOutputPath($path)
+    {
+        $outpath = realpath($this->base_path . DIRECTORY_SEPARATOR . $path);
+        if (!file_exists($outpath)) {
+            if (!mkdir($outpath, 0755, true))
+            throw new BadOutputPathException(
+                sprintf(
+                    'Output path %s does not exist and could not be created!',
+                    $outpath
+                ),
+                $outpath
+            );
+        } else {
+            if (!is_dir($outpath)) {
+                throw new BadOutputPathException(
+                    sprintf(
+                        'The argument to `output` is expected to the a directory, but got %s!',
+                        $outpath
+                    ),
+                    $outpath
+                );
+            }
+        }
+        $this->outputPath = $outpath;
+    }
+
+    /**
+     * Returns output path
+     *
+     * @return String output path
+     */
+    public function getOutputPath()
+    {
+        return $this->outputPath;
+    }
+
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
     }
@@ -320,13 +374,16 @@ class BehatHTMLFormatter implements Formatter
         $this->currentScenario->addStep($step);
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Functions">
+    /**
+     * Generate the final html output file from the tests results
+     * and save it to the location specified in $output
+     *
+     * @return void
+     */
     public function createReport()
     {
         $templatePath = dirname(__FILE__) . '/../templates';
-        $reportPath = dirname(__FILE__) . '/../reports';
+        $reportPath = $this->outputPath;
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
 
@@ -353,5 +410,4 @@ class BehatHTMLFormatter implements Formatter
     {
         file_put_contents('php://stdout', $text);
     }
-    //</editor-fold>
 }
