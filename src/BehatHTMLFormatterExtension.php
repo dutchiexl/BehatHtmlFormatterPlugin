@@ -21,7 +21,9 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
      *
      * @api
      */
-    public function process(ContainerBuilder $container) {}
+    public function process(ContainerBuilder $container)
+    {
+    }
 
     /**
      * Returns the extension config key.
@@ -43,7 +45,9 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
      *
      * @param ExtensionManager $extensionManager
      */
-    public function initialize(ExtensionManager $extensionManager) {}
+    public function initialize(ExtensionManager $extensionManager)
+    {
+    }
 
     /**
      * Setups configuration for the extension.
@@ -67,10 +71,6 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
         $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
         $definition->addArgument($config['name']);
         $definition->addArgument('%paths.base%');
-<<<<<<< HEAD
-        $definition->addArgument($config['output']);
-=======
->>>>>>> fcedea033d2066beb94124318dd76f57b7bce868
         $container->setDefinition("html.formatter", $definition)
             ->addTag("output.formatter");
     }
