@@ -24,7 +24,7 @@ To be done:
 2. Add parameters for behat.yml file
 3. Add bootstrap as dependency
 4. clean up html report
-5. 
+5. Add out parameter
 
 =========================
 <img src="http://i.imgur.com/o0zCqiB.png"></img>
