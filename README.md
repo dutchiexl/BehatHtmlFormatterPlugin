@@ -16,9 +16,6 @@ formatters:
         name: html
 </pre>
 
-
-The HTML will be generated at {$PROJECTROOT}/vendor/emuse/behat-html-formatter/reports/test_report.html. until the --out parameter is supported
-
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
 
 To be done:
