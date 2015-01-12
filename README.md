@@ -10,7 +10,7 @@ Add this to your behat.yml file:
 <pre>
 formatters:
     html:
-        output_path: build/html/behat
+        output_path: %paths.base%/build/html/behat
   extensions:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
         name: html
