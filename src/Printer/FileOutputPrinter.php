@@ -38,16 +38,16 @@ class FileOutputPrinter implements PrinterInterface
      */
     public function setOutputPath($path)
     {
-        $outpath = $this->base_path . DIRECTORY_SEPARATOR . $path;
+        $outpath = $path;
         if (!file_exists($outpath)) {
             if (!mkdir($outpath, 0755, true))
-            throw new BadOutputPathException(
-                sprintf(
-                    'Output path %s does not exist and could not be created!',
+                throw new BadOutputPathException(
+                    sprintf(
+                        'Output path %s does not exist and could not be created!',
+                        $outpath
+                    ),
                     $outpath
-                ),
-                $outpath
-            );
+                );
         } else {
             if (!is_dir(realpath($outpath))) {
                 throw new BadOutputPathException(
@@ -139,7 +139,7 @@ class FileOutputPrinter implements PrinterInterface
      */
     public function write($messages)
     {
-        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'test_report.html';
+        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
         file_put_contents($file, $messages);
     }
 
