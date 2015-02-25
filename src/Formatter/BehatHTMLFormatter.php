@@ -381,7 +381,7 @@ class BehatHTMLFormatter implements Formatter
         $step->setLine($event->getStep()->getLine());
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
-        $step->setPassed($result->isPassed());
+        $step->setResultCode($result->getResultCode());
 
         if ($result instanceof ExecutedStepResult) {
             $step->setDefinition($result->getStepDefinition());
