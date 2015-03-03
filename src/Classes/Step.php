@@ -8,6 +8,7 @@
 
 namespace emuse\BehatHTMLFormatter\Classes;
 
+use Behat\Behat\Tester\Result\StepResult;
 
 class Step
 {
@@ -16,7 +17,7 @@ class Step
     private $arguments;
     private $line;
     private $result;
-    private $passed;
+    private $resultCode;
     private $exception;
     private $definition;
 
@@ -135,16 +136,48 @@ class Step
     /**
      * @return mixed
      */
-    public function getPassed()
+    public function getResultCode()
     {
-        return $this->passed;
+        return $this->resultCode;
     }
 
     /**
-     * @param mixed $passed
+     * @param mixed $resultCode
      */
-    public function setPassed($passed)
+    public function setResultCode($resultCode)
     {
-        $this->passed = $passed;
+        $this->resultCode = $resultCode;
+    }
+    
+     /**
+     * @return bool
+     */
+    public function isPassed()
+    {
+        return $this->resultCode == StepResult::PASSED;
+    }
+    
+     /**
+     * @return bool
+     */
+    public function isSkipped()
+    {
+        return $this->resultCode == StepResult::SKIPPED;
+    }
+    
+     /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return ($this->resultCode == StepResult::PENDING || $this->resultCode == StepResult::UNDEFINED);
+    }
+    
+     /**
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return $this->resultCode == StepResult::FAILED;
     }
 }
