@@ -137,11 +137,13 @@ class FileOutputPrinter implements PrinterInterface
      *
      * @param string|array $messages message or array of messages
      */
-    public function write($messages)
+    public function write($messages = '')
     {
         $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
         file_put_contents($file, $messages);
     }
+    
+    
 
     /**
      * Writes newlined message(s) to output console.
@@ -150,7 +152,8 @@ class FileOutputPrinter implements PrinterInterface
      */
     public function writeln($messages = '')
     {
-
+        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
+        file_put_contents($file, $messages, FILE_APPEND);
     }
 
     /**
