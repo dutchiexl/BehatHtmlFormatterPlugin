@@ -155,6 +155,18 @@ class FileOutputPrinter implements PrinterInterface
         $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
         file_put_contents($file, $messages, FILE_APPEND);
     }
+    
+    /**
+     * Writes  message(s) at start of the output console.
+     *
+     * @param string|array $messages message or array of messages
+     */
+    public function writeBeginning($messages = '') {
+        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
+        $fileContents = file_get_contents($file);
+        file_put_contents($file, $messages . $fileContents);
+
+    }
 
     /**
      * Clear output console, so on next write formatter will need to init (create) it again.
