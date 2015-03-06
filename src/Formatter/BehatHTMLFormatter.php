@@ -406,6 +406,10 @@ class BehatHTMLFormatter implements Formatter
      */
     public function createReport()
     {
+    
+    
+
+    /*
         $templatePath = dirname(__FILE__) . '/../../templates';
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
@@ -421,8 +425,90 @@ class BehatHTMLFormatter implements Formatter
                 'passedFeatures' => $this->passedFeatures,
             )
         );
-
+        
         $this->printer->write($test);
+       */ 
+        
+        //global
+        $print = count($this->failedFeatures) . ' features failed of ' . (count($this->failedFeatures) + count($this->passedFeatures)) . '<br />' ;
+        $print .= count($this->failedScenarios) . ' scenarios failed of ' . (count($this->failedScenarios) + count($this->passedScenarios)) . '<br />' ;
+        $print .= count($this->failedSteps) . ' steps failed of ' . (count($this->failedSteps) + count($this->passedSteps)) . '<br />' ;
+        
+        $print .= '<br />VUE GLOBALE<br />' ;
+        
+        foreach($this->suites as $suite) {
+            $print .= 'Suite : ' . $suite->getName() . '<br /><br />';
+            
+            foreach($suite->getFeatures() as $feature) {
+                $print .= 'Feature ID : ' . $feature->getId() . '<br />';
+                $print .= 'Feature result : ' . $feature->getPassedClass() . '<br />';
+                $print .= 'Feature name : ' . $feature->getName() . '<br />';
+                $print .= 'Feature description : ' . $feature->getDescription() . '<br />';
+                foreach($feature->getTags() as $tag) {
+                    $print .= $tag ;
+                }
+                if (count($feature->getTags() > 0)) {
+                    $print .= '<br />' ;
+                }
+                if ($feature->getTotalAmountOfScenarios() > 0 ) {
+                    $print .= 'Features passed :' . $feature->getPercentPassed() . '<br />' ;
+                    $print .= 'Features failed :' . $feature->getPercentFailed() . '<br />' ;
+                }
+                $print .= '<br />' ;
+
+            }
+        }
+        
+        $print .= '<br />VUE DETAILLEE<br />' ;
+        
+        foreach($this->suites as $suite) {    
+            foreach($suite->getFeatures() as $feature) {
+                $print .= 'Feature ID : ' . $feature->getId() . '<br />';
+                $print .= 'Feature result : ' . $feature->getPassedClass() . '<br />';
+                $print .= 'Feature name : ' . $feature->getName() . '<br />';
+                $print .= 'Feature description : ' . $feature->getDescription() . '<br />';
+                foreach($feature->getTags() as $tag) {
+                    $print .= $tag ;
+                }                
+                if (count($feature->getTags()) > 0) {
+                    $print .= '<br />' ;
+                }                
+                if ($feature->getTotalAmountOfScenarios() > 0 ) {
+                    $print .= 'Features passed :' . $feature->getPercentPassed() . '<br />' ;
+                    $print .= 'Features failed :' . $feature->getPercentFailed() . '<br />' ;
+                }
+                $print .= '<br />' ;
+                foreach($feature->getScenarios() as $scenario) {
+                    if ($scenario->isPassed()) {
+                        $print .= 'passed' ;
+                    } else {
+                        $print .= 'failed' ;
+                    }
+                    $print .= '<br />' ;
+                    $print .= 'Scenario ID : ' . $scenario->getId() . '<br />';
+                    $print .= 'Scenario Name : ' . $scenario->getName() . '<br />';
+                    foreach($scenario->getTags() as $tag) {
+                        $print .= $tag ;
+                    }      
+                    if (count($scenario->getTags()) > 0) {
+                        $print .= '<br />' ;
+                    }     
+                    foreach($scenario->getSteps() as $step) {
+                        if ($step->getPassed()) {
+                            $print .= 'success' ;
+                        } else {
+                            $print .= 'danger' ;
+                        }
+                        $print .= '<br />' ;
+                        $print .= $step->getKeyWord() . ' - ' . $step->getText() ;
+                    }
+                }
+            }                
+        }
+
+        $this->printer->write($print);
+        $this->printer->writeln('toto');
+        
     }
 
     /**
