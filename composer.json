@@ -1,6 +1,6 @@
 {
     "name": "dasayan/behat-html-formatter",
-    "description": "Fork of the dutchiexl HTML report for behat",
+    "description": "Fork of dutchiexl HTML report for behat",
     "authors": [
         {
             "name": "DaSayan",
