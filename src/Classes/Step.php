@@ -16,7 +16,7 @@ class Step
     private $arguments;
     private $line;
     private $result;
-    private $passed;
+    private $status;
     private $exception;
     private $definition;
 
@@ -135,16 +135,16 @@ class Step
     /**
      * @return mixed
      */
-    public function getPassed()
+    public function getStatus()
     {
-        return $this->passed;
+        return $this->status;
     }
 
     /**
-     * @param mixed $passed
+     * @param mixed $status
      */
-    public function setPassed($passed)
+    public function setStatus($status)
     {
-        $this->passed = $passed;
+        $this->status = $status;
     }
 }
