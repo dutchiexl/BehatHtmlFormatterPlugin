@@ -10,6 +10,8 @@ use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\BeforeOutlineTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
+use Behat\Testwork\Counter\Memory;
+use Behat\Testwork\Counter\Timer;
 use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
@@ -36,11 +38,23 @@ class BehatHTMLFormatter implements Formatter
      * @var array
      */
     private $parameters;
+    
     /**
      * @var
      */
     private $name;
-
+    
+    /**
+     * @var
+     */
+    private $timer;
+    
+    /**
+     * @var
+     */
+    private $memory;
+    
+    
     /**
      * @param String $outputPath where to save the generated report file
      */
@@ -131,6 +145,9 @@ class BehatHTMLFormatter implements Formatter
     {
         $this->name = $name;
         $this->printer = new FileOutputPrinter($base_path);
+        $this->timer = new Timer();
+        $this->memory = new Memory();
+        
     }
 
     /**
@@ -259,6 +276,9 @@ class BehatHTMLFormatter implements Formatter
      */
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
+    
+        $this->timer->start();
+        
         //creating report file with CSS at head
         $print = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
         <html xmlns ='http://www.w3.org/1999/xhtml'>
@@ -277,6 +297,9 @@ class BehatHTMLFormatter implements Formatter
      */
     public function onAfterExercise(AfterExerciseCompleted $event)
     {
+    
+        $this->timer->stop();
+        
         //--> features results
         $strFeatPassed = '' ;
         if (count($this->passedFeatures) > 0) {
@@ -356,7 +379,7 @@ class BehatHTMLFormatter implements Formatter
                     '.$stepsTotal.' steps ('.$strStepsPassed.$strStepsPending.$strStepsSkipped.$strStepsFailed.' )
                 </p>
                 <p class="time">
-                XmXX.XXXs
+                '.$this->timer.' - '.$this->memory.'
                 </p>
             </div>
             <div class="switchers">
