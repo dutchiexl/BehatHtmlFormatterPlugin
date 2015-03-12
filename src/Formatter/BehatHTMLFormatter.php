@@ -345,6 +345,7 @@ class BehatHTMLFormatter implements Formatter
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
         $this->timer->start();
+        
         $print = $this->renderer->renderBeforeExercise($this) ;
         $this->printer->write($print) ;
     }
@@ -356,6 +357,7 @@ class BehatHTMLFormatter implements Formatter
     {
     
         $this->timer->stop();
+        
         $print = $this->renderer->renderAfterExercise($this) ;
         $this->printer->writeln($print) ;
     }
@@ -368,8 +370,7 @@ class BehatHTMLFormatter implements Formatter
         $this->currentSuite = new Suite();
         $this->currentSuite->setName($event->getSuite()->getName());
         
-        $print = '
-        <div class="suite">Suite : ' . $event->getSuite()->getName() . '</div>';
+        $print = $this->renderer->renderBeforeSuite($this) ;
         $this->printer->writeln($print);
     }
 
@@ -379,6 +380,9 @@ class BehatHTMLFormatter implements Formatter
     public function onAfterSuiteTested(AfterSuiteTested $event)
     {
         $this->suites[] = $this->currentSuite;
+        
+        $print = $this->renderer->renderAfterSuite($this) ;
+        $this->printer->writeln($print);        
     }
 
     /**
@@ -395,25 +399,8 @@ class BehatHTMLFormatter implements Formatter
         $feature->setFile($event->getFeature()->getFile());
         $this->currentFeature = $feature;    
         
-        //feature head
-        $print = '
-        <div class="feature">
-            <h2>
-                <span id="feat'.$this->currentFeature->getId().'" class="keyword"> Feature: </span>
-                <span class="title">' . $this->currentFeature->getName() . '</span>
-            </h2>
-            <p>' . $this->currentFeature->getDescription() . '</p>
-            <ul class="tags">' ;
-        foreach($this->currentFeature->getTags() as $tag) {
-            $print .= '
-                <li>@' . $tag .'</li>' ;
-        }      
-        $print .= '
-            </ul>' ;
-        
-        //TODO path is missing (?)
-        
-        $this->printer->writeln($print);
+        $print = $this->renderer->renderBeforeFeature($this) ;
+        $this->printer->writeln($print);        
     }
 
     /**
@@ -427,23 +414,9 @@ class BehatHTMLFormatter implements Formatter
         } else {
             $this->failedFeatures[] = $this->currentFeature;
         }
-                      
-        //list of results
-        $print = '
-            <div class="featureResult '.$this->currentFeature->getPassedClass().'">Feature has ' . $this->currentFeature->getPassedClass() ;
 
-        //percent only if failed scenarios
-        if ($this->currentFeature->getTotalAmountOfScenarios() > 0 && $this->currentFeature->getPassedClass() === 'failed') {
-            $print .= '
-                <span>Scenarios passed : ' . round($this->currentFeature->getPercentPassed(), 2) . '%, 
-                Scenarios failed : ' . round($this->currentFeature->getPercentFailed(), 2) . '%</span>' ;
-        }
-
-        $print .= '
-            </div>
-        </div>';   
-        
-        $this->printer->writeln($print);
+        $print = $this->renderer->renderAfterFeature($this) ;
+        $this->printer->writeln($print);   
     }
 
     /**
@@ -457,26 +430,7 @@ class BehatHTMLFormatter implements Formatter
         $scenario->setLine($event->getScenario()->getLine());
         $this->currentScenario = $scenario;
 
-        //scenario head
-        $print = '
-            <div class="scenario">
-                <ul class="tags">' ;
-        foreach($scenario->getTags() as $tag) {
-            $print .= '
-                    <li>@' . $tag .'</li>';
-        }         
-        $print .= '
-                </ul>';        
-        
-        $print .= '
-                <h3>
-                    <span class="keyword">' . $scenario->getId() . ' Scenario: </span>
-                    <span class="title">' . $scenario->getName() . '</span>
-                </h3>
-                <ol>' ;
-        
-        //TODO path is missing
-
+        $print = $this->renderer->renderBeforeScenario($this) ;
         $this->printer->writeln($print);
     }
 
@@ -498,10 +452,8 @@ class BehatHTMLFormatter implements Formatter
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
         
-        $print = '
-                </ol>
-            </div>';
-        
+
+        $print = $this->renderer->renderAfterScenario($this) ;
         $this->printer->writeln($print);
     }
 
@@ -515,6 +467,9 @@ class BehatHTMLFormatter implements Formatter
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
         $this->currentScenario = $scenario;
+        
+        $print = $this->renderer->renderBeforeOutline($this) ;
+        $this->printer->writeln($print);        
     }
 
     /**
@@ -534,8 +489,21 @@ class BehatHTMLFormatter implements Formatter
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
+        
+        $print = $this->renderer->renderAfterOutline($this) ;
+        $this->printer->writeln($print);        
     }
 
+    /**
+     * @param BeforeStepTested $event
+     */
+    public function onBeforeStepTested(BeforeStepTested $event)
+    {    
+        $print = $this->renderer->renderBeforeStep($this) ;
+        $this->printer->writeln($print);
+    }    
+    
+    
     /**
      * @param AfterStepTested $event
      */
@@ -576,30 +544,11 @@ class BehatHTMLFormatter implements Formatter
                     $this->passedSteps[] = $step;
                 }
             }         
-        }
-
+        }        
+        
         $this->currentScenario->addStep($step);
         
-        //path displayed only if available (it's not available in undefined steps)
-        $strPath = '' ;
-        if ($step->getDefinition() !== NULL ) {
-            $strPath = $step->getDefinition()->getPath() ;
-        } 
-
-        $print = '
-                    <li class="'.$step->getStatus().'">
-                        <div class="step">
-                            <span class="keyword">' . $step->getKeyWord() . ' </span>
-                            <span class="text">' . $step->getText() . ' </span>
-                            <span class="path">' . $strPath . '</span>
-                        </div>' ;
-        if (!empty($step->getException())) {
-            $print .= '
-                        <pre class="backtrace">' . $step->getException() . '</pre>' ;
-        }
-        $print .=  '
-                    </li>';
-        
+        $print = $this->renderer->renderAfterStep($this) ;
         $this->printer->writeln($print);
     }
 

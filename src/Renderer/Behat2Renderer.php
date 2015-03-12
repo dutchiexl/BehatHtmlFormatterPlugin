@@ -138,12 +138,204 @@ class Behat2Renderer
     
     }
     
+    
     /**
-     * WIP : to include a selected CSS file
+     * Renders before a suite.
      *
-     * @param $file
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */        
+    public function renderBeforeSuite($obj) {
+        $print = '
+        <div class="suite">Suite : ' . $obj->getCurrentSuite()->getName() . '</div>';
+        
+        return $print ;
+    
+    }     
+
+    /**
+     * Renders after a suite.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */     
+    public function renderAfterSuite($obj) {
+        return '' ;
+    } 
+    
+    /**
+     * Renders before a feature.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */        
+    public function renderBeforeFeature($obj) {
+    
+        //feature head
+        $print = '
+        <div class="feature">
+            <h2>
+                <span id="feat'.$obj->getCurrentFeature()->getId().'" class="keyword"> Feature: </span>
+                <span class="title">' . $obj->getCurrentFeature()->getName() . '</span>
+            </h2>
+            <p>' . $obj->getCurrentFeature()->getDescription() . '</p>
+            <ul class="tags">' ;
+        foreach($obj->getCurrentFeature()->getTags() as $tag) {
+            $print .= '
+                <li>@' . $tag .'</li>' ;
+        }      
+        $print .= '
+            </ul>' ;
+        
+        //TODO path is missing (?)
+        
+        return $print ;
+    }     
+
+    /**
+     * Renders after a feature.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */     
+    public function renderAfterFeature($obj) {
+        //list of results
+        $print = '
+            <div class="featureResult '.$obj->getCurrentFeature()->getPassedClass().'">Feature has ' . $obj->getCurrentFeature()->getPassedClass() ;
+
+        //percent only if failed scenarios
+        if ($obj->getCurrentFeature()->getTotalAmountOfScenarios() > 0 && $obj->getCurrentFeature()->getPassedClass() === 'failed') {
+            $print .= '
+                <span>Scenarios passed : ' . round($obj->getCurrentFeature()->getPercentPassed(), 2) . '%, 
+                Scenarios failed : ' . round($obj->getCurrentFeature()->getPercentFailed(), 2) . '%</span>' ;
+        }
+
+        $print .= '
+            </div>
+        </div>'; 
+    
+    
+        return $print ;
+    }    
+
+    /**
+     * Renders before a scenario.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */            
+    public function renderBeforeScenario($obj) {
+        //scenario head
+        $print = '
+            <div class="scenario">
+                <ul class="tags">' ;
+        foreach($obj->getCurrentScenario()->getTags() as $tag) {
+            $print .= '
+                    <li>@' . $tag .'</li>';
+        }         
+        $print .= '
+                </ul>';        
+        
+        $print .= '
+                <h3>
+                    <span class="keyword">' . $obj->getCurrentScenario()->getId() . ' Scenario: </span>
+                    <span class="title">' . $obj->getCurrentScenario()->getName() . '</span>
+                </h3>
+                <ol>' ;
+        
+        //TODO path is missing
+        
+        return $print ;
+    }     
+
+    /**
+     * Renders after a scenario.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */     
+    public function renderAfterScenario($obj) {
+        $print = '
+                </ol>
+            </div>';
+        
+        return $print ;
+    }   
+    
+    /**
+     * Renders before an outline.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */            
+    public function renderBeforeOutline($obj) {
+        return '' ;
+    }
+    
+    /**
+     * Renders after an outline.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */     
+    public function renderAfterOutline($obj) {
+        return '' ;
+    } 
+    
+    /**
+     * Renders before a step.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */        
+    public function renderBeforeStep($obj) {
+
+        return '' ;
+    }
+    
+    /**
+     * Renders after a step.
+     *
+     * @param object   : BehatHTMLFormatter object
+     * @return string  : HTML generated
+     */        
+    public function renderAfterStep($obj) {
+
+        $steps = $obj->getCurrentScenario()->getSteps() ;
+        $step = end($steps) ; //needed because of strict standards
+
+        //path displayed only if available (it's not available in undefined steps)
+        $strPath = '' ;
+        if ($step->getDefinition() !== NULL ) {
+            $strPath = $step->getDefinition()->getPath() ;
+        } 
+
+        $print = '
+                    <li class="'.$step->getStatus().'">
+                        <div class="step">
+                            <span class="keyword">' . $step->getKeyWord() . ' </span>
+                            <span class="text">' . $step->getText() . ' </span>
+                            <span class="path">' . $strPath . '</span>
+                        </div>' ;
+        if (!empty($step->getException())) {
+            $print .= '
+                        <pre class="backtrace">' . $step->getException() . '</pre>' ;
+        }
+        $print .=  '
+                    </li>';    
+                    
+        return $print ;
+    }   
+    
+    
+    
+    
+    /**
+     * To include CSS
+     *
+     * @return string  : HTML generated     
      */
-    public function getCSS($file = '') {
+    public function getCSS() {
     
         return "<style type='text/css'>
                 body {
@@ -472,11 +664,11 @@ class Behat2Renderer
     }
     
     /**
-     * WIP : to include a selected JS file
+     * To include JS
      *
-     * @param $file
-     */    
-    public function getJS($file = '') {
+     * @return string  : HTML generated     
+     */
+    public function getJS() {
     
         return "<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js'></script>
         <script type='text/javascript'>
