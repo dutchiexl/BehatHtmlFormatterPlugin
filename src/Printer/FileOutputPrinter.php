@@ -6,131 +6,123 @@
 
 namespace emuse\BehatHTMLFormatter\Printer;
 
-use Behat\Testwork\Output\Printer\OutputPrinter as PrinterInterface;
 use Behat\Testwork\Output\Exception\BadOutputPathException;
+use Behat\Testwork\Output\Printer\OutputPrinter as PrinterInterface;
 
 
-class FileOutputPrinter implements PrinterInterface
-{
+class FileOutputPrinter implements PrinterInterface {
 
-    /**
-     * @param  $outputPath where to save the generated report file
-     */
-    private $outputPath;
+  /**
+   * @param  $outputPath where to save the generated report file
+   */
+  private $outputPath;
 
-    /**
-     * @param  $base_path Behat base path
-     */
-    private $base_path;
+  /**
+   * @param  $base_path Behat base path
+   */
+  private $base_path;
 
 
-    public function __construct($base_path)
-    {
-        $this->base_path = $base_path;
+  public function __construct($base_path) {
+    $this->base_path = $base_path;
+  }
+
+  /**
+   * Verify that the specified output path exists or can be created,
+   * then sets the output path.
+   *
+   * @param String $path Output path relative to %paths.base%
+   *
+   */
+  public function setOutputPath($path) {
+    $outpath = $path;
+    if (!file_exists($outpath)) {
+      if (!mkdir($outpath, 0755, TRUE)) {
+        throw new BadOutputPathException(
+          sprintf(
+            'Output path %s does not exist and could not be created!',
+            $outpath
+          ),
+          $outpath
+        );
+      }
     }
-
-    /**
-     * Verify that the specified output path exists or can be created,
-     * then sets the output path.
-     *
-     * @param String $path Output path relative to %paths.base%
-     *
-     */
-    public function setOutputPath($path)
-    {
-        $outpath = $path;
-        if (!file_exists($outpath)) {
-            if (!mkdir($outpath, 0755, true))
-                throw new BadOutputPathException(
-                    sprintf(
-                        'Output path %s does not exist and could not be created!',
-                        $outpath
-                    ),
-                    $outpath
-                );
-        } else {
-            if (!is_dir(realpath($outpath))) {
-                throw new BadOutputPathException(
-                    sprintf(
-                        'The argument to `output` is expected to the a directory, but got %s!',
-                        $outpath
-                    ),
-                    $outpath
-                );
-            }
-        }
-        $this->outputPath = $outpath;
+    else {
+      if (!is_dir(realpath($outpath))) {
+        throw new BadOutputPathException(
+          sprintf(
+            'The argument to `output` is expected to the a directory, but got %s!',
+            $outpath
+          ),
+          $outpath
+        );
+      }
     }
+    $this->outputPath = $outpath;
+  }
 
-    /**
-     * Returns output path
-     *
-     * @return String output path
-     */
-    public function getOutputPath()
-    {
-        return $this->outputPath;
-    }
+  /**
+   * Returns output path
+   *
+   * @return String output path
+   */
+  public function getOutputPath() {
+    return $this->outputPath;
+  }
 
-    /**
-     * Sets output styles.
-     *
-     * @param array $styles
-     */
-    public function setOutputStyles(array $styles)
-    {
+  /**
+   * Sets output styles.
+   *
+   * @param array $styles
+   */
+  public function setOutputStyles(array $styles) {
 
-    }
+  }
 
-    /**
-     * Returns output styles.
-     *
-     * @return array
-     */
-    public function getOutputStyles()
-    {
+  /**
+   * Returns output styles.
+   *
+   * @return array
+   */
+  public function getOutputStyles() {
 
-    }
+  }
 
-    /**
-     * Forces output to be decorated.
-     *
-     * @param Boolean $decorated
-     */
-    public function setOutputDecorated($decorated)
-    {
+  /**
+   * Forces output to be decorated.
+   *
+   * @param Boolean $decorated
+   */
+  public function setOutputDecorated($decorated) {
 
-    }
+  }
 
-    /**
-     * Returns output decoration status.
-     *
-     * @return null|Boolean
-     */
-    public function isOutputDecorated()
-    {
-        return true;
-    }
+  /**
+   * Returns output decoration status.
+   *
+   * @return null|Boolean
+   */
+  public function isOutputDecorated() {
+    return TRUE;
+  }
 
-    /**
-     * Sets output verbosity level.
-     *
-     * @param integer $level
-     */
-    public function setOutputVerbosity($level)
-    {
+  /**
+   * Sets output verbosity level.
+   *
+   * @param integer $level
+   */
+  public function setOutputVerbosity($level) {
 
-    }
+  }
 
-    /**
-     * Returns output verbosity level.
-     *
-     * @return integer
-     */
-    public function getOutputVerbosity()
-    {
-
-    }
+  /**
+   * Returns output verbosity level.
+   *
+   * @return integer
+   */
+  public function getOutputVerbosity() {
+  
+  }
 
     /**
      * Writes message(s) to output console.
@@ -141,10 +133,10 @@ class FileOutputPrinter implements PrinterInterface
     {
         $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
         file_put_contents($file, $messages);
+        $this->copyAssets();
     }
     
     
-
     /**
      * Writes newlined message(s) to output console.
      *
@@ -165,14 +157,44 @@ class FileOutputPrinter implements PrinterInterface
         $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
         $fileContents = file_get_contents($file);
         file_put_contents($file, $messages . $fileContents);
-
     }
 
-    /**
-     * Clear output console, so on next write formatter will need to init (create) it again.
-     */
-    public function flush()
-    {
+  /**
+   * Copies the assets folder to the report destination.
+   */
+  public function copyAssets() {
+    // If the assets folder doesn' exist in the output path, copy it
+    $source = realpath(dirname(__FILE__));
+    $assets_source = realpath($source . "/../../assets");
+    $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets';
+    $this->recurse_copy($assets_source, $destination);
+  }
 
+  /**
+   * Recursivly copy a path.
+   * @param $src
+   * @param $dst
+   */
+  private function recurse_copy($src, $dst) {
+    $dir = opendir($src);
+    @mkdir($dst);
+    while (FALSE !== ($file = readdir($dir))) {
+      if (($file != '.') && ($file != '..')) {
+        if (is_dir($src . '/' . $file)) {
+          $this->recurse_copy($src . '/' . $file, $dst . '/' . $file);
+        }
+        else {
+          copy($src . '/' . $file, $dst . '/' . $file);
+        }
+      }
     }
+    closedir($dir);
+  }
+
+  /**
+   * Clear output console, so on next write formatter will need to init (create) it again.
+   */
+  public function flush() {
+
+  }
 }
