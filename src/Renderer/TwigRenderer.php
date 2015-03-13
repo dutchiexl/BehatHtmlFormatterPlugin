@@ -1,45 +1,30 @@
 <?php
 /**
- * Base renderer for Behat report
- * @author DaSayan <glennwall@free.fr>
+ * Twig renderer for Behat report
  */
 
 namespace emuse\BehatHTMLFormatter\Renderer ;
 
-use emuse\BehatHTMLFormatter\Renderer\Behat2Renderer ;
-use emuse\BehatHTMLFormatter\Renderer\TwigRenderer ;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
-class BaseRenderer
+class TwigRenderer
 {
 
-    /**
-     * @var : Renderer(s) asked by config
-     */
-    private $rendererTab;
-
-
-    public function __construct($renderer, $base_path)
+    public function __construct()
     {
-        //Getting the list of the renderers
-        $this->rendererTab = array() ;
-        $rendererList = explode(',' , $renderer) ;
-        foreach($rendererList as $r) {
-            $className = __NAMESPACE__ . '\\' . $r . 'Renderer' ;
-            $this->rendererTab[] = new $className() ; 
-        }
-    }
-
     
+    }
+    
+
     /**
      * Renders before an exercice.
      *
      * @param object   : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */        
+     */    
     public function renderBeforeExercise($obj) {
-        
-        $print = $this->rendererTab[0]->renderBeforeExercise($obj) ;
-        return $print ;
+        return '' ;
     }
     
     /**
@@ -49,9 +34,26 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderAfterExercise($obj) {
-        $print = $this->rendererTab[0]->renderAfterExercise($obj) ;
+    
+        $templatePath = dirname(__FILE__) . '/../../templates';
+        $loader = new Twig_Loader_Filesystem($templatePath);
+        $twig = new Twig_Environment($loader, array());
+        $print = $twig->render('index.html.twig',
+            array(
+                'suites' => $obj->getSuites(),
+                'failedScenarios' => $obj->getFailedScenarios(),
+                'passedScenarios' => $obj->getPassedScenarios(),
+                'failedSteps' => $obj->getFailedSteps(),
+                'passedSteps' => $obj->getPassedSteps(),
+                'failedFeatures' => $obj->getFailedFeatures(),
+                'passedFeatures' => $obj->getPassedFeatures(),
+            )
+        ); 
+        
         return $print ;
-    }    
+    
+    }
+    
     
     /**
      * Renders before a suite.
@@ -60,8 +62,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderBeforeSuite($obj) {
-        $print = $this->rendererTab[0]->renderBeforeSuite($obj) ;
-        return $print ;
+        return '' ;
     }     
 
     /**
@@ -71,8 +72,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterSuite($obj) {
-        $print = $this->rendererTab[0]->renderAfterSuite($obj) ;
-        return $print ;
+        return '' ;
     } 
     
     /**
@@ -82,8 +82,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderBeforeFeature($obj) {
-        $print = $this->rendererTab[0]->renderBeforeFeature($obj) ;
-        return $print ;
+        return '' ;
     }     
 
     /**
@@ -93,8 +92,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterFeature($obj) {
-        $print = $this->rendererTab[0]->renderAfterFeature($obj) ;
-        return $print ;
+        return '' ;
     }    
 
     /**
@@ -104,8 +102,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */            
     public function renderBeforeScenario($obj) {
-        $print = $this->rendererTab[0]->renderBeforeScenario($obj) ;
-        return $print ;
+        return '' ;
     }     
 
     /**
@@ -115,8 +112,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterScenario($obj) {
-        $print = $this->rendererTab[0]->renderAfterScenario($obj) ;
-        return $print ;
+        return '' ;
     }   
     
     /**
@@ -126,8 +122,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */            
     public function renderBeforeOutline($obj) {
-        $print = $this->rendererTab[0]->renderBeforeOutline($obj) ;
-        return $print ;
+        return '' ;
     }
     
     /**
@@ -137,8 +132,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterOutline($obj) {
-        $print = $this->rendererTab[0]->renderAfterOutline($obj) ;
-        return $print ;
+        return '' ;
     } 
     
     /**
@@ -148,8 +142,7 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderBeforeStep($obj) {
-        $print = $this->rendererTab[0]->renderBeforeStep($obj) ;
-        return $print ;
+        return '' ;
     }
     
     /**
@@ -159,7 +152,28 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderAfterStep($obj) {
-        $print = $this->rendererTab[0]->renderAfterStep($obj) ;
-        return $print ;
+        return '' ;
     }   
+    
+    
+    
+    
+    /**
+     * To include CSS
+     *
+     * @return string  : HTML generated     
+     */
+    public function getCSS() {
+        return '' ;
+    
+    }
+    
+    /**
+     * To include JS
+     *
+     * @return string  : HTML generated     
+     */
+    public function getJS() {
+        return '' ;
+    }    
 }
