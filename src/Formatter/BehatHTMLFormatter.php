@@ -152,7 +152,7 @@ class BehatHTMLFormatter implements Formatter
     {
         $this->name = $name;
         $this->renderer = new BaseRenderer($renderer, $base_path);
-        $this->printer = new FileOutputPrinter($base_path);
+        $this->printer = new FileOutputPrinter($renderer, $base_path);
         $this->timer = new Timer();
         $this->memory = new Memory();
         

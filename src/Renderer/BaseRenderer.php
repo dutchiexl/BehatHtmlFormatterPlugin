@@ -22,11 +22,8 @@ class BaseRenderer
     {
         //Getting the list of the renderers
         $this->rendererTab = array() ;
-        $rendererList = explode(',' , $renderer) ;
-        foreach($rendererList as $r) {
-            $className = __NAMESPACE__ . '\\' . $r . 'Renderer' ;
-            $this->rendererTab[] = new $className() ; 
-        }
+        $className = __NAMESPACE__ . '\\' . $renderer . 'Renderer' ;
+        $this->rendererTab[0] = new $className() ;   
     }
 
     
