@@ -12,6 +12,13 @@ use Behat\Testwork\Output\Printer\OutputPrinter as PrinterInterface;
 
 class FileOutputPrinter implements PrinterInterface {
 
+
+    /**
+     * Renderer used
+     * @param $renderer BaseRenderer
+     */
+    private $renderer;  
+    
   /**
    * @param  $outputPath where to save the generated report file
    */
@@ -23,7 +30,8 @@ class FileOutputPrinter implements PrinterInterface {
   private $base_path;
 
 
-  public function __construct($base_path) {
+  public function __construct($renderer, $base_path) {
+    $this->renderer = $renderer;
     $this->base_path = $base_path;
   }
 
@@ -165,7 +173,11 @@ class FileOutputPrinter implements PrinterInterface {
   public function copyAssets() {
     // If the assets folder doesn' exist in the output path, copy it
     $source = realpath(dirname(__FILE__));
-    $assets_source = realpath($source . "/../../assets");
+    $assets_source = realpath($source . '/../../assets/' . $this->renderer);
+    if ($assets_source === false) {
+        //There is no assets to copy for this report format
+        return ;
+    } 
     $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets';
     $this->recurse_copy($assets_source, $destination);
   }
