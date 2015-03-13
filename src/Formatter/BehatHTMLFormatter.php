@@ -518,17 +518,16 @@ class BehatHTMLFormatter implements Formatter
         $step->setLine($event->getStep()->getLine());
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
+        $step->setResultCode($result->getResultCode());
         
         //What is the result of this step ?
         if (is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {
             //pending step -> no definition to load
-            $step->setStatus('pending') ;
             $this->pendingSteps[] = $step;
             
         } else if (is_a($result, 'Behat\Behat\Tester\Result\SkippedStepResult')){
             //skipped step
             $step->setDefinition($result->getStepDefinition());
-            $step->setStatus('skipped') ;
             $this->skippedSteps[] = $step;
         } else {
             //failed or passed
@@ -537,10 +536,8 @@ class BehatHTMLFormatter implements Formatter
                 $exception = $result->getException();
                 if ($exception) {
                     $step->setException($exception->getMessage());
-                    $step->setStatus('failed') ;
                     $this->failedSteps[] = $step;
                 } else {
-                    $step->setStatus('passed') ;
                     $this->passedSteps[] = $step;
                 }
             }         

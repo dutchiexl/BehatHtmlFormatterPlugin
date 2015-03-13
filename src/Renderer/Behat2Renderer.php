@@ -6,7 +6,6 @@
 
 namespace emuse\BehatHTMLFormatter\Renderer ;
 
-
 class Behat2Renderer
 {
 
@@ -309,9 +308,23 @@ class Behat2Renderer
         if ($step->getDefinition() !== NULL ) {
             $strPath = $step->getDefinition()->getPath() ;
         } 
-
+        
+        $stepResultClass = '' ;
+        if ($step->isPassed()) { 
+            $stepResultClass = 'passed' ;
+        }
+        if ($step->isFailed()) { 
+            $stepResultClass = 'failed' ;
+        }
+        if ($step->isSkipped()) { 
+            $stepResultClass = 'skipped' ;
+        }
+        if ($step->isPending()) { 
+            $stepResultClass = 'pending' ;
+        }
+        
         $print = '
-                    <li class="'.$step->getStatus().'">
+                    <li class="'.$stepResultClass.'">
                         <div class="step">
                             <span class="keyword">' . $step->getKeyWord() . ' </span>
                             <span class="text">' . $step->getText() . ' </span>
