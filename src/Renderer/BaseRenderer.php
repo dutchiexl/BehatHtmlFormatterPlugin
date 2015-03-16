@@ -8,6 +8,7 @@ namespace emuse\BehatHTMLFormatter\Renderer ;
 
 use emuse\BehatHTMLFormatter\Renderer\Behat2Renderer ;
 use emuse\BehatHTMLFormatter\Renderer\TwigRenderer ;
+use emuse\BehatHTMLFormatter\Renderer\MinimalRenderer ;
 
 class BaseRenderer
 {
