@@ -152,7 +152,7 @@ class BehatHTMLFormatter implements Formatter
     {
         $this->name = $name;
         $this->renderer = new BaseRenderer($renderer, $base_path);
-        $this->printer = new FileOutputPrinter($renderer, $base_path);
+        $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $base_path);
         $this->timer = new Timer();
         $this->memory = new Memory();
         
@@ -371,7 +371,7 @@ class BehatHTMLFormatter implements Formatter
         $this->currentSuite->setName($event->getSuite()->getName());
         
         $print = $this->renderer->renderBeforeSuite($this) ;
-        $this->printer->writeln($print);
+        $this->printer->writeln($print) ;
     }
 
     /**
