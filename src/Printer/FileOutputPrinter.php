@@ -12,13 +12,6 @@ use Behat\Testwork\Output\Printer\OutputPrinter as PrinterInterface;
 
 class FileOutputPrinter implements PrinterInterface {
 
-
-    /**
-     * Renderer used
-     * @param $renderer BaseRenderer
-     */
-    private $renderer;  
-    
   /**
    * @param  $outputPath where to save the generated report file
    */
@@ -28,10 +21,20 @@ class FileOutputPrinter implements PrinterInterface {
    * @param  $base_path Behat base path
    */
   private $base_path;
+  
+  /**
+   * @param  $rendererFiles List of the filenames for the renderers
+   */
+  private $rendererFiles; 
 
-
-  public function __construct($renderer, $base_path) {
-    $this->renderer = $renderer;
+  public function __construct($rendererList, $base_path) {
+    //let's generate the filenames for the renderers
+    $this->rendererFiles = array() ;
+    foreach($rendererList as $renderer) {
+        $date = date('YmdHis') ;
+        $this->rendererFiles[$renderer] = $renderer . '_' . $date ;
+    }
+    
     $this->base_path = $base_path;
   }
 
@@ -137,11 +140,14 @@ class FileOutputPrinter implements PrinterInterface {
      *
      * @param string|array $messages message or array of messages
      */
-    public function write($messages = '')
+    public function write($messages = array())
     {
-        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
-        file_put_contents($file, $messages);
-        $this->copyAssets();
+        //Write it for each message = each renderer
+        foreach($messages as $key => $message) {
+            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key]. '.html';
+            file_put_contents($file, $message);
+            $this->copyAssets($key) ;
+        }
     }
     
     
@@ -150,10 +156,13 @@ class FileOutputPrinter implements PrinterInterface {
      *
      * @param string|array $messages message or array of messages
      */
-    public function writeln($messages = '')
+    public function writeln($messages = array())
     {
-        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
-        file_put_contents($file, $messages, FILE_APPEND);
+        //Write it for each message = each renderer
+        foreach($messages as $key => $message) {
+            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key]. '.html';
+            file_put_contents($file, $message, FILE_APPEND);
+        }
     }
     
     /**
@@ -161,25 +170,35 @@ class FileOutputPrinter implements PrinterInterface {
      *
      * @param string|array $messages message or array of messages
      */
-    public function writeBeginning($messages = '') {
-        $file = $this->outputPath . DIRECTORY_SEPARATOR . 'report.html';
-        $fileContents = file_get_contents($file);
-        file_put_contents($file, $messages . $fileContents);
+    public function writeBeginning($messages = array()) {
+    
+        //Write it for each message = each renderer
+        foreach($messages as $key => $message) {
+            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key]. '.html';
+            $fileContents = file_get_contents($file);
+            file_put_contents($file, $message . $fileContents);
+        }
     }
 
   /**
    * Copies the assets folder to the report destination.
+   *
+   * @param string : the renderer
    */
-  public function copyAssets() {
-    // If the assets folder doesn' exist in the output path, copy it
+  public function copyAssets($renderer) {
+    // If the assets folder doesn' exist in the output path for this renderer, copy it
     $source = realpath(dirname(__FILE__));
-    $assets_source = realpath($source . '/../../assets/' . $this->renderer);
+    $assets_source = realpath($source . '/../../assets/' . $renderer);
     if ($assets_source === false) {
-        //There is no assets to copy for this report format
+        //There is no assets to copy for this renderer
         return ;
     } 
-    $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets';
-    $this->recurse_copy($assets_source, $destination);
+    
+    //first create the assets dir
+    $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets' ;
+    @mkdir($destination) ;
+    
+    $this->recurse_copy($assets_source, $destination . DIRECTORY_SEPARATOR . $renderer);
   }
 
   /**

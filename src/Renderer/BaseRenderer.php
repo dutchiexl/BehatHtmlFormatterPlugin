@@ -11,19 +11,46 @@ use emuse\BehatHTMLFormatter\Renderer\TwigRenderer ;
 
 class BaseRenderer
 {
-
+    
     /**
-     * @var : Renderer(s) asked by config
+     * @var : List of the renderer names
+     */    
+    private $nameList ;
+    
+    /**
+     * @var : List of the renderer objects
      */
-    private $rendererTab;
-
-
+    private $rendererList;
+    
+    
+    /**
+     * Constructor : load the renderers
+     *
+     * @param string : list of the renderer
+     * @param string : base_path
+     */
     public function __construct($renderer, $base_path)
     {
-        //Getting the list of the renderers
-        $this->rendererTab = array() ;
-        $className = __NAMESPACE__ . '\\' . $renderer . 'Renderer' ;
-        $this->rendererTab[0] = new $className() ;   
+        $rendererListTmp = explode(',', $renderer) ;
+        
+        $this->nameList = array() ;
+        $this->rendererList = array() ;
+        
+        //let's load the renderer dynamically
+        foreach($rendererListTmp as $r) {
+            $this->nameList[] = $r ;
+            $className = __NAMESPACE__ . '\\' . $r . 'Renderer' ;
+            $this->rendererList[$r] = new $className() ;  
+        }
+    }
+    
+    /**
+     * Return the list of the name of the renderers
+     *
+     * @return array
+     */
+    public function getNameList() {
+        return $this->nameList ;
     }
 
     
@@ -35,7 +62,10 @@ class BaseRenderer
      */        
     public function renderBeforeExercise($obj) {
         
-        $print = $this->rendererTab[0]->renderBeforeExercise($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {
+            $print[$name] = $renderer->renderBeforeExercise($obj) ;
+        }
         return $print ;
     }
     
@@ -46,7 +76,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderAfterExercise($obj) {
-        $print = $this->rendererTab[0]->renderAfterExercise($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderAfterExercise($obj) ;
+        }
         return $print ;
     }    
     
@@ -57,7 +90,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderBeforeSuite($obj) {
-        $print = $this->rendererTab[0]->renderBeforeSuite($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderBeforeSuite($obj) ;
+        }
         return $print ;
     }     
 
@@ -68,7 +104,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterSuite($obj) {
-        $print = $this->rendererTab[0]->renderAfterSuite($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderAfterSuite($obj) ;
+        }
         return $print ;
     } 
     
@@ -79,7 +118,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderBeforeFeature($obj) {
-        $print = $this->rendererTab[0]->renderBeforeFeature($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderBeforeFeature($obj) ;
+        }
         return $print ;
     }     
 
@@ -90,7 +132,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterFeature($obj) {
-        $print = $this->rendererTab[0]->renderAfterFeature($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderAfterFeature($obj) ;
+        }
         return $print ;
     }    
 
@@ -101,7 +146,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */            
     public function renderBeforeScenario($obj) {
-        $print = $this->rendererTab[0]->renderBeforeScenario($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderBeforeScenario($obj) ;
+        }
         return $print ;
     }     
 
@@ -112,7 +160,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterScenario($obj) {
-        $print = $this->rendererTab[0]->renderAfterScenario($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderAfterScenario($obj) ;
+        }
         return $print ;
     }   
     
@@ -123,7 +174,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */            
     public function renderBeforeOutline($obj) {
-        $print = $this->rendererTab[0]->renderBeforeOutline($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderBeforeOutline($obj) ;
+        }
         return $print ;
     }
     
@@ -134,7 +188,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */     
     public function renderAfterOutline($obj) {
-        $print = $this->rendererTab[0]->renderAfterOutline($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderAfterOutline($obj) ;
+        }
         return $print ;
     } 
     
@@ -145,7 +202,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderBeforeStep($obj) {
-        $print = $this->rendererTab[0]->renderBeforeStep($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderBeforeStep($obj) ;
+        }
         return $print ;
     }
     
@@ -156,7 +216,10 @@ class BaseRenderer
      * @return string  : HTML generated
      */        
     public function renderAfterStep($obj) {
-        $print = $this->rendererTab[0]->renderAfterStep($obj) ;
+        $print = array() ;
+        foreach($this->rendererList as $name => $renderer) {    
+            $print[$name] = $renderer->renderAfterStep($obj) ;
+        }
         return $print ;
     }   
 }
