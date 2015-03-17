@@ -23,7 +23,7 @@ The *renderer* is the renderer engine and the report format that you want to be 
 
 Actually, there is 3 formats :
 
-- **Twig** : new report format based on Twig
+- **Twig** : new report format based on Twig, **requires Twig installed**
 - **Behat2** : like Behat 2 HTML report
 - **Minimal** : ultra minimal...
 
