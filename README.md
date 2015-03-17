@@ -48,6 +48,6 @@ Twig :
 <img src="http://i.imgur.com/o0zCqiB.png"></img>
 
 Behat2 :
-<img src="http://i59.tinypic.com/iviuf6.png"></img>
+<img src="http://i57.tinypic.com/287g942.jpg"></img>
 
 
