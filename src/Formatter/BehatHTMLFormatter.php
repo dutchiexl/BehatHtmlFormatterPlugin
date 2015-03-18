@@ -10,6 +10,8 @@ use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\BeforeOutlineTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
+use Behat\Testwork\Counter\Memory;
+use Behat\Testwork\Counter\Timer;
 use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
@@ -21,9 +23,9 @@ use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
 use emuse\BehatHTMLFormatter\Classes\Suite;
+use emuse\BehatHTMLFormatter\Renderer\BaseRenderer;
 use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+
 
 /**
  * Class BehatHTMLFormatter
@@ -37,11 +39,23 @@ class BehatHTMLFormatter implements Formatter
      * @var array
      */
     private $parameters;
+    
     /**
      * @var
      */
     private $name;
-
+    
+    /**
+     * @var
+     */
+    private $timer;
+    
+    /**
+     * @var
+     */
+    private $memory;
+    
+    
     /**
      * @param String $outputPath where to save the generated report file
      */
@@ -51,12 +65,18 @@ class BehatHTMLFormatter implements Formatter
      * @param String $base_path Behat base path
      */
     private $base_path;
-
+    
     /**
      * Printer used by this Formatter
      * @param $printer OutputPrinter
      */
-    private $printer;
+    private $printer;      
+    
+    /**
+     * Renderer used by this Formatter
+     * @param $renderer BaseRenderer
+     */
+    private $renderer;    
 
     /**
      * @var Array
@@ -111,6 +131,16 @@ class BehatHTMLFormatter implements Formatter
      * @var Step[]
      */
     private $passedSteps;
+    
+    /**
+     * @var Step[]
+     */
+    private $pendingSteps;
+    
+    /**
+     * @var Step[]
+     */
+    private $skippedSteps;
     //</editor-fold>
 
     //<editor-fold desc="Formatter functions">
@@ -118,10 +148,14 @@ class BehatHTMLFormatter implements Formatter
      * @param $name
      * @param $base_path
      */
-    function __construct($name, $base_path)
+    function __construct($name, $renderer, $base_path)
     {
         $this->name = $name;
-        $this->printer = new FileOutputPrinter($base_path);
+        $this->renderer = new BaseRenderer($renderer, $base_path);
+        $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $base_path);
+        $this->timer = new Timer();
+        $this->memory = new Memory();
+        
     }
 
     /**
@@ -191,7 +225,6 @@ class BehatHTMLFormatter implements Formatter
      * Returns parameter name.
      *
      * @param string $name
-     *
      * @return mixed
      */
     public function getParameter($name)
@@ -241,6 +274,67 @@ class BehatHTMLFormatter implements Formatter
     {
         return $this->outputPath;
     }
+    
+    public function getTimer(){
+        return $this->timer;
+    }    
+    
+    public function getMemory(){
+        return $this->memory;
+    }    
+    
+    public function getSuites(){
+        return $this->suites;
+    }
+
+    public function getCurrentSuite(){
+        return $this->currentSuite;
+    }
+
+    public function getFeatureCounter(){
+        return $this->featureCounter;
+    }
+
+    public function getCurrentFeature(){
+        return $this->currentFeature;
+    }
+
+    public function getCurrentScenario(){
+        return $this->currentScenario;
+    }
+
+    public function getFailedScenarios(){
+        return $this->failedScenarios;
+    }
+
+    public function getPassedScenarios(){
+        return $this->passedScenarios;
+    }
+
+    public function getFailedFeatures(){
+        return $this->failedFeatures;
+    }
+
+    public function getPassedFeatures(){
+        return $this->passedFeatures;
+    }
+
+    public function getFailedSteps(){
+        return $this->failedSteps;
+    }
+
+    public function getPassedSteps(){
+        return $this->passedSteps;
+    }
+
+    public function getPendingSteps(){
+        return $this->pendingSteps;
+    }
+
+    public function getSkippedSteps(){
+        return $this->skippedSteps;
+    }
+
 
     //</editor-fold>
 
@@ -250,6 +344,10 @@ class BehatHTMLFormatter implements Formatter
      */
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
+        $this->timer->start();
+        
+        $print = $this->renderer->renderBeforeExercise($this) ;
+        $this->printer->write($print) ;
     }
 
     /**
@@ -257,7 +355,11 @@ class BehatHTMLFormatter implements Formatter
      */
     public function onAfterExercise(AfterExerciseCompleted $event)
     {
-        $this->createReport();
+    
+        $this->timer->stop();
+        
+        $print = $this->renderer->renderAfterExercise($this) ;
+        $this->printer->writeln($print) ;
     }
 
     /**
@@ -267,6 +369,9 @@ class BehatHTMLFormatter implements Formatter
     {
         $this->currentSuite = new Suite();
         $this->currentSuite->setName($event->getSuite()->getName());
+        
+        $print = $this->renderer->renderBeforeSuite($this) ;
+        $this->printer->writeln($print) ;
     }
 
     /**
@@ -275,6 +380,9 @@ class BehatHTMLFormatter implements Formatter
     public function onAfterSuiteTested(AfterSuiteTested $event)
     {
         $this->suites[] = $this->currentSuite;
+        
+        $print = $this->renderer->renderAfterSuite($this) ;
+        $this->printer->writeln($print);        
     }
 
     /**
@@ -289,7 +397,10 @@ class BehatHTMLFormatter implements Formatter
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
-        $this->currentFeature = $feature;
+        $this->currentFeature = $feature;    
+        
+        $print = $this->renderer->renderBeforeFeature($this) ;
+        $this->printer->writeln($print);        
     }
 
     /**
@@ -303,6 +414,9 @@ class BehatHTMLFormatter implements Formatter
         } else {
             $this->failedFeatures[] = $this->currentFeature;
         }
+
+        $print = $this->renderer->renderAfterFeature($this) ;
+        $this->printer->writeln($print);   
     }
 
     /**
@@ -315,6 +429,9 @@ class BehatHTMLFormatter implements Formatter
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
         $this->currentScenario = $scenario;
+
+        $print = $this->renderer->renderBeforeScenario($this) ;
+        $this->printer->writeln($print);
     }
 
     /**
@@ -334,6 +451,10 @@ class BehatHTMLFormatter implements Formatter
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
+        
+
+        $print = $this->renderer->renderAfterScenario($this) ;
+        $this->printer->writeln($print);
     }
 
     /**
@@ -346,6 +467,9 @@ class BehatHTMLFormatter implements Formatter
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
         $this->currentScenario = $scenario;
+        
+        $print = $this->renderer->renderBeforeOutline($this) ;
+        $this->printer->writeln($print);        
     }
 
     /**
@@ -365,8 +489,21 @@ class BehatHTMLFormatter implements Formatter
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
+        
+        $print = $this->renderer->renderAfterOutline($this) ;
+        $this->printer->writeln($print);        
     }
 
+    /**
+     * @param BeforeStepTested $event
+     */
+    public function onBeforeStepTested(BeforeStepTested $event)
+    {    
+        $print = $this->renderer->renderBeforeStep($this) ;
+        $this->printer->writeln($print);
+    }    
+    
+    
     /**
      * @param AfterStepTested $event
      */
@@ -382,47 +519,34 @@ class BehatHTMLFormatter implements Formatter
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
-
-        if ($result instanceof ExecutedStepResult) {
+        
+        //What is the result of this step ?
+        if (is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {
+            //pending step -> no definition to load
+            $this->pendingSteps[] = $step;
+            
+        } else if (is_a($result, 'Behat\Behat\Tester\Result\SkippedStepResult')){
+            //skipped step
             $step->setDefinition($result->getStepDefinition());
-            $exception = $result->getException();
-            if ($exception) {
-                $step->setException($exception->getMessage());
-                $this->failedSteps[] = $step;
-            } else {
-                $this->passedSteps[] = $step;
-            }
-        }
-
+            $this->skippedSteps[] = $step;
+        } else {
+            //failed or passed
+            if ($result instanceof ExecutedStepResult) {
+                $step->setDefinition($result->getStepDefinition());
+                $exception = $result->getException();
+                if ($exception) {
+                    $step->setException($exception->getMessage());
+                    $this->failedSteps[] = $step;
+                } else {
+                    $this->passedSteps[] = $step;
+                }
+            }         
+        }        
+        
         $this->currentScenario->addStep($step);
-    }
-    //</editor-fold>
-
-    /**
-     * Generate the final html output file from the tests results
-     * and save it to the location specified in $output
-     *
-     * @return void
-     */
-    public function createReport()
-    {
-        $templatePath = dirname(__FILE__) . '/../../templates';
-        $loader = new Twig_Loader_Filesystem($templatePath);
-        $twig = new Twig_Environment($loader, array());
-
-        $test = $twig->render('index.html.twig',
-            array(
-                'suites' => $this->suites,
-                'failedScenarios' => $this->failedScenarios,
-                'passedScenarios' => $this->passedScenarios,
-                'failedSteps' => $this->failedSteps,
-                'passedSteps' => $this->passedSteps,
-                'failedFeatures' => $this->failedFeatures,
-                'passedFeatures' => $this->passedFeatures,
-            )
-        );
-
-        $this->printer->write($test);
+        
+        $print = $this->renderer->renderAfterStep($this) ;
+        $this->printer->writeln($print);
     }
 
     /**
@@ -432,4 +556,5 @@ class BehatHTMLFormatter implements Formatter
     {
         file_put_contents('php://stdout', $text);
     }
+    
 }
