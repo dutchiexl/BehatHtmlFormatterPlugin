@@ -15,11 +15,14 @@ formatters:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
         name: html
         renderer: Twig,Behat2
+        file_name: Index
 </pre>
 
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
 
 The *renderer* is the renderer engine and the report format that you want to be generated.
+
+The *file_name* is optional. When it is added, the report name will be fixed instead fo generated, and this file will be overwritten with every build.
 
 Actually, there is 3 formats :
 

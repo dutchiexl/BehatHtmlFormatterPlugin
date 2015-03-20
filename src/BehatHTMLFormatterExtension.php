@@ -12,68 +12,65 @@ use Symfony\Component\DependencyInjection\Definition;
  * Class BehatHTMLFormatterExtension
  * @package Features\Formatter
  */
-class BehatHTMLFormatterExtension implements ExtensionInterface
-{
-    /**
-     * You can modify the container here before it is dumped to PHP code.
-     *
-     * @param ContainerBuilder $container
-     *
-     * @api
-     */
-    public function process(ContainerBuilder $container)
-    {
-    }
+class BehatHTMLFormatterExtension implements ExtensionInterface {
+  /**
+   * You can modify the container here before it is dumped to PHP code.
+   *
+   * @param ContainerBuilder $container
+   *
+   * @api
+   */
+  public function process(ContainerBuilder $container) {
+  }
 
-    /**
-     * Returns the extension config key.
-     *
-     * @return string
-     */
-    public function getConfigKey()
-    {
-        return "emusehtml";
-    }
+  /**
+   * Returns the extension config key.
+   *
+   * @return string
+   */
+  public function getConfigKey() {
+    return "emusehtml";
+  }
 
-    /**
-     * Initializes other extensions.
-     *
-     * This method is called immediately after all extensions are activated but
-     * before any extension `configure()` method is called. This allows extensions
-     * to hook into the configuration of other extensions providing such an
-     * extension point.
-     *
-     * @param ExtensionManager $extensionManager
-     */
-    public function initialize(ExtensionManager $extensionManager)
-    {
-    }
+  /**
+   * Initializes other extensions.
+   *
+   * This method is called immediately after all extensions are activated but
+   * before any extension `configure()` method is called. This allows extensions
+   * to hook into the configuration of other extensions providing such an
+   * extension point.
+   *
+   * @param ExtensionManager $extensionManager
+   */
+  public function initialize(ExtensionManager $extensionManager) {
+  }
 
-    /**
-     * Setups configuration for the extension.
-     *
-     * @param ArrayNodeDefinition $builder
-     */
-    public function configure(ArrayNodeDefinition $builder)
-    {
-        $builder->children()->scalarNode("name")->defaultValue("emusehtml");
-        $builder->children()->scalarNode("renderer")->defaultValue("behat2");
-        $builder->children()->scalarNode('output')->defaultValue('.');
-    }
+  /**
+   * Setups configuration for the extension.
+   *
+   * @param ArrayNodeDefinition $builder
+   */
+  public function configure(ArrayNodeDefinition $builder) {
+    $builder->children()->scalarNode("name")->defaultValue("emusehtml");
+    $builder->children()->scalarNode("renderer")->defaultValue("behat2");
+    $builder->children()->scalarNode("file_name")->defaultValue("generated");
+    $builder->children()->scalarNode('output')->defaultValue('.');
+  }
 
-    /**
-     * Loads extension services into temporary container.
-     *
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    public function load(ContainerBuilder $container, array $config)
-    {
-        $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
-        $definition->addArgument($config['name']);
-        $definition->addArgument($config['renderer']);
-        $definition->addArgument('%paths.base%');
-        $container->setDefinition("html.formatter", $definition)
-            ->addTag("output.formatter");
-    }
+  /**
+   * Loads extension services into temporary container.
+   *
+   * @param ContainerBuilder $container
+   * @param array $config
+   */
+  public function load(ContainerBuilder $container, array $config) {
+    $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
+    $definition->addArgument($config['name']);
+    $definition->addArgument($config['renderer']);
+    $definition->addArgument($config['file_name']);
+
+    $definition->addArgument('%paths.base%');
+    $container->setDefinition("html.formatter", $definition)
+      ->addTag("output.formatter");
+  }
 }
