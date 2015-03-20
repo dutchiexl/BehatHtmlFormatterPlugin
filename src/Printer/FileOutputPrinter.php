@@ -21,20 +21,30 @@ class FileOutputPrinter implements PrinterInterface {
    * @param  $base_path Behat base path
    */
   private $base_path;
-  
+
   /**
    * @param  $rendererFiles List of the filenames for the renderers
    */
-  private $rendererFiles; 
+  private $rendererFiles;
 
-  public function __construct($rendererList, $base_path) {
+  /**
+   * @param $rendererList
+   * @param $filename
+   * @param $base_path
+   */
+  public function __construct($rendererList, $filename, $base_path) {
     //let's generate the filenames for the renderers
-    $this->rendererFiles = array() ;
-    foreach($rendererList as $renderer) {
-        $date = date('YmdHis') ;
-        $this->rendererFiles[$renderer] = $renderer . '_' . $date ;
+    $this->rendererFiles = array();
+    foreach ($rendererList as $renderer) {
+      if ($filename == 'generated') {
+        $date = date('YmdHis');
+        $this->rendererFiles[$renderer] = $renderer . '_' . $date;
+      }
+      else{
+        $this->rendererFiles[$renderer] = $filename;
+      }
     }
-    
+
     $this->base_path = $base_path;
   }
 
@@ -132,53 +142,51 @@ class FileOutputPrinter implements PrinterInterface {
    * @return integer
    */
   public function getOutputVerbosity() {
-  
+
   }
 
-    /**
-     * Writes message(s) to output console.
-     *
-     * @param string|array $messages message or array of messages
-     */
-    public function write($messages = array())
-    {
-        //Write it for each message = each renderer
-        foreach($messages as $key => $message) {
-            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key]. '.html';
-            file_put_contents($file, $message);
-            $this->copyAssets($key) ;
-        }
+  /**
+   * Writes message(s) to output console.
+   *
+   * @param string|array $messages message or array of messages
+   */
+  public function write($messages = array()) {
+    //Write it for each message = each renderer
+    foreach ($messages as $key => $message) {
+      $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key] . '.html';
+      file_put_contents($file, $message);
+      $this->copyAssets($key);
     }
-    
-    
-    /**
-     * Writes newlined message(s) to output console.
-     *
-     * @param string|array $messages message or array of messages
-     */
-    public function writeln($messages = array())
-    {
-        //Write it for each message = each renderer
-        foreach($messages as $key => $message) {
-            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key]. '.html';
-            file_put_contents($file, $message, FILE_APPEND);
-        }
+  }
+
+
+  /**
+   * Writes newlined message(s) to output console.
+   *
+   * @param string|array $messages message or array of messages
+   */
+  public function writeln($messages = array()) {
+    //Write it for each message = each renderer
+    foreach ($messages as $key => $message) {
+      $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key] . '.html';
+      file_put_contents($file, $message, FILE_APPEND);
     }
-    
-    /**
-     * Writes  message(s) at start of the output console.
-     *
-     * @param string|array $messages message or array of messages
-     */
-    public function writeBeginning($messages = array()) {
-    
-        //Write it for each message = each renderer
-        foreach($messages as $key => $message) {
-            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key]. '.html';
-            $fileContents = file_get_contents($file);
-            file_put_contents($file, $message . $fileContents);
-        }
+  }
+
+  /**
+   * Writes  message(s) at start of the output console.
+   *
+   * @param string|array $messages message or array of messages
+   */
+  public function writeBeginning($messages = array()) {
+
+    //Write it for each message = each renderer
+    foreach ($messages as $key => $message) {
+      $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key] . '.html';
+      $fileContents = file_get_contents($file);
+      file_put_contents($file, $message . $fileContents);
     }
+  }
 
   /**
    * Copies the assets folder to the report destination.
@@ -189,15 +197,15 @@ class FileOutputPrinter implements PrinterInterface {
     // If the assets folder doesn' exist in the output path for this renderer, copy it
     $source = realpath(dirname(__FILE__));
     $assets_source = realpath($source . '/../../assets/' . $renderer);
-    if ($assets_source === false) {
-        //There is no assets to copy for this renderer
-        return ;
-    } 
-    
+    if ($assets_source === FALSE) {
+      //There is no assets to copy for this renderer
+      return;
+    }
+
     //first create the assets dir
-    $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets' ;
-    @mkdir($destination) ;
-    
+    $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets';
+    @mkdir($destination);
+
     $this->recurse_copy($assets_source, $destination . DIRECTORY_SEPARATOR . $renderer);
   }
 
