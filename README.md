@@ -16,6 +16,7 @@ formatters:
         name: html
         renderer: Twig,Behat2
         file_name: Index
+        print_table: true
 </pre>
 
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
@@ -23,6 +24,8 @@ The *output* parameter is relative to %paths.base% and, when omitted, will defau
 The *renderer* is the renderer engine and the report format that you want to be generated.
 
 The *file_name* is optional. When it is added, the report name will be fixed instead fo generated, and this file will be overwritten with every build.
+
+The *print_args* is optional. When it is added, the report will contain the arguments for each step if exists. (e.g. Tables) 
 
 Actually, there is 3 formats :
 
@@ -39,11 +42,10 @@ File names have this format : *"renderer name"*_*"date hour"*
 To be done:
 ========================
 
-1. Store previous runs --> Done
-2. Add parameters for behat.yml file
-3. Add bootstrap as dependency
-4. clean up html report
-5. Add out parameter
+1. Add parameters for behat.yml file
+2. Add bootstrap as dependency
+3. clean up html report
+4. Add out parameter
 
 =========================
 
