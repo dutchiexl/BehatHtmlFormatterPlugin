@@ -78,6 +78,12 @@ class BehatHTMLFormatter implements Formatter {
   private $renderer;
 
   /**
+   * Flag used by this Formatter
+   * @param $print_args boolean
+   */
+  private $print_args;
+
+  /**
    * @var Array
    */
   private $suites;
@@ -147,13 +153,13 @@ class BehatHTMLFormatter implements Formatter {
    * @param $name
    * @param $base_path
    */
-  function __construct($name, $renderer, $filename, $base_path) {
+  function __construct($name, $renderer, $filename, $print_args, $base_path) {
     $this->name = $name;
+    $this->print_args = $print_args;
     $this->renderer = new BaseRenderer($renderer, $base_path);
     $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
     $this->timer = new Timer();
     $this->memory = new Memory();
-
   }
 
   /**
@@ -265,6 +271,15 @@ class BehatHTMLFormatter implements Formatter {
    */
   public function getOutputPath() {
     return $this->outputPath;
+  }
+
+  /**
+   * Returns if it should print the step arguments
+   *
+   * @return boolean
+   */
+  public function getPrintArguments() {
+    return $this->print_args;
   }
 
   public function getTimer() {
