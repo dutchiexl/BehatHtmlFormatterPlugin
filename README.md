@@ -16,7 +16,7 @@ formatters:
         name: html
         renderer: Twig,Behat2
         file_name: Index
-        print_table: true
+        print_args: true
 </pre>
 
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
