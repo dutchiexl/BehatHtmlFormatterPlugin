@@ -17,6 +17,7 @@ formatters:
         renderer: Twig,Behat2
         file_name: Index
         print_args: true
+        loop_break: true
 </pre>
 
 The *output* parameter is relative to %paths.base% and, when omitted, will default to that same path.
@@ -24,8 +25,6 @@ The *output* parameter is relative to %paths.base% and, when omitted, will defau
 The *renderer* is the renderer engine and the report format that you want to be generated.
 
 The *file_name* is optional. When it is added, the report name will be fixed instead fo generated, and this file will be overwritten with every build.
-
-The *print_args* is optional. When it is added, the report will contain the arguments for each step if exists. (e.g. Tables) 
 
 Actually, there is 3 formats :
 
@@ -39,6 +38,12 @@ You can combine formats to generate multiple reports with multiple formats at on
 
 File names have this format : *"renderer name"*_*"date hour"*
 
+**Twig renderer only parameters:**
+
+The *print_args* is optional. When it is added, the report will contain the arguments for each step if exists. (e.g. Tables) 
+
+The *loop_break* is optional. When it is added, Scenario Outlines printed to the report will have a break line separating the executions
+
 To be done:
 ========================
 
@@ -47,12 +52,15 @@ To be done:
 3. clean up html report
 4. Add out parameter
 
+Screenshots
 =========================
 
 Twig :
+
 <img src="http://i.imgur.com/o0zCqiB.png"></img>
 
 Behat2 :
+
 <img src="http://i57.tinypic.com/287g942.jpg"></img>
 
 
