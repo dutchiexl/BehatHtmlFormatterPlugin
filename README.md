@@ -42,7 +42,9 @@ File names have this format : *"renderer name"*_*"date hour"*
 
 The *print_args* is optional. When it is added, the report will contain the arguments for each step if exists. (e.g. Tables) 
 
-The *loop_break* is optional. When it is added, Scenario Outlines printed to the report will have a break line separating the executions
+The *print_outp* is optional. When it is added, the report will contain the output of each step if exists. (e.g. Exceptions) 
+
+The *loop_break* is optional. When it is added, Scenario Outlines printed to the report will have a break line separating the executions.
 
 To be done:
 ========================
