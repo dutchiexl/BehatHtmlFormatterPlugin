@@ -18,6 +18,7 @@ class Scenario
     private $name;
     private $line;
     private $tags;
+    private $loopCount;
 
     /**
      * @var bool
@@ -45,6 +46,21 @@ class Scenario
         $this->name = $name;
     }
 
+    /**
+     * @return int
+     */
+    public function getLoopCount()
+    {
+        return $this->loopCount;
+    }
+
+    /**
+     * @param int $loopCount
+     */
+    public function setLoopCount($loopCount)
+    {
+        $this->loopCount = $loopCount;
+    }
     /**
      * @return mixed
      */
@@ -131,5 +147,11 @@ class Scenario
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function getLoopSize()
+    {
+        //behat
+        return $this->loopCount > 0 ? sizeof($this->steps)/$this->loopCount : sizeof($this->steps);
     }
 }

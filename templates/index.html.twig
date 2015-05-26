@@ -193,6 +193,9 @@
                                                     <br>
                                                 <p style="padding-left:2em ; color:gray">({{ step.exception }})</p>
                                                 {% endif %}
+                                                {% if printLoopBreak is not null and ( loop.index % scenario.getLoopSize ) == 0 and loop.last != true  %}
+                                                    </li><li class="list-group-item break">
+                                                {% endif %}
                                             </li>
                                             {#<div class="bs-callout bs-callout-{% if step.passed %}success{% else %}danger{% endif %}" id="callout-collapse-accessibility">#}
                                             {#<b>{{ step.keyword }}</b> {{ step.text }}#}
