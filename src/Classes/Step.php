@@ -19,6 +19,7 @@ class Step
     private $result;
     private $resultCode;
     private $exception;
+    private $output;
     private $definition;
 
     /**
@@ -131,6 +132,22 @@ class Step
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    /**
+     * @param mixed $output
+     */
+    public function setOutput($output)
+    {
+        $this->output = $output;
     }
 
     /**

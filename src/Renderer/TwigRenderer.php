@@ -47,6 +47,8 @@ class TwigRenderer
                 'failedFeatures' => $obj->getFailedFeatures(),
                 'passedFeatures' => $obj->getPassedFeatures(),
                 'printStepArgs' => $obj->getPrintArguments(),
+                'printStepOuts' => $obj->getPrintOutputs(),
+                'printLoopBreak' => $obj->getPrintLoopBreak(),
             )
         );
 
