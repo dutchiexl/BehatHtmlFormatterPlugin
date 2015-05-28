@@ -17,6 +17,7 @@ formatters:
         renderer: Twig,Behat2
         file_name: Index
         print_args: true
+        print_outp: true
         loop_break: true
 </pre>
 
