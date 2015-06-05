@@ -11,7 +11,7 @@ Add this to your behat.yml file:
 formatters:
     html:
         output_path: %paths.base%/build/html/behat
-  extensions:
+extensions:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
         name: html
         renderer: Twig,Behat2
