@@ -330,7 +330,8 @@ class Behat2Renderer
                             <span class="text">' . $step->getText() . ' </span>
                             <span class="path">' . $strPath . '</span>
                         </div>' ;
-        if (!empty($step->getException())) {
+        $exception = $step->getException();
+        if (!empty($exception)) {
             $print .= '
                         <pre class="backtrace">' . $step->getException() . '</pre>' ;
         }
