@@ -46,7 +46,7 @@ Add BehatHtmlFormatterPlugin to the list of dependencies inside your `composer.j
 {
     "require": {
         "behat/behat": "3.*@stable",
-        "emuser/behat-html-formatter": "0.1.*",
+        "emuse/behat-html-formatter": "0.1.*",
     },
     "minimum-stability": "dev",
     "config": {
@@ -83,7 +83,7 @@ default:
       renderer: Twig,Behat2
       file_name: Index
       print_args: true
-      print_otup: true
+      print_outp: true
       loop_break: true
 ```
 
