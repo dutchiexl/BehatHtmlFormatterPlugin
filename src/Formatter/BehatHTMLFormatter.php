@@ -165,12 +165,12 @@ class BehatHTMLFormatter implements Formatter {
    * @param $name
    * @param $base_path
    */
-  function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $base_path) {
+  function __construct($name, $renderer, $render_options, $filename, $print_args, $print_outp, $loop_break, $base_path) {
     $this->name = $name;
     $this->print_args = $print_args;
     $this->print_outp = $print_outp;
     $this->loop_break = $loop_break;
-    $this->renderer = new BaseRenderer($renderer, $base_path);
+    $this->renderer = new BaseRenderer($renderer, $render_options, $base_path);
     $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
     $this->timer = new Timer();
     $this->memory = new Memory();

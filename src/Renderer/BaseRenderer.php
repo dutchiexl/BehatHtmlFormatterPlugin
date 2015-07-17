@@ -30,7 +30,7 @@ class BaseRenderer
      * @param string : list of the renderer
      * @param string : base_path
      */
-    public function __construct($renderer, $base_path)
+    public function __construct($renderer, $render_options, $base_path)
     {
         $rendererListTmp = explode(',', $renderer) ;
         
@@ -41,7 +41,7 @@ class BaseRenderer
         foreach($rendererListTmp as $r) {
             $this->nameList[] = $r ;
             $className = __NAMESPACE__ . '\\' . $r . 'Renderer' ;
-            $this->rendererList[$r] = new $className() ;  
+            $this->rendererList[$r] = new $className($render_options) ;
         }
     }
     

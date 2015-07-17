@@ -10,10 +10,16 @@ use Twig_Loader_Filesystem;
 
 class TwigRenderer
 {
-
-    public function __construct()
+    protected $twigTemplateName;
+    protected $twigTemplatePath;
+    
+    public function __construct($render_options)
     {
-
+        $this->twigTemplateName = dirname(__FILE__) . '/../../templates';
+        $this->twigTemplatePath = 'index.html.twig';
+        foreach ($render_options as $renderOptionName => $renderOptionValue) {
+            $this->$renderOptionName = $renderOptionValue;
+        }
     }
 
     /**
@@ -34,10 +40,9 @@ class TwigRenderer
      */
     public function renderAfterExercise($obj) {
 
-        $templatePath = dirname(__FILE__) . '/../../templates';
-        $loader = new Twig_Loader_Filesystem($templatePath);
+        $loader = new Twig_Loader_Filesystem($this->twigTemplatePath);
         $twig = new Twig_Environment($loader, array());
-        $print = $twig->render('index.html.twig',
+        $print = $twig->render($this->twig_template,
             array(
                 'suites' => $obj->getSuites(),
                 'failedScenarios' => $obj->getFailedScenarios(),

@@ -58,6 +58,14 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
     $builder->children()->scalarNode("print_outp")->defaultValue("false");
     $builder->children()->scalarNode("loop_break")->defaultValue("false");
     $builder->children()->scalarNode('output')->defaultValue('.');
+    $builder
+        ->children()
+            ->arrayNode('render_options')
+                ->defaultValue(array())
+                ->prototype('scalar')->end()
+            ->end()
+        ->end()
+    ;
   }
 
   /**
@@ -70,6 +78,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
     $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
     $definition->addArgument($config['name']);
     $definition->addArgument($config['renderer']);
+    $definition->addArgument($config['render_options']);
     $definition->addArgument($config['file_name']);
     $definition->addArgument($config['print_args']);
     $definition->addArgument($config['print_outp']);
