@@ -94,9 +94,6 @@
                                     </div>
                                     <div class="info">
                                         <p>{{ feature.description|raw|nl2br }}</p>
-                                        {% if {{ feature.getPassedClass }} == "failed" %}
-                                            <a href="assets/screenshots/{{ feature.id }}">Screenshot</a>
-                                        {% endif %}
                                     </div>
                                     <div class="footer">
                                         <div class="tags">
