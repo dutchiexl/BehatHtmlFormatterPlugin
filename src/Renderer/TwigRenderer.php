@@ -10,15 +10,13 @@ use Twig_Loader_Filesystem;
 
 class TwigRenderer
 {
-    protected $twigTemplateName;
-    protected $twigTemplatePath;
+    private $twig_template_name = 'index.html.twig';
+    private $twig_template_path = __DIR__. '/../../templates';
     
-    public function __construct($render_options)
+    public function setRenderOptions(array $render_options)
     {
-        $this->twigTemplateName = dirname(__FILE__) . '/../../templates';
-        $this->twigTemplatePath = 'index.html.twig';
-        foreach ($render_options as $renderOptionName => $renderOptionValue) {
-            $this->$renderOptionName = $renderOptionValue;
+        foreach ($render_options as $render_option_name => $render_option_value) {
+            $this->$render_option_name = $render_option_value;
         }
     }
 
@@ -40,9 +38,9 @@ class TwigRenderer
      */
     public function renderAfterExercise($obj) {
 
-        $loader = new Twig_Loader_Filesystem($this->twigTemplatePath);
+        $loader = new Twig_Loader_Filesystem($this->twig_template_path);
         $twig = new Twig_Environment($loader, array());
-        $print = $twig->render($this->twig_template,
+        $print = $twig->render($this->twig_template_name,
             array(
                 'suites' => $obj->getSuites(),
                 'failedScenarios' => $obj->getFailedScenarios(),
