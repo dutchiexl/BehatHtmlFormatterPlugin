@@ -2,6 +2,8 @@
 
 Behat 3 extension for generating HTML reports from your test results.
 
+[![Latest Stable Version](https://poser.pugx.org/emuse/behat-html-formatter/v/stable)](https://packagist.org/packages/emuse/behat-html-formatter) [![Total Downloads](https://poser.pugx.org/emuse/behat-html-formatter/downloads)](https://packagist.org/packages/emuse/behat-html-formatter) [![Latest Unstable Version](https://poser.pugx.org/emuse/behat-html-formatter/v/unstable)](https://packagist.org/packages/emuse/behat-html-formatter) [![License](https://poser.pugx.org/emuse/behat-html-formatter/license)](https://packagist.org/packages/emuse/behat-html-formatter)
+
 ### Twig report
 
 ![Twig Screenshot](http://i.imgur.com/o0zCqiB.png)
@@ -44,7 +46,7 @@ Add BehatHtmlFormatterPlugin to the list of dependencies inside your `composer.j
 {
     "require": {
         "behat/behat": "3.*@stable",
-        "emuser/behat-html-formatter": "0.1.*",
+        "emuse/behat-html-formatter": "0.1.*",
     },
     "minimum-stability": "dev",
     "config": {
@@ -81,7 +83,7 @@ default:
       renderer: Twig,Behat2
       file_name: Index
       print_args: true
-      print_otup: true
+      print_outp: true
       loop_break: true
 ```
 
