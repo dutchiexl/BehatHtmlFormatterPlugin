@@ -14,6 +14,8 @@
         "behat/behat": "~3.0"
     },
     "require-dev": {
+        "symfony/process": "~3.0",
+        "phpunit/phpunit": "~4.1"
     },
     "autoload": {
         "psr-4": {
