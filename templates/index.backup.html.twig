@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Behat report</title>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -58,9 +58,9 @@
     {% for suite in suites %}
         <div class="row">
             <div class="col-sm-12">
-                <h2>Suite: {{ suite.name }}</h2>
+                <h2>{% trans %}Suite: {% endtrans %}{{ suite.name }}</h2>
                 {% for feature in suite.features %}
-                    <h2>Feature: {{ feature.name }}</h2>
+                    <h2>{% trans %}Feature: {% endtrans %}{{ feature.name }}</h2>
                     {% for tag in feature.tags %}
                         <span class="badge">{{ tag }}</span>
                     {% endfor %}
@@ -68,7 +68,7 @@
                     {% for scenario in feature.scenarios %}
                         <div class="row">
                             <div class="col-sm-8">
-                                <h3>Scenario: {{ scenario.name }}</h3>
+                                <h3>{% trans %}Scenario: {% endtrans %}{{ scenario.name }}</h3>
                                 {% for tag in scenario.tags %}
                                     <span class="badge">{{ tag }}</span>
                                 {% endfor %}
