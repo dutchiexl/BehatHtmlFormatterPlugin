@@ -4,116 +4,107 @@
  * @author DaSayan <glennwall@free.fr>
  */
 
-namespace emuse\BehatHTMLFormatter\Renderer ;
+namespace emuse\BehatHTMLFormatter\Renderer;
 
-class Behat2Renderer
-{
-
-    public function __construct()
-    {
-    
-    }
-    
+class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders before an exercice.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */    
-    public function renderBeforeExercise($obj) {
-    
+     */
+    public function renderBeforeExercise($obj)
+    {
+
         $print = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
         <html xmlns ='http://www.w3.org/1999/xhtml'>
         <head>
             <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-            <title>Behat Test Suite</title> " . $this->getCSS() . "
+            <title>Behat Test Suite</title> ".$this->getCSS()."
         </head>
         <body>
-        <div id='behat'>" ;
-        
-        return $print ;
+        <div id='behat'>";
+
+        return $print;
     }
-    
+
     /**
      * Renders after an exercice.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */        
-    public function renderAfterExercise($obj) {
+     */
+    public function renderAfterExercise($obj)
+    {
         //--> features results
-        $strFeatPassed = '' ;
-        if (count($obj->getPassedFeatures()) > 0) {
+        $strFeatPassed = '';
+        if(count($obj->getPassedFeatures()) > 0) {
             $strFeatPassed = ' <strong class="passed">'.count($obj->getPassedFeatures()).' success</strong>';
-        }      
-        
-        $strFeatFailed = '' ;    
-        $sumRes = 'passed' ;        
-        if (count($obj->getFailedFeatures()) > 0) {
-            $strFeatFailed = ' <strong class="failed">'.count($obj->getFailedFeatures()).' fail</strong>';
-            $sumRes = 'failed' ;
-        } 
-        
-        //--> scenarios results
-        $strScePassed = '' ;
-        if (count($obj->getPassedScenarios()) > 0) {
-            $strScePassed = ' <strong class="passed">'.count($obj->getPassedScenarios()).' success</strong>';
-        }             
-        
-        $strSceFailed = '' ;
-        if (count($obj->getFailedScenarios()) > 0) {
-            $strSceFailed = ' <strong class="failed">'.count($obj->getFailedScenarios()).' fail</strong>';
-        } 
-        
-        //--> steps results
-        $strStepsPassed = '' ;
-        if (count($obj->getPassedSteps()) > 0) {
-            $strStepsPassed = ' <strong class="passed">'.count($obj->getPassedSteps()).' success</strong>';
-        }             
-        
-        $strStepsPending = '' ;
-        if (count($obj->getPendingSteps()) > 0) {
-            $strStepsPending = ' <strong class="pending">'.count($obj->getPendingSteps()).' pending</strong>';
-        } 
+        }
 
-        $strStepsSkipped = '' ;
-        if (count($obj->getSkippedSteps()) > 0) {
+        $strFeatFailed = '';
+        $sumRes = 'passed';
+        if(count($obj->getFailedFeatures()) > 0) {
+            $strFeatFailed = ' <strong class="failed">'.count($obj->getFailedFeatures()).' fail</strong>';
+            $sumRes = 'failed';
+        }
+
+        //--> scenarios results
+        $strScePassed = '';
+        if(count($obj->getPassedScenarios()) > 0) {
+            $strScePassed = ' <strong class="passed">'.count($obj->getPassedScenarios()).' success</strong>';
+        }
+
+        $strSceFailed = '';
+        if(count($obj->getFailedScenarios()) > 0) {
+            $strSceFailed = ' <strong class="failed">'.count($obj->getFailedScenarios()).' fail</strong>';
+        }
+
+        //--> steps results
+        $strStepsPassed = '';
+        if(count($obj->getPassedSteps()) > 0) {
+            $strStepsPassed = ' <strong class="passed">'.count($obj->getPassedSteps()).' success</strong>';
+        }
+
+        $strStepsPending = '';
+        if(count($obj->getPendingSteps()) > 0) {
+            $strStepsPending = ' <strong class="pending">'.count($obj->getPendingSteps()).' pending</strong>';
+        }
+
+        $strStepsSkipped = '';
+        if(count($obj->getSkippedSteps()) > 0) {
             $strStepsSkipped = ' <strong class="skipped">'.count($obj->getSkippedSteps()).' skipped</strong>';
-        } 
-        
-        $strStepsFailed = '' ;
-        if (count($obj->getFailedSteps()) > 0) {
+        }
+
+        $strStepsFailed = '';
+        if(count($obj->getFailedSteps()) > 0) {
             $strStepsFailed = ' <strong class="failed">'.count($obj->getFailedSteps()).' fail</strong>';
-        } 
-        
-        
+        }
+
         //totals
         $featTotal = (count($obj->getFailedFeatures()) + count($obj->getPassedFeatures()));
-        $sceTotal = (count($obj->getFailedScenarios()) + count($obj->getPassedScenarios())) ;
-        $stepsTotal = (count($obj->getFailedSteps()) + count($obj->getPassedSteps()) + count($obj->getSkippedSteps()) + count($obj->getPendingSteps())) ;
+        $sceTotal = (count($obj->getFailedScenarios()) + count($obj->getPassedScenarios()));
+        $stepsTotal = (count($obj->getFailedSteps()) + count($obj->getPassedSteps()) + count($obj->getSkippedSteps()) + count($obj->getPendingSteps()));
 
         //list of pending steps to display
-        $strPendingList = '' ;
-        if (count($obj->getPendingSteps()) > 0) {
+        $strPendingList = '';
+        if(count($obj->getPendingSteps()) > 0) {
             foreach($obj->getPendingSteps() as $pendingStep) {
                 $strPendingList .= '
-                    <li>' . $pendingStep->getKeyword() . ' ' . $pendingStep->getText() . '</li>' ;
+                    <li>'.$pendingStep->getKeyword().' '.$pendingStep->getText().'</li>';
             }
-                $strPendingList = '
-            <div class="pending">Pending steps : 
-                <ul>' . $strPendingList . '
+            $strPendingList = '
+            <div class="pending">Pending steps :
+                <ul>'.$strPendingList.'
                 </ul>
             </div>';
         }
 
-        
         $print = '
         <div class="summary '.$sumRes.'">
             <div class="counters">
                 <p class="features">
                     '.$featTotal.' features ('.$strFeatPassed.$strFeatFailed.' )
-                </p>            
+                </p>
                 <p class="scenarios">
                     '.$sceTotal.' scenarios ('.$strScePassed.$strSceFailed.' )
                 </p>
@@ -128,229 +119,224 @@ class Behat2Renderer
                 <a href="javascript:void(0)" id="behat_show_all">[+] all</a>
                 <a href="javascript:void(0)" id="behat_hide_all">[-] all</a>
             </div>
-        </div> ' .$strPendingList. '
-    </div>' . $this->getJS() . '
+        </div> '.$strPendingList.'
+    </div>'.$this->getJS().'
 </body>
-</html>' ;    
+</html>';
 
-        return $print ;
-    
+        return $print;
+
     }
-    
-    
+
     /**
      * Renders before a suite.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */        
-    public function renderBeforeSuite($obj) {
+     */
+    public function renderBeforeSuite($obj)
+    {
         $print = '
-        <div class="suite">Suite : ' . $obj->getCurrentSuite()->getName() . '</div>';
-        
-        return $print ;
-    
-    }     
+        <div class="suite">Suite : '.$obj->getCurrentSuite()->getName().'</div>';
+
+        return $print;
+
+    }
 
     /**
      * Renders after a suite.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */     
-    public function renderAfterSuite($obj) {
-        return '' ;
-    } 
-    
+     */
+    public function renderAfterSuite($obj)
+    {
+        return '';
+    }
+
     /**
      * Renders before a feature.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */        
-    public function renderBeforeFeature($obj) {
-    
+     */
+    public function renderBeforeFeature($obj)
+    {
+
         //feature head
         $print = '
         <div class="feature">
             <h2>
                 <span id="feat'.$obj->getCurrentFeature()->getId().'" class="keyword"> Feature: </span>
-                <span class="title">' . $obj->getCurrentFeature()->getName() . '</span>
+                <span class="title">'.$obj->getCurrentFeature()->getName().'</span>
             </h2>
-            <p>' . $obj->getCurrentFeature()->getDescription() . '</p>
-            <ul class="tags">' ;
+            <p>'.$obj->getCurrentFeature()->getDescription().'</p>
+            <ul class="tags">';
         foreach($obj->getCurrentFeature()->getTags() as $tag) {
             $print .= '
-                <li>@' . $tag .'</li>' ;
-        }      
+                <li>@'.$tag.'</li>';
+        }
         $print .= '
-            </ul>' ;
-        
+            </ul>';
+
         //TODO path is missing (?)
-        
-        return $print ;
-    }     
+
+        return $print;
+    }
 
     /**
      * Renders after a feature.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */     
-    public function renderAfterFeature($obj) {
+     */
+    public function renderAfterFeature($obj)
+    {
         //list of results
         $print = '
-            <div class="featureResult '.$obj->getCurrentFeature()->getPassedClass().'">Feature has ' . $obj->getCurrentFeature()->getPassedClass() ;
+            <div class="featureResult '.$obj->getCurrentFeature()->getPassedClass().'">Feature has '.$obj->getCurrentFeature()->getPassedClass();
 
         //percent only if failed scenarios
-        if ($obj->getCurrentFeature()->getTotalAmountOfScenarios() > 0 && $obj->getCurrentFeature()->getPassedClass() === 'failed') {
+        if($obj->getCurrentFeature()->getTotalAmountOfScenarios() > 0 && $obj->getCurrentFeature()->getPassedClass() === 'failed') {
             $print .= '
-                <span>Scenarios passed : ' . round($obj->getCurrentFeature()->getPercentPassed(), 2) . '%, 
-                Scenarios failed : ' . round($obj->getCurrentFeature()->getPercentFailed(), 2) . '%</span>' ;
+                <span>Scenarios passed : '.round($obj->getCurrentFeature()->getPercentPassed(), 2).'%,
+                Scenarios failed : '.round($obj->getCurrentFeature()->getPercentFailed(), 2).'%</span>';
         }
 
         $print .= '
             </div>
-        </div>'; 
-    
-    
-        return $print ;
-    }    
+        </div>';
+
+        return $print;
+    }
 
     /**
      * Renders before a scenario.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */            
-    public function renderBeforeScenario($obj) {
+     */
+    public function renderBeforeScenario($obj)
+    {
         //scenario head
         $print = '
             <div class="scenario">
-                <ul class="tags">' ;
+                <ul class="tags">';
         foreach($obj->getCurrentScenario()->getTags() as $tag) {
             $print .= '
-                    <li>@' . $tag .'</li>';
-        }         
+                    <li>@'.$tag.'</li>';
+        }
         $print .= '
-                </ul>';        
-        
+                </ul>';
+
         $print .= '
                 <h3>
-                    <span class="keyword">' . $obj->getCurrentScenario()->getId() . ' Scenario: </span>
-                    <span class="title">' . $obj->getCurrentScenario()->getName() . '</span>
+                    <span class="keyword">'.$obj->getCurrentScenario()->getId().' Scenario: </span>
+                    <span class="title">'.$obj->getCurrentScenario()->getName().'</span>
                 </h3>
-                <ol>' ;
-        
+                <ol>';
+
         //TODO path is missing
-        
-        return $print ;
-    }     
+
+        return $print;
+    }
 
     /**
      * Renders after a scenario.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */     
-    public function renderAfterScenario($obj) {
+     */
+    public function renderAfterScenario($obj)
+    {
         $print = '
                 </ol>
             </div>';
-        
-        return $print ;
-    }   
-    
+
+        return $print;
+    }
+
     /**
      * Renders before an outline.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */            
-    public function renderBeforeOutline($obj) {
-        return '' ;
+     */
+    public function renderBeforeOutline($obj)
+    {
+        return '';
     }
-    
+
     /**
      * Renders after an outline.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */     
-    public function renderAfterOutline($obj) {
-        return '' ;
-    } 
-    
+     */
+    public function renderAfterOutline($obj)
+    {
+        return '';
+    }
+
     /**
      * Renders before a step.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */        
-    public function renderBeforeStep($obj) {
+     */
+    public function renderBeforeStep($obj)
+    {
 
-        return '' ;
+        return '';
     }
-    
+
     /**
      * Renders after a step.
-     *
-     * @param object   : BehatHTMLFormatter object
+     * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
-     */        
-    public function renderAfterStep($obj) {
+     */
+    public function renderAfterStep($obj)
+    {
 
-        $steps = $obj->getCurrentScenario()->getSteps() ;
-        $step = end($steps) ; //needed because of strict standards
+        $steps = $obj->getCurrentScenario()->getSteps();
+        $step = end($steps); //needed because of strict standards
 
         //path displayed only if available (it's not available in undefined steps)
-        $strPath = '' ;
-        if ($step->getDefinition() !== NULL ) {
-            $strPath = $step->getDefinition()->getPath() ;
-        } 
-        
-        $stepResultClass = '' ;
-        if ($step->isPassed()) { 
-            $stepResultClass = 'passed' ;
+        $strPath = '';
+        if($step->getDefinition() !== null) {
+            $strPath = $step->getDefinition()->getPath();
         }
-        if ($step->isFailed()) { 
-            $stepResultClass = 'failed' ;
+
+        $stepResultClass = '';
+        if($step->isPassed()) {
+            $stepResultClass = 'passed';
         }
-        if ($step->isSkipped()) { 
-            $stepResultClass = 'skipped' ;
+        if($step->isFailed()) {
+            $stepResultClass = 'failed';
         }
-        if ($step->isPending()) { 
-            $stepResultClass = 'pending' ;
+        if($step->isSkipped()) {
+            $stepResultClass = 'skipped';
         }
-        
+        if($step->isPending()) {
+            $stepResultClass = 'pending';
+        }
+
         $print = '
                     <li class="'.$stepResultClass.'">
                         <div class="step">
-                            <span class="keyword">' . $step->getKeyWord() . ' </span>
-                            <span class="text">' . $step->getText() . ' </span>
-                            <span class="path">' . $strPath . '</span>
-                        </div>' ;
+                            <span class="keyword">'.$step->getKeyWord().' </span>
+                            <span class="text">'.$step->getText().' </span>
+                            <span class="path">'.$strPath.'</span>
+                        </div>';
         $exception = $step->getException();
-        if (!empty($exception)) {
+        if(!empty($exception)) {
             $print .= '
-                        <pre class="backtrace">' . $step->getException() . '</pre>' ;
+                        <pre class="backtrace">'.$step->getException().'</pre>';
         }
-        $print .=  '
-                    </li>';    
-                    
-        return $print ;
-    }   
-    
-    
-    
-    
+        $print .= '
+                    </li>';
+
+        return $print;
+    }
+
     /**
      * To include CSS
-     *
-     * @return string  : HTML generated     
+     * @return string  : HTML generated
      */
-    public function getCSS() {
-    
+    public function getCSS()
+    {
+
         return "<style type='text/css'>
                 body {
                     margin:0px;
@@ -384,7 +370,7 @@ class Behat2Renderer
                 }
                 #behat .suite {
                     margin:8px;
-                }                
+                }
                 #behat .feature {
                     margin:15px;
                 }
@@ -595,11 +581,11 @@ class Behat2Renderer
                 #behat .summary p {
                     margin:0px;
                 }
-                
+
                 #behat .featureResult > span {
                     font-size: 14px;
                 }
-                
+
                 #behat .jq-toggle > .scenario,
                 #behat .jq-toggle > ol,
                 #behat .jq-toggle > .examples {
@@ -673,24 +659,24 @@ class Behat2Renderer
                 #behat .scenario .examples > ol li {
                     border-left:none;
                 }
-            </style>" ;
-    
+            </style>";
+
     }
-    
+
     /**
      * To include JS
-     *
-     * @return string  : HTML generated     
+     * @return string  : HTML generated
      */
-    public function getJS() {
-    
+    public function getJS()
+    {
+
         return "<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js'></script>
         <script type='text/javascript'>
             $(document).ready(function(){
                 Array.prototype.diff = function(a) {
                     return this.filter(function(i) {return a.indexOf(i) < 0;});
                 };
-            
+
                 $('#behat .feature h2').click(function(){
                     $(this).parent().toggleClass('jq-toggle-opened');
                 }).parent().addClass('jq-toggle');
@@ -708,7 +694,7 @@ class Behat2Renderer
                     $('#behat .feature').removeClass('jq-toggle-opened');
                     $('#behat .scenario').removeClass('jq-toggle-opened');
                 });
-                
+
                 $('#behat .summary .counters .scenarios .passed')
                     .addClass('switcher')
                     .click(function(){
@@ -720,7 +706,7 @@ class Behat2Renderer
                         scenario.addClass('jq-toggle-opened');
                         feature.addClass('jq-toggle-opened');
                     });
-                    
+
 
                 $('#behat .summary .counters .scenarios .failed')
                     .addClass('switcher')
@@ -732,7 +718,7 @@ class Behat2Renderer
 
                         scenario.addClass('jq-toggle-opened');
                         feature.addClass('jq-toggle-opened');
-                    });                    
+                    });
 
                 $('#behat .summary .counters .steps .passed')
                     .addClass('switcher')
@@ -782,7 +768,7 @@ class Behat2Renderer
                         feature.addClass('jq-toggle-opened');
                     });
             });
-        </script>" ;
-    
-    }    
+        </script>";
+
+    }
 }
