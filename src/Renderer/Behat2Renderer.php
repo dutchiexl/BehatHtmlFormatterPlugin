@@ -257,7 +257,27 @@ class Behat2Renderer implements RendererInterface {
      */
     public function renderBeforeOutline($obj)
     {
-        return '';
+         //scenario head
+        $print = '
+            <div class="scenario">
+                <ul class="tags">';
+        foreach($obj->getCurrentScenario()->getTags() as $tag) {
+            $print .= '
+                    <li>@'.$tag.'</li>';
+        }
+        $print .= '
+                </ul>';
+
+        $print .= '
+                <h3>
+                    <span class="keyword">'.$obj->getCurrentScenario()->getId().' Scenario Outline: </span>
+                    <span class="title">'.$obj->getCurrentScenario()->getName().'</span>
+                </h3>
+                <ol>';
+
+        //TODO path is missing
+
+        return $print;
     }
 
     /**
@@ -267,7 +287,7 @@ class Behat2Renderer implements RendererInterface {
      */
     public function renderAfterOutline($obj)
     {
-        return '';
+        $this->renderAfterScenario($obj);
     }
 
     /**
@@ -559,7 +579,6 @@ class Behat2Renderer implements RendererInterface {
                     border-right: 0px;
                     border-left: 5px;
                     border-style: solid;
-                    height: 70px;
                     overflow: hidden;
                 }
                 #behat .summary .switchers {
