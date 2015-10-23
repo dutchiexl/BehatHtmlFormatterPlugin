@@ -99,6 +99,63 @@ default:
 * `print_outp` - (Optional) If set to `true`, Behat will add the output of each step to the report. (E.g. Exceptions).
 * `loop_break` - (Optional) If set to `true`, Behat will add a separating break line after each execution when printing Scenario Outlines.
 
+## Screenshot
+
+The facility exists to embed a screenshot into test failures.
+
+Currently png is the only supported image format.
+
+In order to embed a screenshot, you will need to take a screenshot using your favourite webdriver and store it in the following filepath format:
+
+results/html/assets/screenshots/{{feature_name}}/{{scenario_name}}.png
+
+The feature_name and scenario_name variables will need to be the relevant item names without spaces.
+
+Below is an example of FeatureContext methods which will produce an image file in the above format:
+
+```php
+
+        /**
+         * @BeforeScenario
+         *
+         * @param BeforeScenarioScope $scope
+         *
+         */
+        public function setUpTestEnvironment($scope)
+        {
+            $this->currentScenario = $scope->getScenario();
+        }
+
+        /**
+         * @AfterStep
+         *
+         * @param AfterStepScope $scope
+         */
+        public function afterStep($scope)
+        {
+            //if test has failed, and is not an api test, get screenshot
+            if(!$scope->getTestResult()->isPassed())
+            {
+                //create filename string
+                $featureFolder = str_replace(' ', '', $scope->getFeature()->getTitle());
+    
+                $scenarioName = $this->currentScenario->getTitle();
+                $fileName = str_replace(' ', '', $scenarioName) . '.png';
+    
+                //create screenshots directory if it doesn't exist
+                if (!file_exists('results/html/assets/screenshots/' . $featureFolder)) {
+                    mkdir('results/html/assets/screenshots/' . $featureFolder);
+                }
+    
+                //take screenshot and save as the previously defined filename
+                $this->driver->takeScreenshot('results/html/assets/screenshots/' . $featureFolder . '/' . $fileName);
+            }
+        }
+        
+```
+
+Note that the currentScenario variable will need to be at class level and generated in the @BeforeScenario method as Behat does not currently support obtaining the current Scenario in the @AfterStep method, where the screenshot is generated 
+
 ## Issue Submission
 
 When you need additional support or you discover something *strange*, feel free to [Create a new issue](https://github.com/dutchiexl/BehatHtmlFormatterPlugin/issues/new).
