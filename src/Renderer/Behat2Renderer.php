@@ -309,7 +309,7 @@ class Behat2Renderer implements RendererInterface {
     public function renderAfterStep($obj)
     {
         $feature = $obj->getCurrentFeature();
-        $scenario = $feature->getCurrentScenario();
+        $scenario = $obj->getCurrentScenario();
 
         $steps = $scenario->getSteps();
         $step = end($steps); //needed because of strict standards
@@ -343,7 +343,7 @@ class Behat2Renderer implements RendererInterface {
                         </div>';
         $exception = $step->getException();
         if(!empty($exception)) {
-            $screenshotPath = $obj->getBasePath() . '/results/html/assets/screenshots/' . $feature->getScreenshotsFolder() . '/' . $scenario->getScreenshotName();
+            $screenshotPath = $obj->getBasePath() . '/results/html/assets/screenshots/' . $feature->getScreenshotFolder() . '/' . $scenario->getScreenshotName();
             $print .= '
                         <pre class="backtrace">'.$step->getException().'</pre>';
             if(file_exists($screenshotPath))

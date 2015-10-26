@@ -168,6 +168,7 @@ class BehatHTMLFormatter implements Formatter {
     function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $base_path)
     {
         $this->name = $name;
+        $this->base_path = $base_path;
         $this->print_args = $print_args;
         $this->print_outp = $print_outp;
         $this->loop_break = $loop_break;
@@ -205,6 +206,14 @@ class BehatHTMLFormatter implements Formatter {
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->base_path;
     }
 
     /**
