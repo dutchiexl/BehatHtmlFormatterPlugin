@@ -19,6 +19,7 @@ class Scenario
     private $line;
     private $tags;
     private $loopCount;
+    private $screenshotName;
 
     /**
      * @var bool
@@ -44,6 +45,16 @@ class Scenario
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getScreenshotName()
+    {
+        return $this->screenshotName;
+    }
+
+    public function setScreenshotName($scenarioName)
+    {
+        $this->screenshotName = str_replace(' ','', $scenarioName) . '.png';
     }
 
     /**

@@ -449,7 +449,7 @@ class BehatHTMLFormatter implements Formatter {
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
-        $feature->setScreenshotName($event->getFeature()->getFile());
+        $feature->setScreenshotFolder($event->getFeature()->getTitle());
         $this->currentFeature = $feature;
 
         $print = $this->renderer->renderBeforeFeature($this);
@@ -481,6 +481,7 @@ class BehatHTMLFormatter implements Formatter {
         $scenario->setName($event->getScenario()->getTitle());
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
+        $scenario->setScreenshotName($event->getScenario()->getTitle());
         $this->currentScenario = $scenario;
 
         $print = $this->renderer->renderBeforeScenario($this);
