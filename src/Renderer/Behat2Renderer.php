@@ -90,7 +90,7 @@ class Behat2Renderer implements RendererInterface {
         if(count($obj->getPendingSteps()) > 0) {
             foreach($obj->getPendingSteps() as $pendingStep) {
                 $strPendingList .= '
-                    <li>'.$pendingStep->getKeyword().' '.$pendingStep->getText().'</li>';
+                    <li>'.$pendingStep->getKeyword().' '.htmlentities($pendingStep->getText()).'</li>';
             }
             $strPendingList = '
             <div class="pending">Pending steps :
@@ -338,7 +338,7 @@ class Behat2Renderer implements RendererInterface {
                     <li class="'.$stepResultClass.'">
                         <div class="step">
                             <span class="keyword">'.$step->getKeyWord().' </span>
-                            <span class="text">'.$step->getText().' </span>
+                            <span class="text">'.htmlentities($step->getText()).' </span>
                             <span class="path">'.$strPath.'</span>
                         </div>';
         $exception = $step->getException();
