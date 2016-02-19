@@ -1,167 +1,183 @@
 <?php
-/**
- * Twig renderer for Behat report
- */
 
-namespace emuse\BehatHTMLFormatter\Renderer;
+namespace emuse\BehatHTMLFormatter\Renderer ;
 
+use emuse\BehatHTMLFormatter\Formatter\BehatHTMLFormatter;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
-class TwigRenderer implements RendererInterface {
-
+/**
+ * Twig renderer for Behat report
+ *
+ * Class TwigRenderer
+ * @package emuse\BehatHTMLFormatter\Renderer
+ */
+class TwigRenderer
+{
     /**
-     * Renders before an exercice.
-     * @param object : BehatHTMLFormatter object
+     * Renders before an exercise.
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderBeforeExercise($obj)
+    public function renderBeforeExercise(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
-     * Renders after an exercice.
-     * @param object : BehatHTMLFormatter object
+     * Renders after an exercise.
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderAfterExercise($obj)
+    public function renderAfterExercise(BehatHTMLFormatter $obj)
     {
 
-        $templatePath = dirname(__FILE__).'/../../templates';
+        $templatePath = dirname(__FILE__) . '/../../templates';
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
         $print = $twig->render('index.html.twig',
             array(
-                'suites'          => $obj->getSuites(),
+                'suites' => $obj->getSuites(),
                 'failedScenarios' => $obj->getFailedScenarios(),
                 'passedScenarios' => $obj->getPassedScenarios(),
-                'failedSteps'     => $obj->getFailedSteps(),
-                'passedSteps'     => $obj->getPassedSteps(),
-                'failedFeatures'  => $obj->getFailedFeatures(),
-                'passedFeatures'  => $obj->getPassedFeatures(),
-                'printStepArgs'   => $obj->getPrintArguments(),
-                'printStepOuts'   => $obj->getPrintOutputs(),
-                'printLoopBreak'  => $obj->getPrintLoopBreak(),
+                'failedSteps' => $obj->getFailedSteps(),
+                'passedSteps' => $obj->getPassedSteps(),
+                'failedFeatures' => $obj->getFailedFeatures(),
+                'passedFeatures' => $obj->getPassedFeatures(),
+                'printStepArgs' => $obj->getPrintArguments(),
+                'printStepOuts' => $obj->getPrintOutputs(),
+                'printLoopBreak' => $obj->getPrintLoopBreak(),
             )
         );
 
         return $print;
-
     }
 
     /**
      * Renders before a suite.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderBeforeSuite($obj)
+    public function renderBeforeSuite(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders after a suite.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderAfterSuite($obj)
+    public function renderAfterSuite(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders before a feature.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderBeforeFeature($obj)
+    public function renderBeforeFeature(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders after a feature.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderAfterFeature($obj)
+    public function renderAfterFeature(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders before a scenario.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderBeforeScenario($obj)
+    public function renderBeforeScenario(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders after a scenario.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderAfterScenario($obj)
+    public function renderAfterScenario(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders before an outline.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderBeforeOutline($obj)
+    public function renderBeforeOutline(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders after an outline.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderAfterOutline($obj)
+    public function renderAfterOutline(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders before a step.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderBeforeStep($obj)
+    public function renderBeforeStep(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * Renders after a step.
-     * @param object : BehatHTMLFormatter object
+     *
+     * @param BehatHTMLFormatter $obj
      * @return string  : HTML generated
      */
-    public function renderAfterStep($obj)
+    public function renderAfterStep(BehatHTMLFormatter $obj)
     {
         return '';
     }
 
     /**
      * To include CSS
+     *
      * @return string  : HTML generated
      */
     public function getCSS()
     {
         return '';
-
     }
 
     /**
      * To include JS
+     *
      * @return string  : HTML generated
      */
     public function getJS()
