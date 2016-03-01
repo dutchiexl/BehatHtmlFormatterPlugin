@@ -1,0 +1,14 @@
+default:
+    formatters:
+        html:
+            output_path: %paths.base%/report
+        pretty: ~
+
+    extensions:
+        emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+            name: html
+            renderer: Twig
+            file_name: index
+            print_args: true
+            print_outp: true
+            loop_break: true
