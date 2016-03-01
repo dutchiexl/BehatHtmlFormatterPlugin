@@ -36,7 +36,6 @@ before_install:
   - echo "Using in php version $TRAVIS_PHP_VERSION"
   - echo "Preparing blackfire"
   - travis_retry composer selfupdate
-  - cp .composer-auth.json $HOME/.composer/auth.json
   - echo '#!/bin/bash' > install.sh
   - echo -n "composer update" >> install.sh
   - echo -n " --prefer-dist" >> install.sh
