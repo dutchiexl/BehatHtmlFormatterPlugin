@@ -43,11 +43,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     private $reportDir;
 
-    public function __construct()
-    {
-        $this->reportDir = (dirname(dirname(__DIR__))) . '/build/';
-    }
-
     /**
      * Cleans test folders in the temporary directory.
      *
@@ -91,6 +86,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->workingDir = $dir;
         $this->phpBin = $php;
         $this->process = new Process(null);
+        $this->reportDir = $this->workingDir . '/build/';
     }
 
     /**
@@ -343,8 +339,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function reportFileShouldExists()
     {
-
-
         $files = array(
             $this->reportDir . 'Index.html',
             $this->reportDir . 'assets/Twig/css/style.css',
