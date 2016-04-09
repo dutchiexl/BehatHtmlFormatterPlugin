@@ -287,7 +287,7 @@ class Behat2Renderer implements RendererInterface {
      */
     public function renderAfterOutline($obj)
     {
-        $this->renderAfterScenario($obj);
+        return $this->renderAfterScenario($obj);
     }
 
     /**
