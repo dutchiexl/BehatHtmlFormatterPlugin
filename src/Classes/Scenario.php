@@ -52,9 +52,9 @@ class Scenario
         return $this->screenshotName;
     }
 
-    public function setScreenshotName($scenarioName)
+	public function setScreenshotName($scenarioName)
     {
-        $this->screenshotName = str_replace(' ','', $scenarioName) . '.png';
+        $this->screenshotName = $scenarioName;
     }
 
     /**
