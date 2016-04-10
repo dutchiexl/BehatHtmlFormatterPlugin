@@ -6,7 +6,7 @@
  * Time: 10:45
  */
 
-namespace emuse\BehatHTMLFormatter\Renderer;
+namespace cckakhandki\BehatHTMLFormatter\Renderer;
 
 interface RendererInterface {
 

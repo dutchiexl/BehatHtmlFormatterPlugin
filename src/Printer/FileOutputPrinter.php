@@ -4,7 +4,7 @@
  * @author David Raison <david@tentwentyfour.lu>
  */
 
-namespace emuse\BehatHTMLFormatter\Printer;
+namespace cckakhandki\BehatHTMLFormatter\Printer;
 
 use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Printer\OutputPrinter as PrinterInterface;

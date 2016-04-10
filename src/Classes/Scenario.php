@@ -6,7 +6,7 @@
  * Time: 14:39
  */
 
-namespace emuse\BehatHTMLFormatter\Classes;
+namespace cckakhandki\BehatHTMLFormatter\Classes;
 
 
 class Scenario

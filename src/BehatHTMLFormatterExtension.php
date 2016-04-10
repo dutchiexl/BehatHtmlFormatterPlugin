@@ -1,6 +1,6 @@
 <?php
 
-namespace emuse\BehatHTMLFormatter;
+namespace cckakhandki\BehatHTMLFormatter;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
@@ -29,7 +29,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    * @return string
    */
   public function getConfigKey() {
-    return "emusehtml";
+    return "cckakhandkihtml";
   }
 
   /**
@@ -51,7 +51,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    * @param ArrayNodeDefinition $builder
    */
   public function configure(ArrayNodeDefinition $builder) {
-    $builder->children()->scalarNode("name")->defaultValue("emusehtml");
+    $builder->children()->scalarNode("name")->defaultValue("cckakhandkihtml");
     $builder->children()->scalarNode("renderer")->defaultValue("Twig");
     $builder->children()->scalarNode("file_name")->defaultValue("generated");
     $builder->children()->scalarNode("print_args")->defaultValue("false");
@@ -67,7 +67,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    * @param array $config
    */
   public function load(ContainerBuilder $container, array $config) {
-    $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
+    $definition = new Definition("cckakhandki\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
     $definition->addArgument($config['name']);
     $definition->addArgument($config['renderer']);
     $definition->addArgument($config['file_name']);

@@ -1,7 +1,9 @@
 <?php
 
-namespace emuse\BehatHTMLFormatter\Formatter;
+namespace cckakhandki\BehatHTMLFormatter\Formatter;
 
+use Behat\Behat\Hook\Call\BeforeScenario;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
 use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
@@ -19,12 +21,12 @@ use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
 use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
-use emuse\BehatHTMLFormatter\Classes\Feature;
-use emuse\BehatHTMLFormatter\Classes\Scenario;
-use emuse\BehatHTMLFormatter\Classes\Step;
-use emuse\BehatHTMLFormatter\Classes\Suite;
-use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
-use emuse\BehatHTMLFormatter\Renderer\BaseRenderer;
+use cckakhandki\BehatHTMLFormatter\Classes\Feature;
+use cckakhandki\BehatHTMLFormatter\Classes\Scenario;
+use cckakhandki\BehatHTMLFormatter\Classes\Step;
+use cckakhandki\BehatHTMLFormatter\Classes\Suite;
+use cckakhandki\BehatHTMLFormatter\Printer\FileOutputPrinter;
+use cckakhandki\BehatHTMLFormatter\Renderer\BaseRenderer;
 
 /**
  * Class BehatHTMLFormatter
@@ -157,6 +159,17 @@ class BehatHTMLFormatter implements Formatter {
      * @var Step[]
      */
     private $skippedSteps;
+    
+    /**
+     * @param String $screenshot_folder
+     */
+    private $screenshot_folder;
+    
+    /**
+     * 
+     * @var String $screenshotName
+     */
+    private $screenshotName;
 
     //</editor-fold>
 
@@ -165,13 +178,14 @@ class BehatHTMLFormatter implements Formatter {
      * @param $name
      * @param $base_path
      */
-    function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $base_path)
+    function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $screenshot_folder, $base_path)
     {
         $this->name = $name;
         $this->base_path = $base_path;
         $this->print_args = $print_args;
         $this->print_outp = $print_outp;
         $this->loop_break = $loop_break;
+        $this->screenshot_folder = $screenshot_folder;
         $this->renderer = new BaseRenderer($renderer, $base_path);
         $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
         $this->timer = new Timer();
@@ -191,6 +205,7 @@ class BehatHTMLFormatter implements Formatter {
             'tester.suite_tested.after'        => 'onAfterSuiteTested',
             'tester.feature_tested.before'     => 'onBeforeFeatureTested',
             'tester.feature_tested.after'      => 'onAfterFeatureTested',
+        	'tester.scenario.before'           => 'setUpScreenshotName',
             'tester.scenario_tested.before'    => 'onBeforeScenarioTested',
             'tester.scenario_tested.after'     => 'onAfterScenarioTested',
             'tester.outline_tested.before'     => 'onBeforeOutlineTested',
@@ -458,12 +473,14 @@ class BehatHTMLFormatter implements Formatter {
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
-        $feature->setScreenshotFolder($event->getFeature()->getTitle());
+        $this->screenshot_folder = $this->screenshot_folder . DIRECTORY_SEPARATOR . str_replace(' ', '', str_replace(str_split('\\/:*?"<>|'), '', $event->getFeature()->getTitle()));
+        $feature->setScreenshotFolder($this->screenshot_folder);
         $this->currentFeature = $feature;
 
         $print = $this->renderer->renderBeforeFeature($this);
         $this->printer->writeln($print);
     }
+//
 
     /**
      * @param AfterFeatureTested $event
@@ -482,6 +499,21 @@ class BehatHTMLFormatter implements Formatter {
     }
 
     /**
+     *
+     */
+    public function setUpScreenshotName() {
+    	
+    	$a = "indide before scenario";
+    	var_dump($a);
+    	$currentScenario = $this->getCurrentScenario();
+    	 
+    	$scenarioName = $currentScenario->getName() . '-' . $currentScenario->getLine();
+    	$this->screenshotName = str_replace(' ', '', str_replace(str_split('\\/:*?"<>|'), '', $scenarioName)) . '.png';
+    	var_dump("created ss name as : " . $this->screenshotName);
+    }
+    
+    
+    /**
      * @param BeforeScenarioTested $event
      */
     public function onBeforeScenarioTested(BeforeScenarioTested $event)
@@ -490,13 +522,15 @@ class BehatHTMLFormatter implements Formatter {
         $scenario->setName($event->getScenario()->getTitle());
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
-        $scenario->setScreenshotName($event->getScenario()->getTitle());
         $this->currentScenario = $scenario;
+        
+        $this->setUpScreenshotName();
+        $scenario->setScreenshotName($this->screenshotName);
 
         $print = $this->renderer->renderBeforeScenario($this);
         $this->printer->writeln($print);
     }
-
+    
     /**
      * @param AfterScenarioTested $event
      */
@@ -528,9 +562,12 @@ class BehatHTMLFormatter implements Formatter {
         $scenario = new Scenario();
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
-        $scenario->setLine($event->getOutline()->getLine());
+        $scenario->setLine($event->getOutline()->getLine());        
         $this->currentScenario = $scenario;
-
+        
+        //$this->setUpScreenshotName();
+        //$scenario->setScreenshotName($this->screenshotName);
+        
         $print = $this->renderer->renderBeforeOutline($this);
         $this->printer->writeln($print);
     }

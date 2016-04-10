@@ -4,7 +4,7 @@
  * @author DaSayan <glennwall@free.fr>
  */
 
-namespace emuse\BehatHTMLFormatter\Renderer ;
+namespace cckakhandki\BehatHTMLFormatter\Renderer ;
 
 class MinimalRenderer
 {
