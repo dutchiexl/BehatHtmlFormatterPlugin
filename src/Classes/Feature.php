@@ -6,7 +6,7 @@
  * Time: 14:39
  */
 
-namespace emuse\BehatHTMLFormatter\Classes;
+namespace cckakhandki\BehatHTMLFormatter\Classes;
 
 
 class Feature
@@ -104,11 +104,11 @@ class Feature
     }
 
     /**
-     * @param String $featureName
+     * @param String $screenshot_folder
      */
-    public function setScreenshotFolder($featureName)
+    public function setScreenshotFolder($screenshot_folder)
     {
-        $this->screenshotFolder = str_replace(' ','', $featureName);
+        $this->screenshotFolder = $screenshot_folder;
     }
 
     /**

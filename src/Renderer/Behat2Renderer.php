@@ -4,7 +4,7 @@
  * @author DaSayan <glennwall@free.fr>
  */
 
-namespace emuse\BehatHTMLFormatter\Renderer;
+namespace cckakhandki\BehatHTMLFormatter\Renderer;
 
 class Behat2Renderer implements RendererInterface {
 
@@ -287,7 +287,7 @@ class Behat2Renderer implements RendererInterface {
      */
     public function renderAfterOutline($obj)
     {
-        $this->renderAfterScenario($obj);
+        return $this->renderAfterScenario($obj);
     }
 
     /**
@@ -343,13 +343,15 @@ class Behat2Renderer implements RendererInterface {
                         </div>';
         $exception = $step->getException();
         if(!empty($exception)) {
-            $relativeScreenshotPath = 'assets/screenshots/' . $feature->getScreenshotFolder() . '/' . $scenario->getScreenshotName();
-            $fullScreenshotPath = $obj->getBasePath() . '/results/html/' . $relativeScreenshotPath;
+            $dir = DIRECTORY_SEPARATOR;        	
+            $relativeScreenshotPath = $feature->getScreenshotFolder() . $dir . $step->getScreenshotName();
+            $fullScreenshotPath =  realpath(dirname($obj->getBasePath()) . $dir . 'reports' . $dir . $relativeScreenshotPath);
+            
             $print .= '
                         <pre class="backtrace">'.$step->getException().'</pre>';
             if(file_exists($fullScreenshotPath))
             {
-                $print .= '<a href="' . $relativeScreenshotPath . '">Screenshot</a>';
+                $print .= '<a href="' . $relativeScreenshotPath . '" target="_blank">Screenshot</a>';
             }
         }
         $print .= '

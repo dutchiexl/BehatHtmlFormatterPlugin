@@ -3,7 +3,7 @@
  * Twig renderer for Behat report
  */
 
-namespace emuse\BehatHTMLFormatter\Renderer;
+namespace cckakhandki\BehatHTMLFormatter\Renderer;
 
 use Twig_Environment;
 use Twig_Loader_Filesystem;
