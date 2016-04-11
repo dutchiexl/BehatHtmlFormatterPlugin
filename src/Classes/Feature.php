@@ -108,7 +108,7 @@ class Feature
      */
     public function setScreenshotFolder($screenshot_folder)
     {
-        $this->screenshotFolder = $screenshot_folder . DIRECTORY_SEPARATOR;
+        $this->screenshotFolder = $screenshot_folder;
     }
 
     /**

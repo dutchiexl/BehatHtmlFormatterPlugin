@@ -29,7 +29,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    * @return string
    */
   public function getConfigKey() {
-    return "cckakhandkihtml";
+    return "cckhtml";
   }
 
   /**
@@ -51,12 +51,13 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    * @param ArrayNodeDefinition $builder
    */
   public function configure(ArrayNodeDefinition $builder) {
-    $builder->children()->scalarNode("name")->defaultValue("cckakhandkihtml");
+    $builder->children()->scalarNode("name")->defaultValue("cckhtml");
     $builder->children()->scalarNode("renderer")->defaultValue("Twig");
     $builder->children()->scalarNode("file_name")->defaultValue("generated");
     $builder->children()->scalarNode("print_args")->defaultValue("false");
     $builder->children()->scalarNode("print_outp")->defaultValue("false");
     $builder->children()->scalarNode("loop_break")->defaultValue("false");
+    $builder->children()->scalarNode("screenshot_folder")->defaultValue('Screenshots');
     $builder->children()->scalarNode('output')->defaultValue('.');
   }
 
@@ -74,6 +75,7 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
     $definition->addArgument($config['print_args']);
     $definition->addArgument($config['print_outp']);
     $definition->addArgument($config['loop_break']);
+    $definition->addArgument($config['screenshot_folder']);
 
     $definition->addArgument('%paths.base%');
     $container->setDefinition("html.formatter", $definition)

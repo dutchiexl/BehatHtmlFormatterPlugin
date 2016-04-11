@@ -21,7 +21,21 @@ class Step
     private $exception;
     private $output;
     private $definition;
+    private $screenshot;
 
+    /**
+     * @param string $screenshot
+     */
+    public function setScreenshotName($screenshot){
+    	$this->screenshot = $screenshot;
+    }
+    /**
+     * @return string
+     */
+    public function getScreenshotName(){
+    	return $this->screenshot;
+    }
+    
     /**
      * @return mixed
      */

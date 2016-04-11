@@ -2,8 +2,6 @@
 
 namespace cckakhandki\BehatHTMLFormatter\Formatter;
 
-use Behat\Behat\Hook\Call\BeforeScenario;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
 use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
@@ -164,12 +162,6 @@ class BehatHTMLFormatter implements Formatter {
      * @param String $screenshot_folder
      */
     private $screenshot_folder;
-    
-    /**
-     * 
-     * @var String $screenshotName
-     */
-    private $screenshotName;
 
     //</editor-fold>
 
@@ -205,7 +197,6 @@ class BehatHTMLFormatter implements Formatter {
             'tester.suite_tested.after'        => 'onAfterSuiteTested',
             'tester.feature_tested.before'     => 'onBeforeFeatureTested',
             'tester.feature_tested.after'      => 'onAfterFeatureTested',
-        	'tester.scenario.before'           => 'setUpScreenshotName',
             'tester.scenario_tested.before'    => 'onBeforeScenarioTested',
             'tester.scenario_tested.after'     => 'onAfterScenarioTested',
             'tester.outline_tested.before'     => 'onBeforeOutlineTested',
@@ -473,7 +464,6 @@ class BehatHTMLFormatter implements Formatter {
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
-        $this->screenshot_folder = $this->screenshot_folder . DIRECTORY_SEPARATOR . str_replace(' ', '', str_replace(str_split('\\/:*?"<>|'), '', $event->getFeature()->getTitle()));
         $feature->setScreenshotFolder($this->screenshot_folder);
         $this->currentFeature = $feature;
 
@@ -497,21 +487,6 @@ class BehatHTMLFormatter implements Formatter {
         $print = $this->renderer->renderAfterFeature($this);
         $this->printer->writeln($print);
     }
-
-    /**
-     *
-     */
-    public function setUpScreenshotName() {
-    	
-    	$a = "indide before scenario";
-    	var_dump($a);
-    	$currentScenario = $this->getCurrentScenario();
-    	 
-    	$scenarioName = $currentScenario->getName() . '-' . $currentScenario->getLine();
-    	$this->screenshotName = str_replace(' ', '', str_replace(str_split('\\/:*?"<>|'), '', $scenarioName)) . '.png';
-    	var_dump("created ss name as : " . $this->screenshotName);
-    }
-    
     
     /**
      * @param BeforeScenarioTested $event
@@ -523,9 +498,6 @@ class BehatHTMLFormatter implements Formatter {
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
         $this->currentScenario = $scenario;
-        
-        $this->setUpScreenshotName();
-        $scenario->setScreenshotName($this->screenshotName);
 
         $print = $this->renderer->renderBeforeScenario($this);
         $this->printer->writeln($print);
@@ -564,10 +536,7 @@ class BehatHTMLFormatter implements Formatter {
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());        
         $this->currentScenario = $scenario;
-        
-        //$this->setUpScreenshotName();
-        //$scenario->setScreenshotName($this->screenshotName);
-        
+
         $print = $this->renderer->renderBeforeOutline($this);
         $this->printer->writeln($print);
     }
@@ -621,6 +590,13 @@ class BehatHTMLFormatter implements Formatter {
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
 
+        if($step->getResultCode() == '99'){
+        	$environment = $event->getEnvironment();
+        	$screenshotContext = $environment->getContext('cckakhandki\BehatHTMLFormatter\Context\BehatScreenshotContext');
+        	$screenshot = $screenshotContext->getScreenshot(true);
+        	$step->setScreenshotName($screenshot);
+        }
+        
         //What is the result of this step ?
         if(is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {
             //pending step -> no definition to load
