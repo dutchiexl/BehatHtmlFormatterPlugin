@@ -81,7 +81,7 @@ default:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
       name: html
       renderer: Twig,Behat2
-      file_name: Index
+      file_name: index
       print_args: true
       print_outp: true
       loop_break: true
