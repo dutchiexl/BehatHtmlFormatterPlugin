@@ -33,7 +33,7 @@ class BaseRenderer {
         //let's load the renderer dynamically
         foreach($rendererList as $renderer) {
             $this->nameList[] = $renderer;
-            if(in_array($renderer, ['Behat2', 'Twig', 'Minimal'])) {
+            if(in_array($renderer, array('Behat2', 'Twig', 'Minimal'))) {
                 $className = __NAMESPACE__.'\\'.$renderer.'Renderer';
             } else {
                 $className = $renderer;

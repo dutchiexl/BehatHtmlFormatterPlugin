@@ -76,4 +76,32 @@
           Then I give a pending step
       """
     When I run "behat --no-colors"
+    Then process output should be:
+      """
+
+      --- FeatureContext has missing steps. Define them with these snippets:
+
+          /**
+           * @Then /^I give a pending step$/
+           */
+          public function iGiveAPendingStep()
+          {
+              throw new PendingException();
+          }
+
+
+      """
+    And report file should exists
+    And report file should contain:
+      """
+      2 features failed of 3
+      """
+    And report file should contain:
+      """
+      5 scenarios failed of 7
+      """
+    And report file should contain:
+      """
+      2 steps failed of 6
+      """
 

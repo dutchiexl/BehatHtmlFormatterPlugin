@@ -8,17 +8,19 @@
  * file that was distributed with this source code.
  */
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Behat\Behat\Context\SnippetAcceptingContext;
 
 /**
  * Behat test suite context.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class FeatureContext implements Context
+class FeatureContext implements Context, SnippetAcceptingContext
 {
     /**
      * @var string
@@ -32,6 +34,14 @@ class FeatureContext implements Context
      * @var string
      */
     private $workingDir;
+    /**
+     * @var string
+     */
+    private $output;
+    /**
+     * @var string
+     */
+    private $reportDir;
 
     /**
      * Cleans test folders in the temporary directory.
@@ -55,6 +65,7 @@ class FeatureContext implements Context
         mkdir(__DIR__.'/../../build');
         shell_exec('cp -R '.$this->workingDir.'/build/* '.__DIR__.'/../../build');
     }
+
     /**
      * Prepares test folders in the temporary directory.
      *
@@ -75,6 +86,7 @@ class FeatureContext implements Context
         $this->workingDir = $dir;
         $this->phpBin = $php;
         $this->process = new Process(null);
+        $this->reportDir = $this->workingDir . '/build/';
     }
 
     /**
@@ -156,8 +168,9 @@ class FeatureContext implements Context
             $this->process->setEnv($env);
         }
 
-        $this->process->start();
-        $this->process->wait();
+        $this->process->run();
+
+        $this->output = $this->process->getOutput();
     }
 
     /**
@@ -310,6 +323,48 @@ class FeatureContext implements Context
         $dom->schemaValidate(__DIR__ . '/schema/' . $schemaPath);
     }
 
+    /**
+     * @Then process output should be:
+     *
+     * @param PyStringNode $expected
+     */
+    public function processOutputShouldBe(PyStringNode $expected)
+    {
+        PHPUnit_Framework_Assert::assertEquals($expected->getRaw(), $this->output);
+    }
+
+
+    /**
+     * @Given report file should exists
+     */
+    public function reportFileShouldExists()
+    {
+        $files = array(
+            $this->reportDir . 'Index.html',
+            $this->reportDir . 'assets/Twig/css/style.css',
+            $this->reportDir . 'assets/Twig/css/callout.css',
+            $this->reportDir . 'assets/Twig/css/style.less',
+            $this->reportDir . 'assets/Twig/css/callout.less',
+            $this->reportDir . 'assets/Twig/js/Chart.min.js',
+        );
+
+        foreach ($files as $file) {
+            PHPUnit_Framework_Assert::assertFileExists($file);
+        }
+    }
+
+    /**
+     * @Given report file should contain:
+     *
+     * @param PyStringNode $string
+     */
+    public function reportFileShouldContain(PyStringNode $string)
+    {
+        $index = $this->reportDir . 'Index.html';
+
+        PHPUnit_Framework_Assert::assertContains($string->getRaw(), file_get_contents($index));
+    }
+
     private function getExitCode()
     {
         return $this->process->getExitCode();
@@ -347,7 +402,7 @@ class FeatureContext implements Context
 
     private function moveToNewPath($path)
     {
-        $newWorkingDir = $this->workingDir .'/' . $path;
+        $newWorkingDir = $this->workingDir . '/' . $path;
         if (!file_exists($newWorkingDir)) {
             mkdir($newWorkingDir, 0777, true);
         }

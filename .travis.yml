@@ -1,0 +1,60 @@
+language: php
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - nightly
+  - hhvm
+
+env:
+  - DEPS='low'
+  - DEPS='dev'
+  - DEPS='normal'
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: DEPS='dev'
+    - php: nightly
+
+before_install:
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then cat $HOME/.phpenv/versions/$TRAVIS_PHP_VERSION/etc/conf.d/xdebug.ini > ./xdebug.ini ; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini ; fi
+  - if [ "$DEPS" == "normal" ] && [ "$TRAVIS_PHP_VERSION" == "5.6" ] ; then export COVERALLS=true; fi
+  - if [ "$COVERALLS" == "true" ] ; then echo "Will try to generate coveralls"; fi
+  - echo "CRONTAB before tests"
+  - echo "`crontab -l`"
+  - echo "Using in php version $TRAVIS_PHP_VERSION"
+  - echo "Preparing blackfire"
+  - travis_retry composer selfupdate
+  - echo '#!/bin/bash' > install.sh
+  - echo -n "composer update" >> install.sh
+  - echo -n " --prefer-dist" >> install.sh
+  - if [ "$DEPS" == "low" ]; then echo -n " --prefer-lowest" >> install.sh; fi;
+  - if [ "$DEPS" == "normal" ]; then echo -n " --prefer-stable" >> install.sh; fi;
+  - sed -n '/prefer-stable/!p' composer.json > tmp.json && mv tmp.json composer.json;
+
+install:
+  - travis_retry composer global require kherge/box --prefer-dist
+  - travis_retry composer global require phing/phing --prefer-dist
+  - travis_retry composer global require satooshi/php-coveralls --prefer-dist
+  - $HOME/.composer/vendor/bin/box --version
+  - $HOME/.composer/vendor/bin/phing -v
+  - export COMPOSER_ROOT_VERSION=dev-master
+  - travis_retry /bin/bash ./install.sh
+
+before_script:
+  - echo "<?php if (defined('HHVM_VERSION')) { echo ',@hhvm'; } else { if (PHP_VERSION_ID >= 50400) echo ',@php5.4'; if (PHP_VERSION_ID >= 70000) echo ',@php7'; }" > php_version_tags.php
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-add xdebug.ini ; fi
+
+script:
+  - ./vendor/bin/behat
