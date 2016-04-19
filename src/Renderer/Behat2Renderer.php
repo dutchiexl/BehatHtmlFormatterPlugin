@@ -308,17 +308,17 @@ class Behat2Renderer implements RendererInterface {
      * @return string  : HTML generated
      */
     public function renderTableNode(TableNode $table){
-    	$arguments = '<table class="argument"> <thead>';
-    	$header = $table->getRow(0);
-    	$arguments .= $this->preintTableRows($header);
-    
-    	$arguments .= '</thead><tbody>';
-    	foreach ($table->getHash() as $row) {
-    		$arguments .= $this->preintTableRows($row);
-    	}
-    
-    	$arguments .= '</tbody></table>';
-    	return $arguments;
+        $arguments = '<table class="argument"> <thead>';
+        $header = $table->getRow(0);
+        $arguments .= $this->preintTableRows($header);
+        
+        $arguments .= '</thead><tbody>';
+        foreach ($table->getHash() as $row) {
+            $arguments .= $this->preintTableRows($row);
+        }
+        
+        $arguments .= '</tbody></table>';
+        return $arguments;
     }
     
     /**
@@ -328,12 +328,12 @@ class Behat2Renderer implements RendererInterface {
      * @return string  : HTML generated
      */
     public function preintTableRows($row){
-    	$return = '<tr class="row">';
-    	foreach ($row as $column) {
-    		$return .= '<td>' . htmlentities($column) . '</td>';
-    	}
-    	$return .= '</tr>';
-    	return $return;
+        $return = '<tr class="row">';
+        foreach ($row as $column) {
+            $return .= '<td>' . htmlentities($column) . '</td>';
+        }
+        $return .= '</tr>';
+        return $return;
     }
     
     /**
