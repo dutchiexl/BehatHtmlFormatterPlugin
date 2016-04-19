@@ -302,6 +302,41 @@ class Behat2Renderer implements RendererInterface {
     }
 
     /**
+     * Renders TableNode arguments.
+     *
+     * @param TableNode $table
+     * @return string  : HTML generated
+     */
+    public function renderTableNode(TableNode $table){
+    	$arguments = '<table class="argument"> <thead>';
+    	$header = $table->getRow(0);
+    	$arguments .= $this->preintTableRows($header);
+    
+    	$arguments .= '</thead><tbody>';
+    	foreach ($table->getHash() as $row) {
+    		$arguments .= $this->preintTableRows($row);
+    	}
+    
+    	$arguments .= '</tbody></table>';
+    	return $arguments;
+    }
+    
+    /**
+     * Renders table rows.
+     *
+     * @param array $row
+     * @return string  : HTML generated
+     */
+    public function preintTableRows($row){
+    	$return = '<tr class="row">';
+    	foreach ($row as $column) {
+    		$return .= '<td>' . htmlentities($column) . '</td>';
+    	}
+    	$return .= '</tr>';
+    	return $return;
+    }
+    
+    /**
      * Renders after a step.
      * @param object : BehatHTMLFormatter object
      * @return string  : HTML generated
@@ -334,12 +369,25 @@ class Behat2Renderer implements RendererInterface {
             $stepResultClass = 'pending';
         }
 
+        $arguments ='';
+        $argument = $step->getArguments();
+        $argumentType = $step->getArgumentType();
+        
+        if($argumentType == "PyString"){
+        	$arguments = '<br><pre class="argument">' . htmlentities($argument) . '</pre>';
+        }
+        
+        if ($argumentType == 'Table'){
+        	$arguments =  '<br><pre class="argument">' . $this->renderTableNode($argument) . '</pre>';
+        }
+        
         $print = '
                     <li class="'.$stepResultClass.'">
                         <div class="step">
                             <span class="keyword">'.$step->getKeyWord().' </span>
                             <span class="text">'.htmlentities($step->getText()).' </span>
-                            <span class="path">'.$strPath.'</span>
+                            <span class="path">'.$strPath.'</span>'
+                            . $arguments . '
                         </div>';
         $exception = $step->getException();
         if(!empty($exception)) {
@@ -481,8 +529,8 @@ class Behat2Renderer implements RendererInterface {
                 #behat .scenario > ol li .argument,
                 #behat .scenario .examples > ol li .argument {
                     margin:10px 20px;
-                    font-size:16px;
-                    overflow:hidden;
+                    font-size:14px;
+                    overflow:auto;
                 }
                 #behat .scenario > ol li table.argument,
                 #behat .scenario .examples > ol li table.argument {
@@ -544,7 +592,7 @@ class Behat2Renderer implements RendererInterface {
                     font-size:12px;
                     line-height:18px;
                     color:#000;
-                    overflow:hidden;
+                    overflow:auto;
                     margin-left:20px;
                     padding:15px;
                     border-left:2px solid #C20000;
