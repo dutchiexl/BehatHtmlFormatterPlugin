@@ -621,7 +621,7 @@ class BehatHTMLFormatter implements Formatter {
     }
     //</editor-fold>
 
-	/**
+    /**
      * @param $arguments
      */
     public function getObject($arguments){
