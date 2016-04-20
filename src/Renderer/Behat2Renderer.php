@@ -372,15 +372,14 @@ class Behat2Renderer implements RendererInterface {
         }
 
         $arguments ='';
-        $argument = $step->getArguments();
         $argumentType = $step->getArgumentType();
         
         if($argumentType == "PyString"){
-            $arguments = '<br><pre class="argument">' . htmlentities($argument) . '</pre>';
+            $arguments = '<br><pre class="argument">' . htmlentities($step->getArguments()) . '</pre>';
         }
         
         if ($argumentType == 'Table'){
-            $arguments =  '<br><pre class="argument">' . $this->renderTableNode($argument) . '</pre>';
+            $arguments =  '<br><pre class="argument">' . $this->renderTableNode($step->getArguments()) . '</pre>';
         }
         
         $print = '
