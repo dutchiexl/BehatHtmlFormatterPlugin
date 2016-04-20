@@ -60,7 +60,7 @@ class Step
      */
     public function getArgumentType()
     {
-    	return $this->argumentType;
+        return $this->argumentType;
     }
     
     /**
@@ -68,7 +68,7 @@ class Step
      */
     public function setArgumentType($argumentType)
     {
-    	$this->argumentType = $argumentType;
+        $this->argumentType = $argumentType;
     }
     
     /**

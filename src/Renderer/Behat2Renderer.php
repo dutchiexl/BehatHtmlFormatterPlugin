@@ -6,6 +6,8 @@
 
 namespace emuse\BehatHTMLFormatter\Renderer;
 
+use Behat\Gherkin\Node\TableNode;
+
 class Behat2Renderer implements RendererInterface {
 
     /**
