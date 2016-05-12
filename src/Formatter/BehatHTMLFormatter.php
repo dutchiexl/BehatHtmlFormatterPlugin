@@ -16,7 +16,6 @@ use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
-use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
 use emuse\BehatHTMLFormatter\Classes\Feature;
@@ -255,45 +254,12 @@ class BehatHTMLFormatter implements Formatter {
     }
 
     /**
-     * Verify that the specified output path exists or can be created,
-     * then sets the output path.
-     * @param String $path Output path relative to %paths.base%
-     * @throws BadOutputPathException
-     */
-    public function setOutputPath($path)
-    {
-        $outpath = realpath($this->base_path.DIRECTORY_SEPARATOR.$path);
-        if(!file_exists($outpath)) {
-            if(!mkdir($outpath, 0755, true)) {
-                throw new BadOutputPathException(
-                    sprintf(
-                        'Output path %s does not exist and could not be created!',
-                        $outpath
-                    ),
-                    $outpath
-                );
-            }
-        } else {
-            if(!is_dir($outpath)) {
-                throw new BadOutputPathException(
-                    sprintf(
-                        'The argument to `output` is expected to the a directory, but got %s!',
-                        $outpath
-                    ),
-                    $outpath
-                );
-            }
-        }
-        $this->outputPath = $outpath;
-    }
-
-    /**
      * Returns output path
      * @return String output path
      */
     public function getOutputPath()
     {
-        return $this->outputPath;
+        return $this->printer->getOutputPath();
     }
 
     /**
