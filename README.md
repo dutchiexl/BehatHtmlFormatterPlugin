@@ -137,10 +137,10 @@ Below is an example of FeatureContext methods which will produce an image file i
             if(!$scope->getTestResult()->isPassed())
             {
                 //create filename string
-                $featureFolder = str_replace(' ', '', $scope->getFeature()->getTitle());
+                $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
     
                 $scenarioName = $this->currentScenario->getTitle();
-                $fileName = str_replace(' ', '', $scenarioName) . '.png';
+                $fileName = preg_replace('/\W/', '', $scenarioName) . '.png';
     
                 //create screenshots directory if it doesn't exist
                 if (!file_exists('results/html/assets/screenshots/' . $featureFolder)) {

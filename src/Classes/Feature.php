@@ -108,7 +108,7 @@ class Feature
      */
     public function setScreenshotFolder($featureName)
     {
-        $this->screenshotFolder = str_replace(' ','', $featureName);
+        $this->screenshotFolder = preg_replace('/\W/', '', $featureName);
     }
 
     /**
