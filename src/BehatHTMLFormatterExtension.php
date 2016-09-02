@@ -57,7 +57,6 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
     $builder->children()->scalarNode("print_args")->defaultValue("false");
     $builder->children()->scalarNode("print_outp")->defaultValue("false");
     $builder->children()->scalarNode("loop_break")->defaultValue("false");
-    $builder->children()->scalarNode('output')->defaultValue('.');
   }
 
   /**

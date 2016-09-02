@@ -72,11 +72,11 @@ Activate the extension by specifying its class in your `behat.yml`:
 default:
   suites:
     ... # All your awesome suites come here
-  
-  formatters: 
+
+  formatters:
     html:
       output_path: %paths.base%/build/html/behat
-      
+
   extensions:
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
       name: html
@@ -89,7 +89,12 @@ default:
 
 ## Configuration
 
-* `output_path` - The location where Behat will save the HTML reports. The path defined here is relative to `%paths.base%` and, when omitted, will be default set to the same path.
+### Formatter configuration
+
+* `output_path` - The location where Behat will save the HTML reports. Use `%paths.base%` to build the full path.
+
+### Extension configuration
+
 * `renderer` - The engine that Behat will use for rendering, thus the types of report format Behat should output (multiple report formats are allowed, separate them by commas). Allowed values are:
  * *Behat2* for generating HTML reports like they were generated in Behat 2.
  * *Twig* A new and more modern format based on Twig.
@@ -137,24 +142,27 @@ Below is an example of FeatureContext methods which will produce an image file i
             if(!$scope->getTestResult()->isPassed())
             {
                 //create filename string
-                $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
-    
-                $scenarioName = $this->currentScenario->getTitle();
-                $fileName = preg_replace('/\W/', '', $scenarioName) . '.png';
-    
+
+               $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
+                  
+                              $scenarioName = $this->currentScenario->getTitle();
+                              $fileName = preg_replace('/\W/', '', $scenarioName) . '.png';
+
                 //create screenshots directory if it doesn't exist
                 if (!file_exists('results/html/assets/screenshots/' . $featureFolder)) {
                     mkdir('results/html/assets/screenshots/' . $featureFolder);
                 }
-    
+
                 //take screenshot and save as the previously defined filename
                 $this->driver->takeScreenshot('results/html/assets/screenshots/' . $featureFolder . '/' . $fileName);
+                // For Selenium2 Driver you can use:
+                // file_put_contents('results/html/assets/screenshots/' . $featureFolder . '/' . $fileName, $this->getSession()->getDriver()->getScreenshot());
             }
         }
-        
+
 ```
 
-Note that the currentScenario variable will need to be at class level and generated in the @BeforeScenario method as Behat does not currently support obtaining the current Scenario in the @AfterStep method, where the screenshot is generated 
+Note that the currentScenario variable will need to be at class level and generated in the @BeforeScenario method as Behat does not currently support obtaining the current Scenario in the @AfterStep method, where the screenshot is generated
 
 ## Issue Submission
 
