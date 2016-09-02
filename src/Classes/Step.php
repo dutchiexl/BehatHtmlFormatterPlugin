@@ -21,6 +21,7 @@ class Step
     private $exception;
     private $output;
     private $definition;
+    private $argumentType;
 
     /**
      * @return mixed
@@ -54,6 +55,22 @@ class Step
         $this->text = $text;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getArgumentType()
+    {
+        return $this->argumentType;
+    }
+    
+    /**
+     * @param mixed $arguments
+     */
+    public function setArgumentType($argumentType)
+    {
+        $this->argumentType = $argumentType;
+    }
+    
     /**
      * @return mixed
      */
