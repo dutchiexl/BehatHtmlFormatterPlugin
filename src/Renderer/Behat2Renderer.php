@@ -56,6 +56,11 @@ class Behat2Renderer implements RendererInterface {
             $strScePassed = ' <strong class="passed">'.count($obj->getPassedScenarios()).' success</strong>';
         }
 
+        $strScePending = '';
+        if(count($obj->getPendingScenarios()) > 0) {
+            $strScePending = ' <strong class="pending">'.count($obj->getPendingScenarios()).' pending</strong>';
+        }
+
         $strSceFailed = '';
         if(count($obj->getFailedScenarios()) > 0) {
             $strSceFailed = ' <strong class="failed">'.count($obj->getFailedScenarios()).' fail</strong>';
@@ -84,7 +89,7 @@ class Behat2Renderer implements RendererInterface {
 
         //totals
         $featTotal = (count($obj->getFailedFeatures()) + count($obj->getPassedFeatures()));
-        $sceTotal = (count($obj->getFailedScenarios()) + count($obj->getPassedScenarios()));
+        $sceTotal = (count($obj->getFailedScenarios()) + count($obj->getPendingScenarios()) + count($obj->getPassedScenarios()));
         $stepsTotal = (count($obj->getFailedSteps()) + count($obj->getPassedSteps()) + count($obj->getSkippedSteps()) + count($obj->getPendingSteps()));
 
         //list of pending steps to display
@@ -108,7 +113,7 @@ class Behat2Renderer implements RendererInterface {
                     '.$featTotal.' features ('.$strFeatPassed.$strFeatFailed.' )
                 </p>
                 <p class="scenarios">
-                    '.$sceTotal.' scenarios ('.$strScePassed.$strSceFailed.' )
+                    '.$sceTotal.' scenarios ('.$strScePassed.$strScePending.$strSceFailed.' )
                 </p>
                 <p class="steps">
                     '.$stepsTotal.' steps ('.$strStepsPassed.$strStepsPending.$strStepsSkipped.$strStepsFailed.' )
