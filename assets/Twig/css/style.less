@@ -3,6 +3,7 @@
 
 @color-failed: #F56956;
 @color-passed: #00a65a;
+@color-pending: #e38d13;
 
 body {
   background-color: #f9f9f9;
@@ -123,6 +124,13 @@ body {
           > .panel-heading {
             color: white;
             background-color: @color-passed;
+            background-image: none;
+          }
+        }
+        &.pending {
+          > .panel-heading {
+            color: white;
+            background-color: @color-pending;
             background-image: none;
           }
         }

@@ -62,7 +62,7 @@
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            {{ failedScenarios|length }} scenarios failed of {{ (failedScenarios|length) + (passedScenarios|length) }}
+            {{ failedScenarios|length }} scenarios failed of {{ (failedScenarios|length) + (passedScenarios|length) + (pendingScenarios|length) }}
             scenarios
         </div>
         <div class="col-sm-4">
@@ -103,9 +103,12 @@
                                         </div>
                                         {% if feature.getTotalAmountOfScenarios > 0 %}
                                             <div class="progress">
-
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
                                                      style="width: {{ feature.getPercentPassed }}%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                                     style="width: {{ feature.getPercentPending }}%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
@@ -144,9 +147,12 @@
                                 </div>
                                 {% if feature.getTotalAmountOfScenarios > 0 %}
                                     <div class="progress">
-
                                         <div class="progress-bar progress-bar-green" role="progressbar"
                                              style="width: {{ feature.getPercentPassed }}%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                                             style="width: {{ feature.getPercentPending }}%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
@@ -160,7 +166,7 @@
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
                         {% for scenario in feature.scenarios %}
-                            <div class="panel panel-default {% if scenario.isPassed %}passed{% else %}failed{% endif %}">
+                            <div class="panel panel-default {% if scenario.isPassed %}passed{% elseif scenario.isPending %}pending{% else %}failed{% endif %}">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -245,6 +251,12 @@
             label: "Failed"
         },
         {
+            value: {{ pendingScenarios|length}},
+            color: "#e38d13",
+            highlight: "#eea236",
+            label: "Pending"
+        },
+        {
             value: {{  passedScenarios|length}},
             color: "#00a65a",
             highlight: "#5AD3D1",
@@ -301,6 +313,11 @@
             showOverview();
             $('.feature').hide();
             $('.card.failed').parent().show();
+        });
+        $('.filters #feature-pending-filter').click(function () {
+            showOverview();
+            $('.feature').hide();
+            $('.card.pending').parent().show();
         });
         $('.filters #feature-passed-filter').click(function () {
             showOverview();
