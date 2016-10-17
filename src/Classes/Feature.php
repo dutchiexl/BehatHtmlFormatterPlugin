@@ -156,7 +156,7 @@ class Feature
 
     public function addFailedScenario($number = 1)
     {
-        $this->failedScenarios++;
+        $this->failedScenarios += $number;
     }
 
     /**
@@ -177,7 +177,7 @@ class Feature
 
     public function addPendingScenario($number = 1)
     {
-        $this->pendingScenarios++;
+        $this->pendingScenarios += $number;
     }
 
     /**
@@ -198,7 +198,7 @@ class Feature
 
     public function addPassedScenario($number = 1)
     {
-        $this->passedScenarios++;
+        $this->passedScenarios += $number;
     }
 
     /**
