@@ -290,7 +290,8 @@
         $("#scenario-overview .feature[data-id='" + featureId + "']").show();
     }
     $(function () {
-        $('.collapse').collapse();
+        // hacky fix bug with destroyed layout cause JS error here
+        //$('.collapse').collapse();
 
         $('.filters').click()
         {
