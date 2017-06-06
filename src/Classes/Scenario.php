@@ -30,6 +30,7 @@ class Scenario
      * @var Step[]
      */
     private $steps;
+    private $screenshotPath;
 
     /**
      * @return mixed
@@ -164,5 +165,20 @@ class Scenario
     {
         //behat
         return $this->loopCount > 0 ? sizeof($this->steps)/$this->loopCount : sizeof($this->steps);
+    }
+
+    public function setScreenshotPath($string)
+    {
+        $this->screenshotPath = $string;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScreenshotPath()
+    {
+        if (file_exists('results/html/' . $this->screenshotPath)) {
+            return $this->screenshotPath;
+        }
     }
 }
