@@ -19,6 +19,7 @@ class Feature
     private $file;
     private $screenshotFolder;
     private $failedScenarios = 0;
+    private $pendingScenarios = 0;
     private $passedScenarios = 0;
     private $scenarioCounter = 1;
 
@@ -155,7 +156,28 @@ class Feature
 
     public function addFailedScenario($number = 1)
     {
-        $this->failedScenarios++;
+        $this->failedScenarios += $number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPendingScenarios()
+    {
+        return $this->pendingScenarios;
+    }
+
+    /**
+     * @param mixed $pendingScenarios
+     */
+    public function setPendingScenarios($pendingScenarios)
+    {
+        $this->pendingScenarios = $pendingScenarios;
+    }
+
+    public function addPendingScenario($number = 1)
+    {
+        $this->pendingScenarios += $number;
     }
 
     /**
@@ -176,7 +198,7 @@ class Feature
 
     public function addPassedScenario($number = 1)
     {
-        $this->passedScenarios++;
+        $this->passedScenarios += $number;
     }
 
     /**
@@ -219,6 +241,11 @@ class Feature
         return ($this->getPassedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
     }
 
+    public function getPercentPending()
+    {
+        return ($this->getPendingScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
+    }
+
     public function getPercentFailed()
     {
         return ($this->getFailedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
@@ -226,7 +253,7 @@ class Feature
 
     public function getTotalAmountOfScenarios()
     {
-        return $this->getPassedScenarios() + $this->getFailedScenarios();
+        return $this->getPassedScenarios() + $this->getPendingScenarios() + $this->getFailedScenarios();
     }
     //</editor-fold>
 }

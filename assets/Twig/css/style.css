@@ -153,6 +153,11 @@ body {
   background-color: #00a65a;
   background-image: none;
 }
+#scenario-overview .feature .details .panel.pending > .panel-heading {
+  color: white;
+  background-color: #e38d13;
+  background-image: none;
+}
 #scenario-overview .feature .details .panel.failed > .panel-heading {
   color: white;
   background-color: #f56956;

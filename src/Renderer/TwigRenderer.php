@@ -41,6 +41,7 @@ class TwigRenderer
             array(
                 'suites' => $obj->getSuites(),
                 'failedScenarios' => $obj->getFailedScenarios(),
+                'pendingScenarios' => $obj->getPendingScenarios(),
                 'passedScenarios' => $obj->getPassedScenarios(),
                 'failedSteps' => $obj->getFailedSteps(),
                 'passedSteps' => $obj->getPassedSteps(),
