@@ -198,8 +198,10 @@ class Scenario
      */
     public function getScreenshotPath()
     {
-        if (file_exists('results/html/' . $this->screenshotPath)) {
-            return $this->screenshotPath;
+        if (file_exists($this->screenshotPath)) {
+            return "file://" . realpath($this->screenshotPath);
         }
+
+        return false;
     }
 }

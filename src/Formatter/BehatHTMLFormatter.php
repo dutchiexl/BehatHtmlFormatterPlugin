@@ -470,7 +470,8 @@ class BehatHTMLFormatter implements Formatter {
         $scenario->setLine($event->getScenario()->getLine());
         $scenario->setScreenshotName($event->getScenario()->getTitle());
         $scenario->setScreenshotPath(
-            'assets/screenshots/' .
+            $this->printer->getOutputPath() .
+            '/assets/screenshots/' .
             preg_replace('/\W/', '', $event->getFeature()->getTitle()) . '/'.
             preg_replace('/\W/', '', $event->getScenario()->getTitle()) . '.png'
         );
