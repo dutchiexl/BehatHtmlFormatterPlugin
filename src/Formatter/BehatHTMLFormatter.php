@@ -122,47 +122,47 @@ class BehatHTMLFormatter implements Formatter {
     /**
      * @var Scenario[]
      */
-    private $failedScenarios;
+    private $failedScenarios = [];
 
     /**
      * @var Scenario[]
      */
-    private $pendingScenarios;
+    private $pendingScenarios = [];
 
     /**
      * @var Scenario[]
      */
-    private $passedScenarios;
+    private $passedScenarios = [];
 
     /**
      * @var Feature[]
      */
-    private $failedFeatures;
+    private $failedFeatures = [];
 
     /**
      * @var Feature[]
      */
-    private $passedFeatures;
+    private $passedFeatures = [];
 
     /**
      * @var Step[]
      */
-    private $failedSteps;
+    private $failedSteps = [];
 
     /**
      * @var Step[]
      */
-    private $passedSteps;
+    private $passedSteps = [];
 
     /**
      * @var Step[]
      */
-    private $pendingSteps;
+    private $pendingSteps = [];
 
     /**
      * @var Step[]
      */
-    private $skippedSteps;
+    private $skippedSteps = [];
 
     //</editor-fold>
 
