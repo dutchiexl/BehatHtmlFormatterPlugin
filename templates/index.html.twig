@@ -23,7 +23,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="assets/Twig/js/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </head>
 <body role="document" style="margin-top: 70px;">
 
@@ -233,64 +233,31 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-    var featureData = [
-        {
-            value: {{  failedFeatures|length}},
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Failed"
-        },
-        {
-            value: {{  passedFeatures|length}},
-            color: "#00a65a",
-            highlight: "#5AD3D1",
-            label: "Passed"
-        },
-    ];
-
-    var scenarioData = [
-        {
-            value: {{  failedScenarios|length}},
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Failed"
-        },
-        {
-            value: {{ pendingScenarios|length}},
-            color: "#e38d13",
-            highlight: "#eea236",
-            label: "Pending"
-        },
-        {
-            value: {{  passedScenarios|length}},
-            color: "#00a65a",
-            highlight: "#5AD3D1",
-            label: "Passed"
-        },
-    ];
-
-    var stepData = [
-        {
-            value: {{  failedSteps|length}},
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Failed"
-        },
-        {
-            value: {{  passedSteps|length}},
-            color: "#00a65a",
-            highlight: "#5AD3D1",
-            label: "Passed"
-        },
-    ];
-
     window.onload = function () {
         var featureChart = document.getElementById("chart-features").getContext("2d");
         var scenarioChart = document.getElementById("chart-scenarios").getContext("2d");
         var stepChart = document.getElementById("chart-steps").getContext("2d");
-        new Chart(featureChart).Doughnut(featureData);
-        new Chart(scenarioChart).Doughnut(scenarioData);
-        new Chart(stepChart).Doughnut(stepData);
+        new Chart(featureChart, {type: 'doughnut', data: {
+                labels: ['Failed', 'Pending', 'Passed'],
+                datasets: [{
+                    data: [{{ failedScenarios|length }}, {{ pendingScenarios|length }}, {{ passedScenarios|length }}],
+                    backgroundColor: ['#F7464A', 'e38d13', '#00a65a'],
+                }],
+            }});
+        new Chart(scenarioChart, {type: 'doughnut', data: {
+                labels: ['Failed', 'Passed'],
+                datasets: [{
+                    data: [{{ failedFeatures|length }}, {{ passedFeatures|length }}],
+                    backgroundColor: ["#F7464A", "#00a65a"],
+                }],
+            }});
+        new Chart(stepChart, {type: 'doughnut', data: {
+                labels: ['Failed','Passed'],
+                datasets: [{
+                    data: [{{ failedSteps|length }}, {{ passedSteps|length }}],
+                    backgroundColor: ["#F7464A", "#00a65a"],
+                }],
+            }});
     };
 </script>
 <script type="text/javascript">
