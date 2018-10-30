@@ -63,6 +63,12 @@ class Behat2Renderer implements RendererInterface {
             $sceTotal += count($obj->getPassedScenarios());
         }
 
+        $strScePending = '';
+        if (null!==$obj->getPendingScenarios() && count($obj->getPendingScenarios()) > 0) {
+            $strScePending = ' <strong class="failed">'.count($obj->getPendingScenarios()).' fail</strong>';
+            $sceTotal += count($obj->getPendingScenarios());
+        }
+
         $strSceFailed = '';
         if (null!==$obj->getFailedScenarios() && count($obj->getFailedScenarios()) > 0) {
             $strSceFailed = ' <strong class="failed">'.count($obj->getFailedScenarios()).' fail</strong>';
@@ -400,13 +406,11 @@ class Behat2Renderer implements RendererInterface {
                         </div>';
         $exception = $step->getException();
         if(!empty($exception)) {
-            $relativeScreenshotPath = 'assets/screenshots/' . $feature->getScreenshotFolder() . '/' . $scenario->getScreenshotName();
-            $fullScreenshotPath = $obj->getOutputPath() . '/' . $relativeScreenshotPath;
             $print .= '
                         <pre class="backtrace">'.$step->getException().'</pre>';
-            if(file_exists($fullScreenshotPath))
+            if($feature->getRelativeScreenshotPath())
             {
-                $print .= '<a href="' . $relativeScreenshotPath . '">Screenshot</a>';
+                $print .= '<a href="' . $feature->getRelativeScreenshotPath() . '">Screenshot</a>';
             }
         }
         $print .= '
