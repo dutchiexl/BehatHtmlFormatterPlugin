@@ -18,7 +18,6 @@ class ScreenshotContext extends RawMinkContext
      * @BeforeScenario
      *
      * @param BeforeScenarioScope $scope
-     *
      */
     public function setUpTestEnvironment($scope)
     {
@@ -41,13 +40,13 @@ class ScreenshotContext extends RawMinkContext
         $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
 
         $scenarioName = $this->currentScenario->getTitle();
-        $fileName = preg_replace('/\W/', '', $scenarioName) . '.png';
+        $fileName = preg_replace('/\W/', '', $scenarioName).'.png';
 
         // create screenshots directory if it doesn't exist
-        if (!file_exists($this->screenshotDir . '/' . $featureFolder)) {
-            mkdir($this->screenshotDir . '/' . $featureFolder);
+        if (!file_exists($this->screenshotDir.'/'.$featureFolder)) {
+            mkdir($this->screenshotDir.'/'.$featureFolder);
         }
 
-        $this->saveScreenshot($fileName, $this->screenshotDir.'/' . $featureFolder . '/');
+        $this->saveScreenshot($fileName, $this->screenshotDir.'/'.$featureFolder.'/');
     }
 }
