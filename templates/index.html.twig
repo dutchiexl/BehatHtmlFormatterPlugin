@@ -23,7 +23,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="assets/Twig/js/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </head>
 <body role="document" style="margin-top: 70px;">
 
@@ -38,7 +38,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Behat report</a>
+            <a class="navbar-brand" href="#">Automated test report - {{ "now"|date('d/m/Y H:i:s') }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -55,21 +55,34 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            {{ failedFeatures|length }} features failed of {{ (failedFeatures|length) + (passedFeatures|length) }}
-            features
+            <div class="chart-summary title">
+                {{ (failedFeatures|length) + (passedFeatures|length) }} Features:
+            </div>
+            <div class="chart-summary failed">{{ failedFeatures|length }} failed</div>
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            {{ failedScenarios|length }} scenarios failed of {{ (failedScenarios|length) + (passedScenarios|length) + (pendingScenarios|length) }}
-            scenarios
+            <div class="chart-summary title">
+                {{ (failedScenarios|length) + (passedScenarios|length) + (skippedScenarios|length) + (undefinedScenarios|length) }}
+                Scenarios:
+            </div>
+            <div class="chart-summary failed">{{ failedScenarios|length }} failed</div>
+            <div class="chart-summary undefined">{{ undefinedScenarios|length }} undefined</div>
+            <div class="chart-summary skipped">{{ skippedScenarios|length }} skipped</div>
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            {{ failedSteps|length }} steps failed of {{ (failedSteps|length) + (passedSteps|length) }}
+            <div class="chart-summary title">
+                {{ (failedSteps|length) + (passedSteps|length) + (skippedSteps|length) + (undefinedSteps|length) }}
+                Steps:
+            </div>
+            <div class="chart-summary failed">{{ failedSteps|length }} failed</div>
+            <div class="chart-summary undefined">{{ undefinedSteps|length }} undefined</div>
+            <div class="chart-summary skipped">{{ skippedSteps|length }} skipped</div>
         </div>
     </div>
     <hr>
@@ -180,8 +193,8 @@
                                             {% for tag in scenario.tags %}
                                                 <span class="badge">{{ tag }}</span>
                                             {% endfor %}
-                                            {% if scenario.getScreenshotPath() %}
-                                            <a class="label label-default" href="{{ scenario.getScreenshotPath() }}" target="_blank">Screenshot</a>
+                                            {% if scenario.getRelativeScreenshotPath() %}
+                                            <a class="label label-default" href="{{ scenario.getRelativeScreenshotPath() }}" target="_blank">Screenshot</a>
                                             {% endif %}
                                         </div>
                                     </h4>
@@ -233,64 +246,31 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-    var featureData = [
-        {
-            value: {{  failedFeatures|length}},
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Failed"
-        },
-        {
-            value: {{  passedFeatures|length}},
-            color: "#00a65a",
-            highlight: "#5AD3D1",
-            label: "Passed"
-        },
-    ];
-
-    var scenarioData = [
-        {
-            value: {{  failedScenarios|length}},
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Failed"
-        },
-        {
-            value: {{ pendingScenarios|length}},
-            color: "#e38d13",
-            highlight: "#eea236",
-            label: "Pending"
-        },
-        {
-            value: {{  passedScenarios|length}},
-            color: "#00a65a",
-            highlight: "#5AD3D1",
-            label: "Passed"
-        },
-    ];
-
-    var stepData = [
-        {
-            value: {{  failedSteps|length}},
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Failed"
-        },
-        {
-            value: {{  passedSteps|length}},
-            color: "#00a65a",
-            highlight: "#5AD3D1",
-            label: "Passed"
-        },
-    ];
-
     window.onload = function () {
         var featureChart = document.getElementById("chart-features").getContext("2d");
         var scenarioChart = document.getElementById("chart-scenarios").getContext("2d");
         var stepChart = document.getElementById("chart-steps").getContext("2d");
-        new Chart(featureChart).Doughnut(featureData);
-        new Chart(scenarioChart).Doughnut(scenarioData);
-        new Chart(stepChart).Doughnut(stepData);
+        new Chart(featureChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
+                labels: ['Failed', 'Pending', 'Passed'],
+                datasets: [{
+                    data: [{{ failedScenarios|length }}, {{ pendingScenarios|length }}, {{ passedScenarios|length }}],
+                    backgroundColor: ['#F7464A', 'e38d13', '#00a65a'],
+                }],
+            }});
+        new Chart(scenarioChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
+                labels: ['Failed', 'Passed'],
+                datasets: [{
+                    data: [{{ failedFeatures|length }}, {{ passedFeatures|length }}],
+                    backgroundColor: ["#F7464A", "#00a65a"],
+                }],
+            }});
+        new Chart(stepChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
+                labels: ['Failed','Passed'],
+                datasets: [{
+                    data: [{{ failedSteps|length }}, {{ passedSteps|length }}],
+                    backgroundColor: ["#F7464A", "#00a65a"],
+                }],
+            }});
     };
 </script>
 <script type="text/javascript">

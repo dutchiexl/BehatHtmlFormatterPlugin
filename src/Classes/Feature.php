@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nealv
- * Date: 05/01/15
- * Time: 14:39
- */
 
 namespace emuse\BehatHTMLFormatter\Classes;
-
 
 class Feature
 {
@@ -30,6 +23,7 @@ class Feature
     //</editor-fold>
 
     //<editor-fold desc="Getters/Setters">
+
     /**
      * @return mixed
      */
@@ -86,8 +80,6 @@ class Feature
         return $this->file;
     }
 
-
-
     /**
      * @param mixed $file
      */
@@ -105,7 +97,7 @@ class Feature
     }
 
     /**
-     * @param String $featureName
+     * @param string $featureName
      */
     public function setScreenshotFolder($featureName)
     {
@@ -134,7 +126,7 @@ class Feature
     public function addScenario($scenario)
     {
         $scenario->setId($this->scenarioCounter);
-        $this->scenarioCounter++;
+        ++$this->scenarioCounter;
         $this->scenarios[] = $scenario;
     }
 
@@ -222,18 +214,20 @@ class Feature
     //<editor-fold desc="Function">
     public function allPassed()
     {
-        if ($this->failedScenarios == 0) {
+        if (0 == $this->failedScenarios) {
             return true;
         }
+
         return false;
     }
 
     public function getPassedClass()
     {
         if ($this->allPassed()) {
-            return "passed";
+            return 'passed';
         }
-        return "failed";
+
+        return 'failed';
     }
 
     public function getPercentPassed()
@@ -255,5 +249,6 @@ class Feature
     {
         return $this->getPassedScenarios() + $this->getPendingScenarios() + $this->getFailedScenarios();
     }
+
     //</editor-fold>
 }

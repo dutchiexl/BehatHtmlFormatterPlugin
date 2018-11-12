@@ -342,10 +342,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $files = array(
             $this->reportDir . 'Index.html',
             $this->reportDir . 'assets/Twig/css/style.css',
-            $this->reportDir . 'assets/Twig/css/callout.css',
             $this->reportDir . 'assets/Twig/css/style.less',
-            $this->reportDir . 'assets/Twig/css/callout.less',
-            $this->reportDir . 'assets/Twig/js/Chart.min.js',
         );
 
         foreach ($files as $file) {

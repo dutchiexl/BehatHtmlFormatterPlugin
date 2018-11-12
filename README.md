@@ -71,8 +71,11 @@ Activate the extension by specifying its class in your `behat.yml`:
 # behat.yml
 default:
   suites:
+    default:
+       contexts:
+          - emuse\BehatHTMLFormatter\Context\ScreenshotContext:
+               screenshotDir: build/html/behat/assets/screenshots
     ... # All your awesome suites come here
-
   formatters:
     html:
       output_path: %paths.base%/build/html/behat

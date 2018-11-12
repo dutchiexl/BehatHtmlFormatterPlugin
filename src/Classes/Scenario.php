@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nealv
- * Date: 05/01/15
- * Time: 14:39
- */
 
 namespace emuse\BehatHTMLFormatter\Classes;
-
 
 class Scenario
 {
@@ -60,7 +53,7 @@ class Scenario
 
     public function setScreenshotName($scenarioName)
     {
-        $this->screenshotName = preg_replace('/\W/', '', $scenarioName) . '.png';
+        $this->screenshotName = preg_replace('/\W/', '', $scenarioName).'.png';
     }
 
     /**
@@ -78,6 +71,7 @@ class Scenario
     {
         $this->loopCount = $loopCount;
     }
+
     /**
      * @return mixed
      */
@@ -111,7 +105,7 @@ class Scenario
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPassed()
     {
@@ -119,7 +113,7 @@ class Scenario
     }
 
     /**
-     * @param boolean $passed
+     * @param bool $passed
      */
     public function setPassed($passed)
     {
@@ -127,7 +121,7 @@ class Scenario
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPending()
     {
@@ -135,7 +129,7 @@ class Scenario
     }
 
     /**
-     * @param boolean $pending
+     * @param bool $pending
      */
     public function setPending($pending)
     {
@@ -185,7 +179,7 @@ class Scenario
     public function getLoopSize()
     {
         //behat
-        return $this->loopCount > 0 ? sizeof($this->steps)/$this->loopCount : sizeof($this->steps);
+        return $this->loopCount > 0 ? sizeof($this->steps) / $this->loopCount : sizeof($this->steps);
     }
 
     public function setScreenshotPath($string)
@@ -198,10 +192,20 @@ class Scenario
      */
     public function getScreenshotPath()
     {
-        if (file_exists($this->screenshotPath)) {
-            return "file://" . realpath($this->screenshotPath);
+        return $this->screenshotPath;
+    }
+
+    /**
+     * Gets relative path for screenshot.
+     *
+     * @return bool|string
+     */
+    public function getRelativeScreenshotPath()
+    {
+        if (!file_exists($this->screenshotPath)) {
+            return false;
         }
 
-        return false;
+        return '.'.substr($this->screenshotPath, strpos($this->screenshotPath, '/assets/screenshots'));
     }
 }

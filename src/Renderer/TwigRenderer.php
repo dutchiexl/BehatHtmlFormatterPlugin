@@ -1,16 +1,15 @@
 <?php
 
-namespace emuse\BehatHTMLFormatter\Renderer ;
+namespace emuse\BehatHTMLFormatter\Renderer;
 
 use emuse\BehatHTMLFormatter\Formatter\BehatHTMLFormatter;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
 /**
- * Twig renderer for Behat report
+ * Twig renderer for Behat report.
  *
  * Class TwigRenderer
- * @package emuse\BehatHTMLFormatter\Renderer
  */
 class TwigRenderer
 {
@@ -18,7 +17,8 @@ class TwigRenderer
      * Renders before an exercise.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeExercise(BehatHTMLFormatter $obj)
     {
@@ -29,12 +29,12 @@ class TwigRenderer
      * Renders after an exercise.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterExercise(BehatHTMLFormatter $obj)
     {
-
-        $templatePath = dirname(__FILE__) . '/../../templates';
+        $templatePath = dirname(__FILE__).'/../../templates';
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
         $print = $twig->render('index.html.twig',
@@ -60,7 +60,8 @@ class TwigRenderer
      * Renders before a suite.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeSuite(BehatHTMLFormatter $obj)
     {
@@ -71,7 +72,8 @@ class TwigRenderer
      * Renders after a suite.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterSuite(BehatHTMLFormatter $obj)
     {
@@ -82,7 +84,8 @@ class TwigRenderer
      * Renders before a feature.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeFeature(BehatHTMLFormatter $obj)
     {
@@ -93,7 +96,8 @@ class TwigRenderer
      * Renders after a feature.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterFeature(BehatHTMLFormatter $obj)
     {
@@ -104,7 +108,8 @@ class TwigRenderer
      * Renders before a scenario.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeScenario(BehatHTMLFormatter $obj)
     {
@@ -115,7 +120,8 @@ class TwigRenderer
      * Renders after a scenario.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterScenario(BehatHTMLFormatter $obj)
     {
@@ -126,7 +132,8 @@ class TwigRenderer
      * Renders before an outline.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeOutline(BehatHTMLFormatter $obj)
     {
@@ -137,7 +144,8 @@ class TwigRenderer
      * Renders after an outline.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterOutline(BehatHTMLFormatter $obj)
     {
@@ -148,7 +156,8 @@ class TwigRenderer
      * Renders before a step.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeStep(BehatHTMLFormatter $obj)
     {
@@ -159,7 +168,8 @@ class TwigRenderer
      * Renders after a step.
      *
      * @param BehatHTMLFormatter $obj
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterStep(BehatHTMLFormatter $obj)
     {
@@ -167,9 +177,9 @@ class TwigRenderer
     }
 
     /**
-     * To include CSS
+     * To include CSS.
      *
-     * @return string  : HTML generated
+     * @return string : HTML generated
      */
     public function getCSS()
     {
@@ -177,9 +187,9 @@ class TwigRenderer
     }
 
     /**
-     * To include JS
+     * To include JS.
      *
-     * @return string  : HTML generated
+     * @return string : HTML generated
      */
     public function getJS()
     {

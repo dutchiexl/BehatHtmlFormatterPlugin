@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nealv
- * Date: 05/01/15
- * Time: 12:50
- */
 
 namespace emuse\BehatHTMLFormatter\Classes;
-
 
 class Suite
 {
