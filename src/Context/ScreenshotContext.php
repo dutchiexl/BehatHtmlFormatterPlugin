@@ -44,7 +44,7 @@ class ScreenshotContext extends RawMinkContext
 
         // create screenshots directory if it doesn't exist
         if (!file_exists($this->screenshotDir.'/'.$featureFolder)) {
-            mkdir($this->screenshotDir.'/'.$featureFolder);
+            mkdir($this->screenshotDir.'/'.$featureFolder, 0777, true);
         }
 
         $this->saveScreenshot($fileName, $this->screenshotDir.'/'.$featureFolder.'/');
