@@ -45,6 +45,7 @@ class TwigRenderer
                 'passedScenarios' => $obj->getPassedScenarios(),
                 'failedSteps' => $obj->getFailedSteps(),
                 'passedSteps' => $obj->getPassedSteps(),
+                'skippedSteps' => $obj->getSkippedSteps(),
                 'failedFeatures' => $obj->getFailedFeatures(),
                 'passedFeatures' => $obj->getPassedFeatures(),
                 'printStepArgs' => $obj->getPrintArguments(),
