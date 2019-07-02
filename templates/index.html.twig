@@ -251,17 +251,17 @@
         var scenarioChart = document.getElementById("chart-scenarios").getContext("2d");
         var stepChart = document.getElementById("chart-steps").getContext("2d");
         new Chart(featureChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
-                labels: ['Failed', 'Pending', 'Passed'],
-                datasets: [{
-                    data: [{{ failedScenarios|length }}, {{ pendingScenarios|length }}, {{ passedScenarios|length }}],
-                    backgroundColor: ['#F7464A', 'e38d13', '#00a65a'],
-                }],
-            }});
-        new Chart(scenarioChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
                 labels: ['Failed', 'Passed'],
                 datasets: [{
                     data: [{{ failedFeatures|length }}, {{ passedFeatures|length }}],
                     backgroundColor: ["#F7464A", "#00a65a"],
+                }],
+            }});
+        new Chart(scenarioChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
+                labels: ['Failed', 'Pending', 'Passed'],
+                datasets: [{
+                    data: [{{ failedScenarios|length }}, {{ pendingScenarios|length }}, {{ passedScenarios|length }}],
+                    backgroundColor: ['#F7464A', 'e38d13', '#00a65a'],
                 }],
             }});
         new Chart(stepChart, {type: 'doughnut', options: {legend: {display: false}}, data: {
