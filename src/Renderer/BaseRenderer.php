@@ -25,7 +25,7 @@ class BaseRenderer
      * @param string : list of the renderer
      * @param string : base_path
      */
-    public function __construct($renderer, $base_path)
+    public function __construct($renderer, $render_options)
     {
         $rendererList = explode(',', $renderer);
 
@@ -33,14 +33,14 @@ class BaseRenderer
         $this->rendererList = array();
 
         //let's load the renderer dynamically
-        foreach ($rendererList as $renderer) {
-            $this->nameList[] = $renderer;
-            if (in_array($renderer, array('Behat2', 'Twig', 'Minimal'))) {
-                $className = __NAMESPACE__.'\\'.$renderer.'Renderer';
-            } else {
-                $className = $renderer;
+        foreach ($rendererListTmp as $r) {
+            $this->nameList[] = $r;
+            $className = __NAMESPACE__ . '\\' . $r . 'Renderer';
+            $renderer_instance = new $className();
+            if ($render_options) {
+                $renderer_instance->setRenderOptions($render_options);
             }
-            $this->rendererList[$renderer] = new $className();
+            $this->rendererList[$r] = $renderer_instance;
         }
     }
 

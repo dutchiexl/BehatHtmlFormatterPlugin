@@ -176,14 +176,14 @@ class BehatHTMLFormatter implements Formatter
      * @param $name
      * @param $base_path
      */
-    public function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $base_path)
+    public function __construct($name, $renderer, $render_options, $filename, $print_args, $print_outp, $loop_break, $base_path)
     {
         $this->name = $name;
         $this->base_path = $base_path;
         $this->print_args = $print_args;
         $this->print_outp = $print_outp;
         $this->loop_break = $loop_break;
-        $this->renderer = new BaseRenderer($renderer, $base_path);
+        $this->renderer = new BaseRenderer($renderer, $render_options);
         $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
         $this->timer = new Timer();
         $this->memory = new Memory();
@@ -253,7 +253,7 @@ class BehatHTMLFormatter implements Formatter
      * Sets formatter parameter.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function setParameter($name, $value)
     {
@@ -487,10 +487,10 @@ class BehatHTMLFormatter implements Formatter
         $scenario->setLine($event->getScenario()->getLine());
         $scenario->setScreenshotName($event->getScenario()->getTitle());
         $scenario->setScreenshotPath(
-            $this->printer->getOutputPath().
-            '/assets/screenshots/'.
-            preg_replace('/\W/', '', $event->getFeature()->getTitle()).'/'.
-            preg_replace('/\W/', '', $event->getScenario()->getTitle()).'.png'
+            $this->printer->getOutputPath() .
+            '/assets/screenshots/' .
+            preg_replace('/\W/', '', $event->getFeature()->getTitle()) . '/' .
+            preg_replace('/\W/', '', $event->getScenario()->getTitle()) . '.png'
         );
         $this->currentScenario = $scenario;
 
