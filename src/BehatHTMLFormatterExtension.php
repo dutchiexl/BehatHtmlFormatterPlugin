@@ -55,25 +55,34 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
      */
     public function configure(ArrayNodeDefinition $builder)
     {
-        $builder->children()->scalarNode('name')->defaultValue('emusehtml');
-        $builder->children()->scalarNode('renderer')->defaultValue('Twig');
-        $builder->children()->scalarNode('file_name')->defaultValue('generated');
-        $builder->children()->scalarNode('print_args')->defaultValue('false');
-        $builder->children()->scalarNode('print_outp')->defaultValue('false');
-        $builder->children()->scalarNode('loop_break')->defaultValue('false');
+        $builder->children()->scalarNode("name")->defaultValue("emusehtml");
+        $builder->children()->scalarNode("renderer")->defaultValue("Twig");
+        $builder->children()->scalarNode("file_name")->defaultValue("generated");
+        $builder->children()->scalarNode("print_args")->defaultValue("false");
+        $builder->children()->scalarNode("print_outp")->defaultValue("false");
+        $builder->children()->scalarNode("loop_break")->defaultValue("false");
+        $builder->children()->scalarNode('output')->defaultValue('.');
+        $builder
+            ->children()
+            ->arrayNode('render_options')
+            ->defaultValue(array())
+            ->prototype('scalar')->end()
+            ->end()
+            ->end();
     }
 
     /**
      * Loads extension services into temporary container.
      *
      * @param ContainerBuilder $container
-     * @param array            $config
+     * @param array $config
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition('emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter');
+        $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
         $definition->addArgument($config['name']);
         $definition->addArgument($config['renderer']);
+        $definition->addArgument($config['render_options']);
         $definition->addArgument($config['file_name']);
         $definition->addArgument($config['print_args']);
         $definition->addArgument($config['print_outp']);
@@ -81,6 +90,6 @@ class BehatHTMLFormatterExtension implements ExtensionInterface
 
         $definition->addArgument('%paths.base%');
         $container->setDefinition('html.formatter', $definition)
-      ->addTag('output.formatter');
+            ->addTag('output.formatter');
     }
 }
