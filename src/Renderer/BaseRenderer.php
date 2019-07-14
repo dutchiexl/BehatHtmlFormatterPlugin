@@ -33,7 +33,7 @@ class BaseRenderer
         $this->rendererList = array();
 
         //let's load the renderer dynamically
-        foreach ($rendererListTmp as $r) {
+        foreach ($rendererList as $r) {
             $this->nameList[] = $r;
             $className = __NAMESPACE__ . '\\' . $r . 'Renderer';
             $renderer_instance = new $className();
