@@ -12,3 +12,6 @@ default:
             print_args: true
             print_outp: true
             loop_break: true
+            render_options:
+                twig_template_name: index.html.twig
+                twig_template_path: ../../templates
