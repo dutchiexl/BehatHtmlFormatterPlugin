@@ -38,20 +38,24 @@ The easiest way to keep your suite updated is to use [Composer](http://getcompos
 $ composer require --dev emuse/behat-html-formatter
 ```
 
+*Be aware that you will get an old version (see below)*
+
 #### Install using `composer.json`
 
-Add BehatHtmlFormatterPlugin to the list of dependencies inside your `composer.json`.
+Add BehatHtmlFormatterPlugin to the list of dependencies inside your `composer.json`, and configure a vcs repository.
+This will allow composer to load the current master branch of this package.
 
 ```json
 {
     "require": {
-        "behat/behat": "3.*@stable",
-        "emuse/behat-html-formatter": "0.1.*",
+        "emuse/behat-html-formatter": "dev-master"
     },
-    "minimum-stability": "dev",
-    "config": {
-        "bin-dir": "bin/"
-    }
+    "repositories": [
+        {
+            "type":"vcs",
+            "url": "https://github.com/dutchiexl/BehatHtmlFormatterPlugin.git"
+        }
+    ]
 }
 ```
 
@@ -88,6 +92,9 @@ default:
       print_args: true
       print_outp: true
       loop_break: true
+#     render_options:
+#         twig_template_name: custom.twig
+#         twig_template_path: templates
 ```
 
 ## Configuration
@@ -106,66 +113,8 @@ default:
 * `print_args` - (Optional) If set to `true`, Behat will add all arguments for each step to the report. (E.g. Tables).
 * `print_outp` - (Optional) If set to `true`, Behat will add the output of each step to the report. (E.g. Exceptions).
 * `loop_break` - (Optional) If set to `true`, Behat will add a separating break line after each execution when printing Scenario Outlines.
-
-## Screenshot
-
-The facility exists to embed a screenshot into test failures.
-
-Currently png is the only supported image format.
-
-In order to embed a screenshot, you will need to take a screenshot using your favourite webdriver and store it in the following filepath format:
-
-results/html/assets/screenshots/{{feature_name}}/{{scenario_name}}.png
-
-The feature_name and scenario_name variables will need to be the relevant item names without spaces.
-
-Below is an example of FeatureContext methods which will produce an image file in the above format:
-
-```php
-
-        /**
-         * @BeforeScenario
-         *
-         * @param BeforeScenarioScope $scope
-         *
-         */
-        public function setUpTestEnvironment($scope)
-        {
-            $this->currentScenario = $scope->getScenario();
-        }
-
-        /**
-         * @AfterStep
-         *
-         * @param AfterStepScope $scope
-         */
-        public function afterStep($scope)
-        {
-            //if test has failed, and is not an api test, get screenshot
-            if(!$scope->getTestResult()->isPassed())
-            {
-                //create filename string
-
-               $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
-                  
-                              $scenarioName = $this->currentScenario->getTitle();
-                              $fileName = preg_replace('/\W/', '', $scenarioName) . '.png';
-
-                //create screenshots directory if it doesn't exist
-                if (!file_exists('results/html/assets/screenshots/' . $featureFolder)) {
-                    mkdir('results/html/assets/screenshots/' . $featureFolder);
-                }
-
-                //take screenshot and save as the previously defined filename
-                $this->driver->takeScreenshot('results/html/assets/screenshots/' . $featureFolder . '/' . $fileName);
-                // For Selenium2 Driver you can use:
-                // file_put_contents('results/html/assets/screenshots/' . $featureFolder . '/' . $fileName, $this->getSession()->getDriver()->getScreenshot());
-            }
-        }
-
-```
-
-Note that the currentScenario variable will need to be at class level and generated in the @BeforeScenario method as Behat does not currently support obtaining the current Scenario in the @AfterStep method, where the screenshot is generated
+* `render_options.twig_template_path` - (Optional) If set this is the custom twig template path.
+* `render_options.twig_template_name` - (Optional) If set to this points to the twig template file.
 
 ## Issue Submission
 
