@@ -90,6 +90,16 @@ default:
       loop_break: true
 ```
 
+### Command line options
+
+Add the following to your behat command to print a report:
+
+`behat --format html --out MYDIRECTORY`
+
+Setting the format to html will output the various reports that you configure below (Behat2, Twig, Minimal, etc.)
+
+You also need to specify the output directory for the reports as MYDIRECTORY.
+
 ## Configuration
 
 ### Formatter configuration
