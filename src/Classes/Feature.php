@@ -130,62 +130,14 @@ class Feature
         $this->scenarios[] = $scenario;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFailedScenarios()
-    {
-        return $this->failedScenarios;
-    }
-
-    /**
-     * @param mixed $failedScenarios
-     */
-    public function setFailedScenarios($failedScenarios)
-    {
-        $this->failedScenarios = $failedScenarios;
-    }
-
     public function addFailedScenario($number = 1)
     {
         $this->failedScenarios += $number;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPendingScenarios()
-    {
-        return $this->pendingScenarios;
-    }
-
-    /**
-     * @param mixed $pendingScenarios
-     */
-    public function setPendingScenarios($pendingScenarios)
-    {
-        $this->pendingScenarios = $pendingScenarios;
-    }
-
     public function addPendingScenario($number = 1)
     {
         $this->pendingScenarios += $number;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPassedScenarios()
-    {
-        return $this->passedScenarios;
-    }
-
-    /**
-     * @param mixed $passedScenarios
-     */
-    public function setPassedScenarios($passedScenarios)
-    {
-        $this->passedScenarios = $passedScenarios;
     }
 
     public function addPassedScenario($number = 1)
@@ -209,18 +161,6 @@ class Feature
         $this->id = $id;
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Function">
-    public function allPassed()
-    {
-        if (0 == $this->failedScenarios) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function getPassedClass()
     {
         if ($this->allPassed()) {
@@ -230,9 +170,75 @@ class Feature
         return 'failed';
     }
 
+    public function allPassed()
+    {
+        if (0 == $this->failedScenarios) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getPercentPassed()
     {
         return ($this->getPassedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassedScenarios()
+    {
+        return $this->passedScenarios;
+    }
+
+    /**
+     * @param mixed $passedScenarios
+     */
+    public function setPassedScenarios($passedScenarios)
+    {
+        $this->passedScenarios = $passedScenarios;
+    }
+
+    public function getTotalAmountOfScenarios()
+    {
+        return $this->getPassedScenarios() + $this->getPendingScenarios() + $this->getFailedScenarios();
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Function">
+
+    /**
+     * @return mixed
+     */
+    public function getPendingScenarios()
+    {
+        return $this->pendingScenarios;
+    }
+
+    /**
+     * @param mixed $pendingScenarios
+     */
+    public function setPendingScenarios($pendingScenarios)
+    {
+        $this->pendingScenarios = $pendingScenarios;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFailedScenarios()
+    {
+        return $this->failedScenarios;
+    }
+
+    /**
+     * @param mixed $failedScenarios
+     */
+    public function setFailedScenarios($failedScenarios)
+    {
+        $this->failedScenarios = $failedScenarios;
     }
 
     public function getPercentPending()
@@ -243,11 +249,6 @@ class Feature
     public function getPercentFailed()
     {
         return ($this->getFailedScenarios() / ($this->getTotalAmountOfScenarios())) * 100;
-    }
-
-    public function getTotalAmountOfScenarios()
-    {
-        return $this->getPassedScenarios() + $this->getPendingScenarios() + $this->getFailedScenarios();
     }
 
     //</editor-fold>

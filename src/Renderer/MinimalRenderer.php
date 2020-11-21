@@ -55,10 +55,10 @@ class MinimalRenderer
         $sceTotal = (count($obj->getFailedScenarios()) + count($obj->getPendingScenarios()) + count($obj->getPassedScenarios()));
         $stepsTotal = (count($obj->getFailedSteps()) + count($obj->getPassedSteps()) + count($obj->getSkippedSteps()) + count($obj->getPendingSteps()));
 
-        $print = $featTotal.','.$strFeatPassed.','.$strFeatFailed."\n";
-        $print .= $sceTotal.','.$strScePassed.','.$strScePending.','.$strSceFailed."\n";
-        $print .= $stepsTotal.','.$strStepsPassed.','.$strStepsFailed.','.$strStepsSkipped.','.$strStepsPending."\n";
-        $print .= $obj->getTimer().','.$obj->getMemory()."\n";
+        $print = $featTotal . ',' . $strFeatPassed . ',' . $strFeatFailed . "\n";
+        $print .= $sceTotal . ',' . $strScePassed . ',' . $strScePending . ',' . $strSceFailed . "\n";
+        $print .= $stepsTotal . ',' . $strStepsPassed . ',' . $strStepsFailed . ',' . $strStepsSkipped . ',' . $strStepsPending . "\n";
+        $print .= $obj->getTimer() . ',' . $obj->getMemory() . "\n";
 
         return $print;
     }

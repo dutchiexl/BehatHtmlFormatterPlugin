@@ -53,7 +53,7 @@ class Scenario
 
     public function setScreenshotName($scenarioName)
     {
-        $this->screenshotName = preg_replace('/\W/', '', $scenarioName).'.png';
+        $this->screenshotName = preg_replace('/\W/', '', $scenarioName) . '.png';
     }
 
     /**
@@ -182,17 +182,17 @@ class Scenario
         return $this->loopCount > 0 ? sizeof($this->steps) / $this->loopCount : sizeof($this->steps);
     }
 
-    public function setScreenshotPath($string)
-    {
-        $this->screenshotPath = $string;
-    }
-
     /**
      * @return mixed
      */
     public function getScreenshotPath()
     {
         return $this->screenshotPath;
+    }
+
+    public function setScreenshotPath($string)
+    {
+        $this->screenshotPath = $string;
     }
 
     /**
@@ -206,6 +206,6 @@ class Scenario
             return false;
         }
 
-        return '.'.substr($this->screenshotPath, strpos($this->screenshotPath, '/assets/screenshots'));
+        return '.' . substr($this->screenshotPath, strpos($this->screenshotPath, '/assets/screenshots'));
     }
 }
