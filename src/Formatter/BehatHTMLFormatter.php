@@ -9,6 +9,11 @@ use Behat\Behat\EventDispatcher\Event\AfterStepTested;
 use Behat\Behat\EventDispatcher\Event\BeforeFeatureTested;
 use Behat\Behat\EventDispatcher\Event\BeforeOutlineTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
+use Behat\Behat\EventDispatcher\Event\ExampleTested;
+use Behat\Behat\EventDispatcher\Event\FeatureTested;
+use Behat\Behat\EventDispatcher\Event\OutlineTested;
+use Behat\Behat\EventDispatcher\Event\ScenarioTested;
+use Behat\Behat\EventDispatcher\Event\StepTested;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
 use Behat\Behat\Tester\Result\StepResult;
@@ -18,6 +23,8 @@ use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
+use Behat\Testwork\EventDispatcher\Event\ExerciseCompleted;
+use Behat\Testwork\EventDispatcher\Event\SuiteTested;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
 use emuse\BehatHTMLFormatter\Classes\Feature;
@@ -197,17 +204,19 @@ class BehatHTMLFormatter implements Formatter
     public static function getSubscribedEvents()
     {
         return array(
-            'tester.exercise_completed.before' => 'onBeforeExercise',
-            'tester.exercise_completed.after' => 'onAfterExercise',
-            'tester.suite_tested.before' => 'onBeforeSuiteTested',
-            'tester.suite_tested.after' => 'onAfterSuiteTested',
-            'tester.feature_tested.before' => 'onBeforeFeatureTested',
-            'tester.feature_tested.after' => 'onAfterFeatureTested',
-            'tester.scenario_tested.before' => 'onBeforeScenarioTested',
-            'tester.scenario_tested.after' => 'onAfterScenarioTested',
-            'tester.outline_tested.before' => 'onBeforeOutlineTested',
-            'tester.outline_tested.after' => 'onAfterOutlineTested',
-            'tester.step_tested.after' => 'onAfterStepTested',
+            ExerciseCompleted::BEFORE => 'onBeforeExercise',
+            ExerciseCompleted::AFTER => 'onAfterExercise',
+            SuiteTested::BEFORE => 'onBeforeSuiteTested',
+            SuiteTested::AFTER => 'onAfterSuiteTested',
+            FeatureTested::BEFORE => 'onBeforeFeatureTested',
+            FeatureTested::AFTER => 'onAfterFeatureTested',
+            ExampleTested::BEFORE => 'onBeforeScenarioTested',
+            ExampleTested::AFTER => 'onAfterScenarioTested',
+            ScenarioTested::BEFORE => 'onBeforeScenarioTested',
+            ScenarioTested::AFTER => 'onAfterScenarioTested',
+            OutlineTested::BEFORE => 'onBeforeOutlineTested',
+            OutlineTested::AFTER => 'onAfterOutlineTested',
+            StepTested::AFTER => 'onAfterStepTested',
         );
     }
 
@@ -547,23 +556,6 @@ class BehatHTMLFormatter implements Formatter
      */
     public function onAfterOutlineTested(AfterOutlineTested $event)
     {
-        $scenarioPassed = $event->getTestResult()->isPassed();
-
-        if ($scenarioPassed) {
-            $this->passedScenarios[] = $this->currentScenario;
-            $this->currentFeature->addPassedScenario();
-            $this->currentScenario->setPassed(true);
-        } elseif (StepResult::PENDING == $event->getTestResult()->getResultCode()) {
-            $this->pendingScenarios[] = $this->currentScenario;
-            $this->currentFeature->addPendingScenario();
-            $this->currentScenario->setPending(true);
-        } else {
-            $this->failedScenarios[] = $this->currentScenario;
-            $this->currentFeature->addFailedScenario();
-            $this->currentScenario->setPassed(false);
-            $this->currentScenario->setPending(false);
-        }
-
         $this->currentScenario->setLoopCount(sizeof($event->getTestResult()));
         $this->currentFeature->addScenario($this->currentScenario);
 
