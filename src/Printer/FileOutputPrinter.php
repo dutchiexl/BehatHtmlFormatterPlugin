@@ -60,22 +60,22 @@ class FileOutputPrinter implements PrinterInterface
         if (!file_exists($outpath)) {
             if (!mkdir($outpath, 0755, true)) {
                 throw new BadOutputPathException(
-          sprintf(
-            'Output path %s does not exist and could not be created!',
-            $outpath
-          ),
-          $outpath
-        );
+                    sprintf(
+                        'Output path %s does not exist and could not be created!',
+                        $outpath
+                    ),
+                    $outpath
+                );
             }
         } else {
             if (!is_dir(realpath($outpath))) {
                 throw new BadOutputPathException(
-          sprintf(
-            'The argument to `output` is expected to the a directory, but got %s!',
-            $outpath
-          ),
-          $outpath
-        );
+                    sprintf(
+                        'The argument to `output` is expected to the a directory, but got %s!',
+                        $outpath
+                    ),
+                    $outpath
+                );
             }
         }
         $this->outputPath = $outpath;
@@ -207,7 +207,10 @@ class FileOutputPrinter implements PrinterInterface
 
         //first create the assets dir
         $destination = $this->outputPath.DIRECTORY_SEPARATOR.'assets';
-        @mkdir($destination);
+
+        if (!file_exists($destination)) {
+            mkdir($destination);
+        }
 
         $this->recurse_copy($assets_source, $destination.DIRECTORY_SEPARATOR.$renderer);
     }
@@ -221,7 +224,10 @@ class FileOutputPrinter implements PrinterInterface
     private function recurse_copy($src, $dst)
     {
         $dir = opendir($src);
-        @mkdir($dst);
+        if (!file_exists($dst)) {
+            mkdir($dst);
+        }
+
         while (false !== ($file = readdir($dir))) {
             if (('.' != $file) && ('..' != $file)) {
                 if (is_dir($src.'/'.$file)) {
