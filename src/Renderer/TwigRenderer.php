@@ -3,8 +3,8 @@
 namespace emuse\BehatHTMLFormatter\Renderer;
 
 use emuse\BehatHTMLFormatter\Formatter\BehatHTMLFormatter;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+use \Twig\Environment as Twig_Environment;
+use \Twig\Loader\FilesystemLoader as Twig_Loader_Filesystem;
 
 /**
  * Twig renderer for Behat report.
