@@ -1,6 +1,7 @@
 {
     "name": "emuse/behat-html-formatter",
     "description": "This will create a html formatter for Behat.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Neal Vanmeert",
