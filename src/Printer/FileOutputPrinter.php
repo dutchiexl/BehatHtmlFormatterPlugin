@@ -39,7 +39,7 @@ class FileOutputPrinter implements PrinterInterface
         foreach ($rendererList as $renderer) {
             if ('generated' == $filename) {
                 $date = date('YmdHis');
-                $this->rendererFiles[$renderer] = $renderer.'_'.$date;
+                $this->rendererFiles[$renderer] = $renderer . '_' . $date;
             } else {
                 $this->rendererFiles[$renderer] = $filename;
             }
@@ -155,7 +155,7 @@ class FileOutputPrinter implements PrinterInterface
     {
         //Write it for each message = each renderer
         foreach ($messages as $key => $message) {
-            $file = $this->outputPath.DIRECTORY_SEPARATOR.$this->rendererFiles[$key].'.html';
+            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key] . '.html';
             file_put_contents($file, $message);
             $this->copyAssets($key);
         }
@@ -170,7 +170,7 @@ class FileOutputPrinter implements PrinterInterface
     {
         //Write it for each message = each renderer
         foreach ($messages as $key => $message) {
-            $file = $this->outputPath.DIRECTORY_SEPARATOR.$this->rendererFiles[$key].'.html';
+            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key] . '.html';
             file_put_contents($file, $message, FILE_APPEND);
         }
     }
@@ -184,9 +184,9 @@ class FileOutputPrinter implements PrinterInterface
     {
         //Write it for each message = each renderer
         foreach ($messages as $key => $message) {
-            $file = $this->outputPath.DIRECTORY_SEPARATOR.$this->rendererFiles[$key].'.html';
+            $file = $this->outputPath . DIRECTORY_SEPARATOR . $this->rendererFiles[$key] . '.html';
             $fileContents = file_get_contents($file);
-            file_put_contents($file, $message.$fileContents);
+            file_put_contents($file, $message . $fileContents);
         }
     }
 
@@ -199,20 +199,20 @@ class FileOutputPrinter implements PrinterInterface
     {
         // If the assets folder doesn' exist in the output path for this renderer, copy it
         $source = realpath(dirname(__FILE__));
-        $assets_source = realpath($source.'/../../assets/'.$renderer);
+        $assets_source = realpath($source . '/../../assets/' . $renderer);
         if (false === $assets_source) {
             //There is no assets to copy for this renderer
             return;
         }
 
         //first create the assets dir
-        $destination = $this->outputPath.DIRECTORY_SEPARATOR.'assets';
+        $destination = $this->outputPath . DIRECTORY_SEPARATOR . 'assets';
 
         if (!file_exists($destination)) {
             mkdir($destination);
         }
 
-        $this->recurse_copy($assets_source, $destination.DIRECTORY_SEPARATOR.$renderer);
+        $this->recurse_copy($assets_source, $destination . DIRECTORY_SEPARATOR . $renderer);
     }
 
     /**
@@ -230,10 +230,10 @@ class FileOutputPrinter implements PrinterInterface
 
         while (false !== ($file = readdir($dir))) {
             if (('.' != $file) && ('..' != $file)) {
-                if (is_dir($src.'/'.$file)) {
-                    $this->recurse_copy($src.'/'.$file, $dst.'/'.$file);
+                if (is_dir($src . '/' . $file)) {
+                    $this->recurse_copy($src . '/' . $file, $dst . '/' . $file);
                 } else {
-                    copy($src.'/'.$file, $dst.'/'.$file);
+                    copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }
         }
