@@ -8,11 +8,6 @@ Behat 3 extension for generating HTML reports from your test results.
 
 ![Twig Screenshot](http://i.imgur.com/o0zCqiB.png)
 
-### Behat 2 report
-
-![Behat2 Screenshot](http://i57.tinypic.com/287g942.jpg)
-
-
 ## How?
 
 * The tool can be installed easily with composer.

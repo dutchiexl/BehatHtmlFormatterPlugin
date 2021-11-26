@@ -3,8 +3,8 @@
 namespace emuse\BehatHTMLFormatter\Renderer;
 
 use emuse\BehatHTMLFormatter\Formatter\BehatHTMLFormatter;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Twig renderer for Behat report.
@@ -35,8 +35,8 @@ class TwigRenderer
     public function renderAfterExercise(BehatHTMLFormatter $obj)
     {
         $templatePath = dirname(__FILE__).'/../../templates';
-        $loader = new Twig_Loader_Filesystem($templatePath);
-        $twig = new Twig_Environment($loader, array());
+        $loader = new FilesystemLoader($templatePath);
+        $twig = new Environment($loader, array());
         $print = $twig->render('index.html.twig',
             array(
                 'suites' => $obj->getSuites(),
