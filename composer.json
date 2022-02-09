@@ -1,5 +1,5 @@
 {
-    "name": "emuse/behat-html-formatter",
+    "name": "floviolleau/behathtmlformatterplugin",
     "description": "This will create a html formatter for Behat.",
     "license": "MIT",
     "authors": [
