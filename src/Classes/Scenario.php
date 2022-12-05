@@ -202,10 +202,6 @@ class Scenario
      */
     public function getRelativeScreenshotPath()
     {
-        if (!file_exists($this->screenshotPath)) {
-            return false;
-        }
-
-        return '.'.substr($this->screenshotPath, strpos($this->screenshotPath, '/assets/screenshots'));
+        return $this->screenshotPath ?: false;
     }
 }
