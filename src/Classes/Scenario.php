@@ -202,6 +202,6 @@ class Scenario
      */
     public function getRelativeScreenshotPath()
     {
-        return $this->screenshotPath ?: false;
+        return substr($this->screenshotPath, 0, 10) === 'data:image' ? $this->screenshotPath : false;
     }
 }
