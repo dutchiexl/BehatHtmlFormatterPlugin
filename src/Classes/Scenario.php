@@ -206,11 +206,16 @@ class Scenario
             return '';
         }
 
-        return 'data:image/jpeg;base64,' . base64_encode(file_get_contents($this->screenshotPath));
+        return $this->hasScreenshotData() ? $this->screenshotPath : 'data:image/jpeg;base64,' . base64_encode(file_get_contents($this->screenshotPath));
     }
 
     public function hasScreenshot()
     {
-        return file_exists($this->screenshotPath);
+        return $this->hasScreenshotData() || file_exists($this->screenshotPath);
+    }
+    
+    public function hasScreenshotData()
+    {
+        return substr($this->screenshotPath, 0, 10) === 'data:image';
     }
 }
