@@ -193,7 +193,7 @@
                                             {% for tag in scenario.tags %}
                                                 <span class="badge">{{ tag }}</span>
                                             {% endfor %}
-                                            {% if scenario.getRelativeScreenshotPath() %}
+                                            {% if scenario.hasScreenshot() %}
                                             <a class="label label-default" href="{{ scenario.getRelativeScreenshotPath() }}" target="_blank">Screenshot</a>
                                             {% endif %}
                                         </div>
