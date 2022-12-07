@@ -36,6 +36,17 @@ class ScreenshotContext extends RawMinkContext
             return;
         }
 
-        $this->currentScenario->setScreenshotPath( 'data:image/jpeg;base64,' . base64_encode($this->getSession()->getScreenshot()));
+        // create filename string
+        $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
+
+        $scenarioName = $this->currentScenario->getTitle();
+        $fileName = preg_replace('/\W/', '', $scenarioName).'.png';
+
+        // create screenshots directory if it doesn't exist
+        if (!file_exists($this->screenshotDir.'/'.$featureFolder)) {
+            mkdir($this->screenshotDir.'/'.$featureFolder);
+        }
+
+        $this->saveScreenshot($fileName, $this->screenshotDir.'/'.$featureFolder.'/');
     }
 }
