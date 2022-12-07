@@ -198,10 +198,19 @@ class Scenario
     /**
      * Gets relative path for screenshot.
      *
-     * @return bool|string
+     * @return string
      */
     public function getRelativeScreenshotPath()
     {
-        return substr($this->screenshotPath, 0, 10) === 'data:image' ? $this->screenshotPath : false;
+        if (!$this->hasScreenshot()) {
+            return '';
+        }
+
+        return 'data:image/jpeg;base64,' . base64_encode(file_get_contents($this->screenshotPath));
+    }
+
+    public function hasScreenshot()
+    {
+        return file_exists($this->screenshotPath);
     }
 }
