@@ -49,6 +49,6 @@ class ScreenshotContext extends RawMinkContext
 
         $this->saveScreenshot($fileName, $this->screenshotDir.'/'.$featureFolder);
         $file = $this->screenshotDir.'/'.$featureFolder.'/'.$fileName;
-        echo file_exists($file) ? "Saved screen: $file" : "Cannot save screen: $file";
+        echo file_exists($file) ? "Saved screenshot: $file" : "Cannot save screenshot: $file";
     }
 }
