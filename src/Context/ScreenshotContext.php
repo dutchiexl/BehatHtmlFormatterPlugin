@@ -7,6 +7,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
 class ScreenshotContext extends RawMinkContext
 {
     private $currentScenario;
+    private $currentFeature;
     private $screenshotDir;
 
     public function __construct($screenshotDir)
@@ -22,6 +23,7 @@ class ScreenshotContext extends RawMinkContext
     public function setUpTestEnvironment($scope)
     {
         $this->currentScenario = $scope->getScenario();
+        $this->currentFeature = $scope->getFeature();
     }
 
     /**
@@ -37,18 +39,17 @@ class ScreenshotContext extends RawMinkContext
         }
 
         // create filename string
-        $featureFolder = preg_replace('/\W/', '', $scope->getFeature()->getTitle());
-
-        $scenarioName = $this->currentScenario->getTitle();
-        $fileName = preg_replace('/\W/', '', $scenarioName).'.png';
+        $featureFolder = preg_replace('/\W/', '', $this->currentFeature->getTitle());
+        $fileName = preg_replace('/\W/', '', $this->currentScenario->getTitle()).'.png';
+        $screenshotDir = $this->screenshotDir.'/'.$featureFolder;
 
         // create screenshots directory if it doesn't exist
-        if (!file_exists($this->screenshotDir.'/'.$featureFolder)) {
-            mkdir($this->screenshotDir.'/'.$featureFolder);
+        if (!file_exists($screenshotDir)) {
+            mkdir($screenshotDir);
         }
 
-        $this->saveScreenshot($fileName, $this->screenshotDir.'/'.$featureFolder);
-        $file = $this->screenshotDir.'/'.$featureFolder.'/'.$fileName;
+        $this->saveScreenshot($fileName, $screenshotDir);
+        $file =  $screenshotDir . '/' . $fileName;
         echo file_exists($file) ? "Saved screenshot: $file" : "Cannot save screenshot: $file";
     }
 }
