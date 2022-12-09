@@ -7,6 +7,11 @@ use Behat\MinkExtension\Context\RawMinkContext;
 class ScreenshotContext extends RawMinkContext
 {
     private static $screenshotPath;
+    
+    public function __construct($screenshotDir)
+    {
+        // $this->screenshotDir = $screenshotDir;
+    }
 
     public static function setScreenshotPath($screenshotPath)
     {
