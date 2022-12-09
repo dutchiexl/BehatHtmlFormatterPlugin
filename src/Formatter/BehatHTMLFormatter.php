@@ -24,6 +24,7 @@ use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
 use emuse\BehatHTMLFormatter\Classes\Suite;
+use emuse\BehatHTMLFormatter\Context\ScreenshotContext;
 use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
 use emuse\BehatHTMLFormatter\Renderer\BaseRenderer;
 
@@ -491,6 +492,7 @@ class BehatHTMLFormatter implements Formatter
             preg_replace('/\W/', '', $event->getFeature()->getTitle()).'/'.
             preg_replace('/\W/', '', $event->getScenario()->getTitle()).'.png'
         );
+        ScreenshotContext::setScreenshotPath($event->getScreenshotPath());
         $this->currentScenario = $scenario;
 
         $print = $this->renderer->renderBeforeScenario($this);
@@ -535,12 +537,6 @@ class BehatHTMLFormatter implements Formatter
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
-        $scenario->setScreenshotName($event->getOutline()->getTitle());
-        $scenario->setScreenshotPath(
-            '/tmp/'.
-            preg_replace('/\W/', '', $event->getFeature()->getTitle()).'/'.
-            preg_replace('/\W/', '', $event->getOutline()->getTitle()).'.png'
-        );
         $this->currentScenario = $scenario;
 
         $print = $this->renderer->renderBeforeOutline($this);
