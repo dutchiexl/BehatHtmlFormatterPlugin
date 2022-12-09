@@ -24,6 +24,9 @@ class ScreenshotContext extends RawMinkContext
         if ($scope->getTestResult()->isPassed()) {
             return;
         }
+        if (!self::$screenshotPath) {
+            echo 'Screenshot path is empty!';
+        }
 
         // create filename string
         $fileName = basename(self::$screenshotPath);
