@@ -31,6 +31,7 @@ class ScreenshotContext extends RawMinkContext
         }
         if (!self::$screenshotPath) {
             echo 'Screenshot path is empty!';
+            return;
         }
 
         // create filename string
