@@ -206,7 +206,7 @@ class Scenario
             return '';
         }
 
-        return $this->hasScreenshotData() ? $this->screenshotPath : 'data:image/jpeg;base64,' . base64_encode(file_get_contents($this->screenshotPath));
+        return $this->hasScreenshotData() ? $this->screenshotPath : 'data:image/png;base64,' . base64_encode(file_get_contents($this->screenshotPath));
     }
 
     public function hasScreenshot()
