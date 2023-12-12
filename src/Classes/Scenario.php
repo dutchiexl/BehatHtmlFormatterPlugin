@@ -202,7 +202,7 @@ class Scenario
      */
     public function getRelativeScreenshotPath()
     {
-        if (!file_exists($this->screenshotPath)) {
+        if (!isset($this->screenshotPath) && !file_exists($this->screenshotPath)) {
             return false;
         }
 
